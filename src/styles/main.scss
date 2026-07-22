@@ -1,0 +1,56 @@
+$header-height: 72px;
+$color-accent: #e63946;
+
+:root {
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-accent: #{$color-accent};
+  --color-text: #f5f5f5;
+  --color-text-muted: #a0a0a0;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-hover-bg: rgba(255, 255, 255, 0.06);
+  --color-header-bg: rgba(10, 10, 10, 0.55);
+  --color-accent-bg: rgba(230, 57, 70, 0.15);
+  --color-btn-bg: rgba(255, 255, 255, 0.08);
+  --color-btn-hover: rgba(255, 255, 255, 0.14);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: color 0.25s ease;
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+main {
+  flex: 1;
+  padding-top: $header-height;
+}
+
+@import 'background';
+@import 'header';
+@import 'hero';
+@import 'footer';
+@import 'page';

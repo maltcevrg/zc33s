@@ -1,0 +1,36 @@
+// ---- Site-wide parallax background ----
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+
+  // Uniform darkening over both photo layers
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    pointer-events: none;
+  }
+
+  &__layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    will-change: opacity;
+    transition: opacity 0.15s ease;
+
+    &--1 {
+      // top of page — main_page.jpg
+    }
+
+    &--2 {
+      // appears when scrolling down
+    }
+  }
+}
