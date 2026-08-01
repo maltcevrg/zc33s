@@ -1,0 +1,77 @@
+@use 'background';
+@use 'header' with ($header-height: 64px);
+@use 'hero' with ($header-height: 64px);
+@use 'footer';
+@use 'page' with ($header-height: 64px);
+@use 'tuning';
+
+$header-height: 64px;
+
+:root {
+  --color-bg: #171317;
+  --color-surface: rgba(39, 31, 38, 0.78);
+  --color-surface-solid: #241d23;
+  --color-accent: #f03737;
+  --color-coral: #eb7b5c;
+  --color-lilac: #bb8dc1;
+  --color-text: #ece5eb;
+  --color-text-muted: #b9adb7;
+  --color-border: rgba(236, 229, 235, 0.12);
+  --color-hover-bg: rgba(187, 141, 193, 0.15);
+  --color-header-bg: rgba(23, 19, 23, 0.8);
+  --color-accent-bg: rgba(240, 55, 55, 0.15);
+  --color-btn-bg: rgba(236, 229, 235, 0.1);
+  --color-btn-hover: rgba(236, 229, 235, 0.17);
+  --shadow-sm: 0 8px 28px rgba(0, 0, 0, 0.24);
+  --shadow-lg: 0 28px 80px rgba(0, 0, 0, 0.38);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  background: var(--color-bg);
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  padding-top: $header-height;
+}
+
+::selection {
+  color: #fff;
+  background: var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
