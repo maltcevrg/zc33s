@@ -103,5 +103,5 @@ export default defineConfig({
       name: 'custom-cards',
     }),
   ],
-  base: '/zc33site/',
+  base: '/zc33s/',
 });
