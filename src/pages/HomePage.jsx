@@ -53,7 +53,10 @@ function HomePage() {
       {/* ===== Hero ===== */}
       <section className="home__hero">
         <div className="home__hero-body">
-          <h1 className="home__hero-title">{heroBlock.title}</h1>
+          <h1 className="home__hero-title">
+            <span className="home__hero-title-main">SWIFT SPORT</span>
+            <span className="home__hero-title-accent">Tuning</span>
+          </h1>
           <p className="home__hero-subtitle">{heroBlock.subtitle}</p>
         </div>
       </section>

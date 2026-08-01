@@ -3,7 +3,29 @@ import { createPortal } from 'react-dom';
 
 function CardModal({ card, onClose }) {
   const [activeImage, setActiveImage] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
   const currentImage = card.images[activeImage];
+  const hasMultipleImages = card.images.length > 1;
+
+  const showPreviousImage = () => {
+    setActiveImage((index) => (index - 1 + card.images.length) % card.images.length);
+  };
+
+  const showNextImage = () => {
+    setActiveImage((index) => (index + 1) % card.images.length);
+  };
+
+  const handleTouchEnd = (event) => {
+    if (touchStartX === null) return;
+    const distance = event.changedTouches[0].clientX - touchStartX;
+
+    if (Math.abs(distance) >= 45) {
+      if (distance > 0) showPreviousImage();
+      else showNextImage();
+    }
+
+    setTouchStartX(null);
+  };
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -28,14 +50,25 @@ function CardModal({ card, onClose }) {
           <span />
         </button>
 
-        <div className="card-modal__gallery">
+        <div
+          className="card-modal__gallery"
+          onTouchStart={(event) => setTouchStartX(event.touches[0].clientX)}
+          onTouchEnd={handleTouchEnd}
+        >
           {currentImage ? (
             <img className="card-modal__main-image" src={currentImage} alt={card.title} />
           ) : (
             <div className="card-modal__placeholder">Нет изображения</div>
           )}
 
-          {card.images.length > 1 && (
+          {hasMultipleImages && (
+            <>
+              <button className="card-modal__arrow card-modal__arrow--previous" type="button" onClick={showPreviousImage} aria-label="Предыдущее изображение">‹</button>
+              <button className="card-modal__arrow card-modal__arrow--next" type="button" onClick={showNextImage} aria-label="Следующее изображение">›</button>
+            </>
+          )}
+
+          {hasMultipleImages && (
             <div className="card-modal__thumbnails" aria-label="Изображения карточки">
               {card.images.map((image, index) => (
                 <button
@@ -84,10 +117,11 @@ function ProductCards({ cards }) {
             )}
 
             <span className="tuning-card__content">
-              <span className="tuning-card__title">{card.title}</span>
-              {card.description && <span className="tuning-card__description">{card.description}</span>}
-              {card.price && <span className="tuning-card__price">{card.price}</span>}
-              <span className="tuning-card__more">Подробнее</span>
+              <span className="tuning-card__title">{card.title || card.id}</span>
+              <span className="tuning-card__actions">
+                <span className="tuning-card__price">{card.price || 'Цена по запросу'}</span>
+                <span className="tuning-card__more">Подробнее</span>
+              </span>
             </span>
           </button>
         ))}

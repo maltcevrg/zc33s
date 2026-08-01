@@ -7,10 +7,15 @@ const imageExtensions = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.svg
 
 function parseCard(content, folderName) {
   const fields = {};
-  const fieldPattern = /^(HEADER|DESC|PRICE)\s*-\s*(.*(?:\r?\n(?!HEADER|DESC|PRICE)[\s\S]*?)?)(?=\r?\n(?:HEADER|DESC|PRICE)\s*-|$)/gim;
+  const fieldPattern = /^(HEADER|DESC|PRICE)\s*-\s*(.*)$/gim;
+  const matches = [...content.matchAll(fieldPattern)];
 
-  for (const match of content.matchAll(fieldPattern)) {
-    fields[match[1].toUpperCase()] = match[2].trim();
+  for (let index = 0; index < matches.length; index += 1) {
+    const match = matches[index];
+    const valueStart = match.index + match[0].length;
+    const valueEnd = matches[index + 1]?.index ?? content.length;
+    const continuation = content.slice(valueStart, valueEnd).trim();
+    fields[match[1].toUpperCase()] = [match[2], continuation].filter(Boolean).join('\n').trim();
   }
 
   return {
