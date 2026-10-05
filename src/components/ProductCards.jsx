@@ -1,18 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { lockScroll, unlockScroll } from '../utils/scrollLock';
+
+const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 function CardModal({ card, onClose }) {
   const [activeImage, setActiveImage] = useState(0);
   const [touchStartX, setTouchStartX] = useState(null);
+  const panelRef = useRef(null);
+  const onCloseRef = useRef(onClose);
+  const imageCount = card.images.length;
+  const imageCountRef = useRef(imageCount);
   const currentImage = card.images[activeImage];
-  const hasMultipleImages = card.images.length > 1;
+  const hasMultipleImages = imageCount > 1;
+
+  onCloseRef.current = onClose;
+  imageCountRef.current = imageCount;
 
   const showPreviousImage = () => {
-    setActiveImage((index) => (index - 1 + card.images.length) % card.images.length);
+    setActiveImage((index) => (index - 1 + imageCount) % imageCount);
   };
 
   const showNextImage = () => {
-    setActiveImage((index) => (index + 1) % card.images.length);
+    setActiveImage((index) => (index + 1) % imageCount);
   };
 
   const handleTouchEnd = (event) => {
@@ -28,23 +38,56 @@ function CardModal({ card, onClose }) {
   };
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    const closeOnEscape = (event) => {
-      if (event.key === 'Escape') onClose();
+    const panel = panelRef.current;
+    const opener = document.activeElement;
+
+    lockScroll();
+    panel?.focus({ preventScroll: true });
+
+    const handleKeyDown = (event) => {
+      const count = imageCountRef.current;
+
+      if (event.key === 'Escape') {
+        onCloseRef.current();
+      } else if (event.key === 'ArrowLeft' && count > 1) {
+        setActiveImage((index) => (index - 1 + count) % count);
+      } else if (event.key === 'ArrowRight' && count > 1) {
+        setActiveImage((index) => (index + 1) % count);
+      } else if (event.key === 'Tab' && panel) {
+        // Фокус не уходит за пределы модального окна.
+        const focusable = [...panel.querySelectorAll(FOCUSABLE)];
+        if (focusable.length === 0) {
+          event.preventDefault();
+          return;
+        }
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement;
+
+        if (event.shiftKey && (active === first || active === panel || !panel.contains(active))) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && (active === last || !panel.contains(active))) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
 
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', closeOnEscape);
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', closeOnEscape);
+      window.removeEventListener('keydown', handleKeyDown);
+      unlockScroll();
+      // Возвращаем фокус на карточку, с которой открыли окно.
+      if (opener instanceof HTMLElement && document.contains(opener)) opener.focus({ preventScroll: true });
     };
-  }, [onClose]);
+  }, []);
 
   return createPortal(
     <div className="card-modal" role="dialog" aria-modal="true" aria-label={card.title} onClick={onClose}>
-      <article className="card-modal__panel" onClick={(event) => event.stopPropagation()}>
+      <article ref={panelRef} tabIndex={-1} className="card-modal__panel" onClick={(event) => event.stopPropagation()}>
         <button className="card-modal__close" type="button" onClick={onClose} aria-label="Закрыть">
           <span />
           <span />
@@ -72,7 +115,7 @@ function CardModal({ card, onClose }) {
             <div className="card-modal__thumbnails" aria-label="Изображения карточки">
               {card.images.map((image, index) => (
                 <button
-                  key={image}
+                  key={`${image}-${index}`}
                   type="button"
                   className={`card-modal__thumbnail${index === activeImage ? ' card-modal__thumbnail--active' : ''}`}
                   onClick={() => setActiveImage(index)}
