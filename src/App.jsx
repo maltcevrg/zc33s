@@ -5,6 +5,7 @@ import TuningPage from './pages/TuningPage';
 import ServicePage from './pages/ServicePage';
 import FaqPage from './pages/FaqPage';
 import CustomPage from './pages/CustomPage';
+import CatalogApp from './CatalogApp';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="faq" element={<FaqPage />} />
         <Route path="custom" element={<CustomPage />} />
       </Route>
+      <Route path="/catalog/*" element={<CatalogApp />} />
     </Routes>
   );
 }

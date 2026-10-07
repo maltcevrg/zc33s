@@ -139,4 +139,8 @@ export default defineConfig({
     }),
   ],
   base: '/zc33s/',
+  server: {
+    host: '0.0.0.0',
+    allowedHosts: true,
+  },
 });

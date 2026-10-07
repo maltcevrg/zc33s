@@ -1,0 +1,448 @@
+/* Стили страницы каталога деталей ZC33S */
+
+.catalog-root {
+  min-height: calc(100svh - 76px);
+  padding: 18px;
+  background: var(--color-bg);
+}
+
+.catalog-container {
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 1. Светлый Hero-блок без фоновой картинки */
+.catalog-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(34px, 5vw, 64px);
+  background: #f9f8f3;
+  border: 1px solid var(--color-border);
+  border-radius: 28px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.catalog-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: clamp(34px, 5vw, 64px);
+  width: 90px;
+  height: 6px;
+  background: #2c2e31;
+  border-radius: 0 0 4px 4px;
+}
+
+.catalog-hero__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-bottom: 16px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  background: rgba(44, 46, 49, 0.06);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+}
+
+.catalog-hero__tag-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2c2e31;
+}
+
+.catalog-hero__title {
+  margin-bottom: 18px;
+  font-size: clamp(2.2rem, 5.5vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+  color: var(--color-text);
+}
+
+.catalog-hero__subtitle {
+  max-width: 820px;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* 2. Баннер PDF-каталога */
+.catalog-pdf-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(24px, 4vw, 36px);
+  background: #2c2e31;
+  color: #f9f8f3;
+  border-radius: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.catalog-pdf-card__info {
+  max-width: 760px;
+}
+
+.catalog-pdf-card__label {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(249, 248, 243, 0.65);
+}
+
+.catalog-pdf-card__title {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  margin-bottom: 10px;
+  color: #f9f8f3;
+}
+
+.catalog-pdf-card__desc {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(249, 248, 243, 0.8);
+}
+
+.catalog-pdf-card__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  white-space: nowrap;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: #2c2e31;
+  background: #f9f8f3;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
+}
+
+.catalog-pdf-card__btn:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.catalog-pdf-card__btn svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+
+.catalog-pdf-card__btn:hover svg {
+  transform: translate(2px, -2px);
+}
+
+/* 3. Трёхколоночная сетка карточек */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* Карточка детали */
+.catalog-card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(22px, 3vw, 30px);
+  background: #f9f8f3;
+  border: 1px solid var(--color-border);
+  border-radius: 22px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.catalog-card:hover {
+  background: #ffffff;
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.catalog-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.catalog-card__title {
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--color-text);
+}
+
+.catalog-card__num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+/* Строки с элементами и бейджами */
+.catalog-card__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.catalog-card__row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.catalog-card__row-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.catalog-card__row-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Кодовые бейджи */
+.catalog-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  background: rgba(44, 46, 49, 0.07);
+  border: 1px solid rgba(44, 46, 49, 0.16);
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: all;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+  position: relative;
+}
+
+.catalog-badge:hover {
+  background: rgba(44, 46, 49, 0.14);
+  border-color: rgba(44, 46, 49, 0.35);
+  transform: translateY(-1px);
+}
+
+.catalog-badge:active {
+  transform: translateY(0);
+}
+
+.catalog-badge__copied {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2c2e31;
+  color: #f9f8f3;
+  font-size: 0.7rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: badge-copied-pop 0.2s ease both;
+  z-index: 10;
+}
+
+@keyframes badge-copied-pop {
+  from { opacity: 0; transform: translate(-50%, 4px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Описание и аналоги внутри карточки */
+.catalog-card__desc {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px dashed var(--color-border);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.catalog-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s ease;
+}
+
+.catalog-card__link:hover {
+  opacity: 0.75;
+}
+
+/* 4. Секция «Где искать» (Ссылки на магазины и агрегаторы) */
+.catalog-stores {
+  padding: clamp(30px, 5vw, 48px);
+  background: #f9f8f3;
+  border: 1px solid var(--color-border);
+  border-radius: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.catalog-stores__header {
+  margin-bottom: 24px;
+}
+
+.catalog-stores__title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.catalog-stores__subtitle {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+.catalog-stores__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.catalog-store-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  background: rgba(44, 46, 49, 0.045);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 650;
+  font-size: 0.95rem;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.catalog-store-card:hover {
+  transform: translateY(-3px);
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.catalog-store-card__arrow {
+  display: inline-flex;
+  color: var(--color-text-muted);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.catalog-store-card:hover .catalog-store-card__arrow {
+  transform: translate(2px, -2px);
+  color: var(--color-text);
+}
+
+/* 5. Адаптивность для мобильных экранов и планшетов */
+@media (max-width: 1120px) {
+  .catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .catalog-stores__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .catalog-root {
+    padding: 10px;
+  }
+  .catalog-container {
+    gap: 16px;
+  }
+  .catalog-hero {
+    padding: 28px 18px;
+    border-radius: 22px;
+  }
+  .catalog-hero::before {
+    left: 18px;
+  }
+  .catalog-hero__title {
+    font-size: clamp(1.8rem, 8vw, 2.6rem);
+    margin-bottom: 12px;
+  }
+  .catalog-hero__subtitle {
+    font-size: 0.9rem;
+  }
+  .catalog-pdf-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 24px 18px;
+    border-radius: 20px;
+    gap: 18px;
+  }
+  .catalog-pdf-card__btn {
+    width: 100%;
+  }
+  .catalog-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .catalog-card {
+    padding: 20px 16px;
+    border-radius: 18px;
+  }
+  .catalog-stores {
+    padding: 24px 16px;
+    border-radius: 20px;
+  }
+  .catalog-stores__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .catalog-store-card {
+    padding: 14px 16px;
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog-stores__grid {
+    grid-template-columns: 1fr;
+  }
+}
