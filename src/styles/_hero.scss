@@ -26,6 +26,9 @@ $header-height: 76px !default;
   // Декоративная вторая строка — теперь отдельный блок под H1, а не продолжение строки.
   &__hero-accent { display: block; margin: 10px 0 28px; color: #f9f8f3; font-family: 'Poiret One',cursive; font-size: clamp(2.2rem, 5.4vw, 5rem); font-weight: 400; letter-spacing: .01em; line-height: 1; }
   &__hero-subtitle { max-width: 650px; color: rgba(249,248,243,.78); font-size: clamp(1rem,1.6vw,1.25rem); line-height: 1.55; }
+  // Кнопка «Обсудить конфигурацию» и короткая правовая подпись под подзаголовком.
+  &__hero-cta { margin-top: clamp(26px,3.2vw,40px); }
+  &__hero-cta .cta__note { max-width: 420px; }
 
   &__grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; margin-top: 18px; }
   &__card { position: relative; display: flex; align-items: flex-end; min-height: 54vh; overflow: hidden; color: #f9f8f3; text-decoration: none; border-radius: 28px; isolation: isolate; }
@@ -57,6 +60,8 @@ $header-height: 76px !default;
     &__hero-title-main { max-width: 100%; }
     &__hero-accent { margin: 8px 0 20px; font-size: clamp(1.7rem,8.6vw,3.4rem); }
     &__hero-subtitle { width: 100%; overflow-wrap: anywhere; font-size: .9rem; line-height: 1.45; }
+    &__hero-cta { margin-top: 22px; }
+    &__hero-cta .cta__note { max-width: 100%; }
     &__card-body { min-width: 0; width: 100%; }
     &__card-title, &__card-desc, &__contacts-title, .contact-card__label { max-width: 100%; overflow-wrap: anywhere; }
     &__grid { grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }

@@ -1,0 +1,84 @@
+// Основной CTA проекта («Обсудить конфигурацию») и юридические подписи.
+// Визуальный язык тот же, что и в остальном проекте: пилюли, тонкие границы,
+// приглушённый текст, никакого «магазинного» оформления.
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+
+  &--inline { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 14px 24px; }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 46px;
+    padding: 12px 24px;
+    color: #f9f8f3;
+    font-size: .82rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    background: #2c2e31;
+    border: 1px solid #2c2e31;
+    border-radius: 999px;
+    transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+
+  &__button:hover { color: #2c2e31; background: transparent; transform: translateY(-2px); }
+  &__icon { flex: 0 0 auto; }
+  &__note { max-width: 470px; color: var(--color-text-muted); font-size: .78rem; line-height: 1.5; }
+
+  // Светлая кнопка на тёмном фоне (hero главной страницы).
+  &--light {
+    .cta__button { color: #2c2e31; background: #f9f8f3; border-color: #f9f8f3; }
+    .cta__button:hover { color: #f9f8f3; background: transparent; }
+    .cta__note { color: rgba(249, 248, 243, .68); }
+  }
+
+  // Прозрачная кнопка для подвала.
+  &--ghost {
+    .cta__button { min-height: 38px; padding: 9px 18px; color: var(--color-text); font-size: .76rem; background: transparent; border-color: var(--color-border); }
+    .cta__button:hover { color: #f9f8f3; background: #2c2e31; border-color: #2c2e31; }
+  }
+
+  @media (max-width: 768px) {
+    &__button { min-height: 44px; padding: 11px 20px; font-size: .8rem; }
+    &__note { max-width: 100%; font-size: .74rem; }
+    &--inline { gap: 12px 18px; }
+  }
+}
+
+// Пояснение юридической модели — выводится в подвале на всех страницах.
+.site-disclaimer {
+  display: grid;
+  gap: 10px;
+  max-width: 900px;
+  margin: 0 auto;
+
+  &__text { color: var(--color-text-muted); font-size: .78rem; line-height: 1.55; }
+  &__text--muted { font-size: .72rem; opacity: .82; }
+}
+
+// Вступление страницы: короткая справочная подпись и CTA перед сеткой карточек.
+.page__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: clamp(30px, 5vw, 54px);
+
+  .page__text { max-width: 780px; font-size: clamp(.98rem, 1.6vw, 1.12rem); }
+
+  @media (max-width: 768px) {
+    gap: 18px;
+    margin-bottom: 30px;
+  }
+}
+
+// Если на странице есть вступление, заголовок прижимаем к нему плотнее.
+.page:has(.page__intro) .page__title { margin-bottom: clamp(20px, 3vw, 34px); }

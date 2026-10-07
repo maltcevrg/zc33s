@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { lockScroll, unlockScroll } from '../utils/scrollLock';
+import TelegramCta from './TelegramCta';
+import { POWER_NOTE, PRICE_FALLBACK, PRICE_LABEL, PRICE_NOTE } from '../data/siteConfig';
+
+// «Расчётная мощность» показываем только там, где в описании карточки действительно
+// заявлены расчётные лошадиные силы, — иначе подпись была бы не по делу.
+const hasPowerEstimate = (description = '') => /расч[её]тн/i.test(description) && /л\.?\s*с/i.test(description);
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -131,7 +137,23 @@ function CardModal({ card, onClose }) {
         <div className="card-modal__content">
           <h2 className="card-modal__title">{card.title}</h2>
           {card.description && <p className="card-modal__description">{card.description}</p>}
-          {card.price && <p className="card-modal__price">{card.price}</p>}
+
+          {/* Цена — справочная, не оферта; основной выход — в Telegram. */}
+          <div className="card-modal__cta">
+            <div className="card-modal__price-block">
+              <span className="card-modal__price-label">{PRICE_LABEL}</span>
+              <span className="card-modal__price">{card.price || PRICE_FALLBACK}</span>
+            </div>
+
+            <div className="card-modal__actions">
+              <TelegramCta />
+              {/* Разрешённая ТЗ формулировка: тот же Telegram-канал, другой сценарий обращения. */}
+              <TelegramCta tone="ghost" label="Уточнить применимость" />
+            </div>
+
+            <p className="card-modal__note">{PRICE_NOTE}</p>
+            {hasPowerEstimate(card.description) && <p className="card-modal__note">{POWER_NOTE}</p>}
+          </div>
         </div>
       </article>
     </div>,
@@ -162,7 +184,9 @@ function ProductCards({ cards }) {
             <span className="tuning-card__content">
               <span className="tuning-card__title">{card.title || card.id}</span>
               <span className="tuning-card__actions">
-                <span className="tuning-card__price">{card.price || 'Цена по запросу'}</span>
+                <span className="tuning-card__price" title={PRICE_LABEL}>
+                  {card.price || PRICE_FALLBACK}
+                </span>
                 <span className="tuning-card__more">Подробнее</span>
               </span>
             </span>

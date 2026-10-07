@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import TelegramCta from '../components/TelegramCta';
+import { PRICE_NOTE } from '../data/siteConfig';
 
 const imageUrl = (name) => `${import.meta.env.BASE_URL}images/${name}`;
 
@@ -66,6 +68,15 @@ function HomePage() {
             {heroBlock.accent}
           </span>
           <p className="home__hero-subtitle">{heroBlock.subtitle}</p>
+
+          {/* Основной CTA: переход в официальный Telegram-контакт проекта.
+              Рядом — короткое напоминание, что сайт не оформляет заказы. */}
+          <TelegramCta
+            className="home__hero-cta"
+            tone="light"
+            inline
+            note={`${PRICE_NOTE} Оформление заказа на сайте не осуществляется.`}
+          />
         </div>
       </section>
 
