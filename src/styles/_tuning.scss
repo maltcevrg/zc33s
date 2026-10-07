@@ -315,11 +315,45 @@
     white-space: pre-line;
   }
 
+  &__price-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__price-label {
+    color: var(--color-text-muted);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+
   &__price {
-    margin-top: auto;
     color: var(--color-accent);
     font-size: 1.6rem;
     font-weight: 750;
+  }
+
+  // Цена — справочная, не оферта; единственный выход к действию — Telegram.
+  &__cta {
+    display: grid;
+    gap: 18px;
+    margin-top: auto;
+    padding-top: 28px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  &__note {
+    color: var(--color-text-muted);
+    font-size: .8rem;
+    line-height: 1.5;
   }
 }
 
@@ -366,7 +400,9 @@
     &__content { min-height: auto; padding: 28px 18px 32px; overflow: visible; }
     &__title { font-size: clamp(1.9rem, 10vw, 3rem); }
     &__description { font-size: .9rem; line-height: 1.55; }
-    &__price { margin-top: 8px; font-size: 1.35rem; }
+    &__price { font-size: 1.35rem; }
+    &__cta { gap: 14px; padding-top: 20px; }
+    &__note { font-size: .74rem; }
     &__close { top: 12px; right: 12px; }
   }
 }

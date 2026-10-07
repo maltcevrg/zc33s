@@ -1,11 +1,19 @@
 import { Link } from 'react-router-dom';
+import TelegramCta from '../components/TelegramCta';
+import { PRICE_NOTE } from '../data/siteConfig';
 
 const imageUrl = (name) => `${import.meta.env.BASE_URL}images/${name}`;
 
+// Позиционирование одно и конкретное: прошивки, конфигурации и компоненты под ZC33S.
+// Формулировку «профессиональный сервис + сообщество энтузиастов» не используем —
+// она смешивает две разные роли и размывает позиционирование.
 const heroBlock = {
-  title: 'Swift Sport Tuning',
+  title: 'SUZUKI SWIFT SPORT ZC33S',
+  // Вторая, декоративная строка заголовка: смысловой нагрузки не несёт,
+  // поэтому скрыта от скринридеров и поисковиков — H1 остаётся чистым.
+  accent: 'Tuning',
   subtitle:
-    'Профессиональный тюнинг и обслуживание автомобилей Suzuki Swift. Сообщество энтузиастов, которые знают о Swift всё.',
+    'Прошивки, проверенные конфигурации и компоненты для Suzuki Swift Sport ZC33S. Практическая база по настройке, обслуживанию и эксплуатации автомобиля.',
 };
 
 const gridBlocks = [
@@ -54,10 +62,21 @@ function HomePage() {
       <section className="home__hero">
         <div className="home__hero-body">
           <h1 className="home__hero-title">
-            <span className="home__hero-title-main">SWIFT SPORT</span>
-            <span className="home__hero-title-accent">Tuning</span>
+            <span className="home__hero-title-main">{heroBlock.title}</span>
           </h1>
+          <span className="home__hero-accent" aria-hidden="true">
+            {heroBlock.accent}
+          </span>
           <p className="home__hero-subtitle">{heroBlock.subtitle}</p>
+
+          {/* Основной CTA: переход в официальный Telegram-контакт проекта.
+              Рядом — короткое напоминание, что сайт не оформляет заказы. */}
+          <TelegramCta
+            className="home__hero-cta"
+            tone="light"
+            inline
+            note={`${PRICE_NOTE} Оформление заказа на сайте не осуществляется.`}
+          />
         </div>
       </section>
 
