@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import TelegramCta from '../components/TelegramCta';
+import TuningLevels from '../components/TuningLevels';
 import { PRICE_NOTE } from '../data/siteConfig';
+import { visibleHomeSections } from '../data/siteSections';
 
 const imageUrl = (name) => `${import.meta.env.BASE_URL}images/${name}`;
 
@@ -15,33 +17,6 @@ const heroBlock = {
   subtitle:
     'Прошивки, проверенные конфигурации и компоненты для Suzuki Swift Sport ZC33S. Практическая база по настройке, обслуживанию и эксплуатации автомобиля.',
 };
-
-const gridBlocks = [
-  {
-    img: imageUrl('dyno-1280.jpg'),
-    title: 'Прошивки',
-    desc: 'Чип-тюнинг и оптимизация ECU. Увеличение мощности, улучшение отклика педали газа.',
-    link: '/tuning',
-  },
-  {
-    img: imageUrl('turbo-960.jpg'),
-    title: 'Кастомный тюнинг',
-    desc: 'Даунпайпы, выхлопные системы, зеркала, турбины и не только. Создайте уникальный образ своего автомобиля.',
-    link: '/custom',
-  },
-  {
-    img: imageUrl('baza-1280.jpg'),
-    title: 'База тюнинга',
-    desc: 'Основы тюнинга Suzuki Swift: от теории до практики. Руководства, рекомендации, обзор запчастей и расходников.',
-    link: '/tuning',
-  },
-  {
-    img: imageUrl('service-1280.jpg'),
-    title: 'Обслуживание',
-    desc: 'Профессиональное обслуживание Suzuki Swift: диагностика, ремонт, замена расходников и подготовка к тюнингу.',
-    link: '/service',
-  },
-];
 
 const contacts = [
   {
@@ -80,17 +55,25 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ===== Grid 2×2 ===== */}
-      <section className="home__grid">
-        {gridBlocks.map((block, i) => (
-          <Link key={i} to={block.link} className="home__card">
+      {/* ===== Уровни тюнинга ===== */}
+      <TuningLevels />
+
+      {/* ===== Главные разделы =====
+          Крупные изображения и карточная композиция сохраняются.
+          Нечётное число разделов (пока «Обслуживание» не наполнено) даёт класс
+          home__grid--odd: первая карточка занимает всю ширину, пустой ячейки нет. */}
+      <section
+        className={`home__grid${visibleHomeSections.length % 2 ? ' home__grid--odd' : ''}`}
+      >
+        {visibleHomeSections.map((section) => (
+          <Link key={section.id} to={section.link} className="home__card">
             <div className="home__card-image">
-              <img src={block.img} alt={block.title} loading="lazy" />
+              <img src={imageUrl(section.img)} alt={section.title} loading="lazy" />
             </div>
             <div className="home__card-overlay home__card-overlay--dark" />
             <div className="home__card-body">
-              <h2 className="home__card-title">{block.title}</h2>
-              <p className="home__card-desc">{block.desc}</p>
+              <h2 className="home__card-title">{section.title}</h2>
+              <p className="home__card-desc">{section.desc}</p>
             </div>
           </Link>
         ))}

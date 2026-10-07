@@ -98,7 +98,7 @@ function FaqArticle({ article }) {
   return (
     <section className="faq-article">
       <div className="faq-article__bar">
-        <button className="faq-article__back" type="button" onClick={() => window.history.back()} aria-label="Вернуться к оглавлению разделов">← Вернуться к FAQ</button>
+        <button className="faq-article__back" type="button" onClick={() => window.history.back()} aria-label="Вернуться к оглавлению разделов">← Вернуться к базе знаний</button>
       </div>
 
       {html ? (
@@ -154,7 +154,7 @@ export default function FaqPage() {
 
       {!activeModule && (
         <section className="page faq-page">
-          <h1 className="page__title">FAQ по авто</h1>
+          <h1 className="page__title">База знаний</h1>
           <div className="faq-page__grid">
             {faqModules.map((mod) => (
               <article className="faq-module" data-module={mod.number} key={mod.number}>

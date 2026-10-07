@@ -5,6 +5,7 @@
 @use 'page' with ($header-height: 76px);
 @use 'tuning';
 @use 'cta';
+@use 'levels';
 
 $header-height: 76px;
 

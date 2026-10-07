@@ -5,7 +5,7 @@ import TelegramCta from '../components/TelegramCta';
 function CustomPage() {
   return (
     <section className="page tuning-page">
-      <h1 className="page__title">Кастомное производство</h1>
+      <h1 className="page__title">Компоненты</h1>
 
       {/* Справочная витрина компонентов: без «купить» и «в наличии»,
           выход на согласование конфигурации — в Telegram. */}
