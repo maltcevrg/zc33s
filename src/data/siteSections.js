@@ -1,5 +1,5 @@
 // Главные разделы сайта: единый источник данных для карточек на главной
-// и для навигации в шапке.
+// и для навигации в шапке. Названия пунктов меню совпадают с названиями разделов.
 //
 // Раздел показывается только после наполнения своей страницы: пока контента нет,
 // для него стоит false в SECTION_READY. Как только страница наполнится, поставьте
@@ -44,3 +44,15 @@ export const HOME_SECTIONS = [
 
 // Разделы, которые уже можно показывать посетителю.
 export const visibleHomeSections = HOME_SECTIONS.filter((section) => isSectionReady(section.id));
+
+// Меню шапки: те же разделы в том же порядке (label = название раздела).
+// Каталог деталей добавлен явно — карточки на главной у него нет,
+// но пункт меню нужен.
+export const NAV_ITEMS = [
+  ...HOME_SECTIONS.map(({ id, title, link }) => ({ to: link, label: title, section: id })),
+  { to: '/catalog', label: 'Каталог деталей' },
+];
+
+export const visibleNavItems = NAV_ITEMS.filter(
+  (item) => !item.section || isSectionReady(item.section)
+);

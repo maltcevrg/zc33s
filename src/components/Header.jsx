@@ -3,22 +3,15 @@ import { NavLink } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { lockScroll, unlockScroll } from '../utils/scrollLock';
 import { CTA_LABEL, TELEGRAM_URL } from '../data/siteConfig';
-import { isSectionReady } from '../data/siteSections';
+import { visibleNavItems } from '../data/siteSections';
 
 const EASTER_EGG_CLICKS = 5;
 const RESET_TIMEOUT = 2000;
 const VISIBLE_DURATION = 1800;
 const EXIT_DURATION = 500;
 
-// Раздел с флагом section не попадает в меню, пока его страница не наполнена
-// (см. SECTION_READY в src/data/siteSections.js).
-const navItems = [
-  { to: '/tuning', label: 'Прошивки' },
-  { to: '/service', label: 'Обслуживание', section: 'service' },
-  { to: '/faq', label: 'FAQ по авто' },
-  { to: '/custom', label: 'Кастомное производство' },
-  { to: '/catalog', label: 'Каталог деталей' },
-].filter((item) => !item.section || isSectionReady(item.section));
+// Меню — из единого источника разделов (src/data/siteSections.js): названия
+// пунктов совпадают с названиями разделов, а ненаполненные разделы не показываются.
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -103,7 +96,7 @@ function Header() {
               </svg>
             </button>
 
-            {navItems.map(({ to, label }) => (
+            {visibleNavItems.map(({ to, label }) => (
               <NavLink
                 key={to}
                 to={to}
