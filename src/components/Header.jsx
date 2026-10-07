@@ -13,6 +13,7 @@ const navItems = [
   { to: '/service', label: 'Обслуживание' },
   { to: '/faq', label: 'FAQ по авто' },
   { to: '/custom', label: 'Кастомное производство' },
+  { to: '/catalog', label: 'Каталог деталей' },
 ];
 
 function Header() {

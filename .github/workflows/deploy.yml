@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - arena/01a10a17-zc33s
-      - gh-pages
+      - arena/183191ef-zc33s
 
 jobs:
   build-and-deploy:
