@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-      - arena/01a10a17-zc33s
-      - arena/183191ef-zc33s
+      # Ветки coding-сессий: пуш в них сразу собирает и деплоит сайт.
+      - arena/69275cb0-zc33s
       - arena/0670a8b3-zc33s
 
 jobs:

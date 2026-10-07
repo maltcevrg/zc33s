@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { extname, join, relative, resolve, sep } from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -124,9 +124,43 @@ function cardsPlugin({ directory, moduleId, name }) {
   };
 }
 
+// Маршруты приложения (см. src/App.jsx). GitHub Pages не умеет SPA-фолбэк,
+// поэтому для каждого раздела нужна собственная оболочка index.html —
+// иначе прямая ссылка и обновление страницы на /zc33s/tuning отдают 404.
+const spaRoutes = ['tuning', 'service', 'faq', 'custom', 'catalog'];
+
+function spaFallbackPlugin(routes) {
+  let outDir = 'dist';
+
+  return {
+    name: 'spa-fallback',
+    apply: 'build',
+    configResolved(config) {
+      outDir = resolve(config.root, config.build.outDir);
+    },
+    closeBundle() {
+      const shellPath = join(outDir, 'index.html');
+      if (!existsSync(shellPath)) return;
+
+      const shell = readFileSync(shellPath, 'utf8');
+      for (const route of routes) {
+        const routeDirectory = join(outDir, route);
+        mkdirSync(routeDirectory, { recursive: true });
+        writeFileSync(join(routeDirectory, 'index.html'), shell);
+      }
+
+      // Неизвестный адрес Pages отдаст со статусом 404, а роутер перенаправит
+      // на главную (catch-all в src/App.jsx). Пути к ассетам абсолютные, поэтому
+      // оболочка работает на любой глубине вложенности.
+      writeFileSync(join(outDir, '404.html'), shell);
+    },
+  };
+}
+
 export default defineConfig({
   plugins: [
     react(),
+    spaFallbackPlugin(spaRoutes),
     cardsPlugin({
       directory: 'TuningCards',
       moduleId: 'virtual:tuning-cards',

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { lockScroll, unlockScroll } from '../utils/scrollLock';
+import { CTA_LABEL, TELEGRAM_URL } from '../data/siteConfig';
 
 const EASTER_EGG_CLICKS = 5;
 const RESET_TIMEOUT = 2000;
@@ -118,13 +119,14 @@ function Header() {
           )}
 
           <div className="header__actions">
+            {/* Основной CTA проекта: уход в официальный Telegram-контакт. */}
             <a
-              href="https://t.me/+1hplL5z7qHo4Nzdi"
+              href={TELEGRAM_URL}
               className="header__contact"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Связаться
+              {CTA_LABEL}
             </a>
             <button
               className={`header__burger${menuOpen ? ' header__burger--active' : ''}`}

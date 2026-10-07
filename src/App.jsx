@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import TuningPage from './pages/TuningPage';
@@ -18,6 +18,8 @@ function App() {
         <Route path="custom" element={<CustomPage />} />
       </Route>
       <Route path="/catalog/*" element={<CatalogApp />} />
+      {/* Неизвестный адрес (в том числе попадание через 404.html) — на главную. */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
