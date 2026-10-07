@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import TuningLevels from '../components/TuningLevels';
 
 const imageUrl = (name) => `${import.meta.env.BASE_URL}images/${name}`;
 
@@ -60,6 +61,9 @@ function HomePage() {
           <p className="home__hero-subtitle">{heroBlock.subtitle}</p>
         </div>
       </section>
+
+      {/* ===== Уровни тюнинга ===== */}
+      <TuningLevels />
 
       {/* ===== Grid 2×2 ===== */}
       <section className="home__grid">

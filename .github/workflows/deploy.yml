@@ -6,6 +6,7 @@ on:
       - main
       - arena/01a10a17-zc33s
       - arena/183191ef-zc33s
+      - arena/0670a8b3-zc33s
 
 jobs:
   build-and-deploy:
