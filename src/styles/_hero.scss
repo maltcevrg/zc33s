@@ -12,7 +12,7 @@ $header-height: 76px !default;
     padding: clamp(34px, 6vw, 78px);
     overflow: hidden;
     color: #f9f8f3;
-    background: linear-gradient(90deg, rgba(44,46,49,.9), rgba(44,46,49,.42) 55%, rgba(44,46,49,.05));
+    background: #2c2e31;
     border-radius: 32px;
     isolation: isolate;
   }
@@ -20,7 +20,7 @@ $header-height: 76px !default;
     content: '';
     position: absolute;
     inset: 0;
-    z-index: -1;
+    z-index: 0;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -29,17 +29,17 @@ $header-height: 76px !default;
       var(--hero-bg-webp, url('https://maltcevrg.github.io/zc33s/images/main_page-1920.webp')) type('image/webp'),
       var(--hero-bg-jpg, url('https://maltcevrg.github.io/zc33s/images/main_page-1920.jpg')) type('image/jpeg')
     );
-    filter: grayscale(.1) contrast(1.04);
+    filter: grayscale(.08) contrast(1.08) brightness(.52);
   }
-  &__hero-body { min-width: 0; max-width: 1050px; }
+  &__hero-body { position: relative; z-index: 2; width: 100%; min-width: 0; max-width: 1050px; }
   // H1 стал длиннее («SUZUKI SWIFT SPORT ZC33S»), поэтому кегль чуть меньше прежних 9rem:
   // на десктопе строка складывается в две примерно равные — «SUZUKI SWIFT» / «SPORT ZC33S».
-  // Фото, градиент, скругления и Montserrat/Poiret One не меняются.
-  &__hero-title { max-width: 1000px; color: #f9f8f3; font-family: 'Montserrat',sans-serif; font-size: clamp(2.9rem, 8.4vw, 7.5rem); font-weight: 700; letter-spacing: -.06em; line-height: .84; text-wrap: balance; }
-  &__hero-title-main { text-transform: uppercase; }
+  // Фото равномерно затемнено фильтром, чтобы сохранить контраст текста без градиентной вуали.
+  &__hero-title { width: 100%; max-width: 1000px; color: #f9f8f3; font-family: 'Montserrat',sans-serif; font-size: clamp(2.5rem, 6vw, 6rem); font-weight: 700; letter-spacing: -.06em; line-height: .9; text-wrap: balance; overflow-wrap: normal; word-break: normal; text-shadow: 0 2px 14px rgba(0,0,0,.72); }
+  &__hero-title-main { text-transform: uppercase; overflow-wrap: normal; word-break: normal; }
   // Декоративная вторая строка — теперь отдельный блок под H1, а не продолжение строки.
-  &__hero-accent { display: block; margin: 10px 0 28px; color: #f9f8f3; font-family: 'Poiret One',cursive; font-size: clamp(2.2rem, 5.4vw, 5rem); font-weight: 400; letter-spacing: .01em; line-height: 1; }
-  &__hero-subtitle { max-width: 650px; color: rgba(249,248,243,.78); font-size: clamp(1rem,1.6vw,1.25rem); line-height: 1.55; }
+  &__hero-accent { display: block; margin: 10px 0 28px; color: #f9f8f3; font-family: 'Poiret One',cursive; font-size: clamp(2.2rem, 5.4vw, 5rem); font-weight: 400; letter-spacing: .01em; line-height: 1; text-shadow: 0 2px 12px rgba(0,0,0,.8); }
+  &__hero-subtitle { max-width: 650px; color: rgba(249,248,243,.96); font-size: clamp(1rem,1.6vw,1.25rem); line-height: 1.55; text-shadow: 0 1px 8px rgba(0,0,0,.9); }
   // Кнопка «Обсудить конфигурацию» и короткая правовая подпись под подзаголовком.
   &__hero-cta { margin-top: clamp(26px,3.2vw,40px); }
   &__hero-cta .cta__note { max-width: 420px; }
@@ -61,18 +61,18 @@ $header-height: 76px !default;
   &__contacts { margin-top: 18px; padding: clamp(70px,10vw,130px) 24px; color: #f9f8f3; background: #2c2e31; border-radius: 32px; }
   &__contacts-title { margin-bottom: 44px; font-size: clamp(3rem,8vw,7rem); font-weight: 600; letter-spacing: -.07em; line-height: .9; text-align: center; }
   &__contacts-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; max-width: 900px; margin: auto; }
-  .contact-card { position: relative; display: flex; align-items: center; justify-content: space-between; min-height: 120px; padding: 28px 32px; overflow: hidden; color: #2c2e31; text-decoration: none; background: #f9f8f3; border-radius: 22px; transition: transform .25s ease; }
-  .contact-card:hover { transform: translateY(-4px); }
+  .contact-card { position: relative; display: flex; align-items: center; justify-content: space-between; min-height: 120px; padding: 28px 32px; overflow: hidden; color: #f9f8f3; text-decoration: none; background: #242629; border: 1px solid rgba(249,248,243,.12); border-radius: 22px; transition: transform .25s ease, background-color .25s ease; }
+  .contact-card:hover { transform: translateY(-4px); background: #343639; }
   .contact-card__flag, .contact-card__bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .13; }
   .contact-card__bg-img img { width: 100%; height: 100%; object-fit: cover; }
   .contact-card__icon, .contact-card__label { position: relative; z-index: 1; }
-  .contact-card__icon { display: flex; }
-  .contact-card__tg-icon { width: 30px; height: 30px; filter: brightness(0); }
+  .contact-card__icon { display: flex; align-items: center; }
+  .contact-card__tg-icon { display: block; width: 32px; height: 32px; object-fit: contain; }
   .contact-card__label { font-size: .95rem; font-weight: 600; }
 
   @media (max-width: 768px) {
     padding: 8px;
-    &__hero { min-height: 72svh; padding: 28px 18px; border-radius: 22px; background: linear-gradient(0deg,rgba(44,46,49,.94),rgba(44,46,49,.16)); }
+    &__hero { min-height: 72svh; padding: 28px 18px; border-radius: 22px; }
     &__hero-title { width: 100%; font-size: clamp(2.1rem,11.3vw,5rem); line-height: .88; overflow-wrap: anywhere; }
     &__hero-title-main { max-width: 100%; }
     &__hero-accent { margin: 8px 0 20px; font-size: clamp(1.7rem,8.6vw,3.4rem); }

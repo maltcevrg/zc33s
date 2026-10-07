@@ -37,7 +37,7 @@
   &--light {
     .cta__button { color: #2c2e31; background: #f9f8f3; border-color: #f9f8f3; }
     .cta__button:hover { color: #f9f8f3; background: transparent; }
-    .cta__note { color: rgba(249, 248, 243, .68); }
+    .cta__note { color: rgba(249, 248, 243, .94); text-shadow: 0 1px 6px rgba(0, 0, 0, .9); }
   }
 
   // Прозрачная кнопка для подвала.
