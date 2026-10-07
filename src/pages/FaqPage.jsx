@@ -81,18 +81,9 @@ function scrollToSectionByIndex(idx) {
 
 function FaqArticle({ article }) {
   const [html, setHtml] = useState('');
-  const [showFloat, setShowFloat] = useState(false);
 
   useEffect(() => {
     setHtml(buildHtml(article.html, article.toc));
-  }, []);
-
-  // Toggle floating nav visibility on scroll
-  useEffect(() => {
-    const onUpdate = () => setShowFloat(window.scrollY > 300);
-    onUpdate();
-    window.addEventListener('scroll', onUpdate, { passive: true });
-    return () => window.removeEventListener('scroll', onUpdate);
   }, []);
 
   return (
@@ -103,20 +94,30 @@ function FaqArticle({ article }) {
 
       {html ? (
         <>
-          <nav className={`faq-article__toc${showFloat ? ' faq-article__toc--floating' : ''}`} aria-label="Оглавление">
-            <h2>Разделы</h2>
-            <ol>
-              {article.toc.map((entry, idx) => (
-                <li key={idx}>
-                  <a href="#" onClick={(e) => { e.preventDefault(); scrollToSectionByIndex(idx + 1); }} dangerouslySetInnerHTML={{ __html: `<span class="toc-num">${idx + 1}.</span> ${entry}` }} />
-                </li>
-              ))}
+          <nav className="faq-article__toc" aria-label="Оглавление">
+            <h2 className="faq-article__toc-heading">Разделы статьи</h2>
+            <ol className="faq-article__toc-list">
+              {article.toc.map((entry, idx) => {
+                const cleanEntry = entry.replace(/^\d+[\.\)]\s*/, '');
+                return (
+                  <li key={idx}>
+                    <a href="#" onClick={(e) => { e.preventDefault(); scrollToSectionByIndex(idx + 1); }}>
+                      <span className="toc-num">{idx + 1}.</span>
+                      <span className="toc-title">{cleanEntry}</span>
+                    </a>
+                  </li>
+                );
+              })}
             </ol>
           </nav>
           <div className="faq-article__content" dangerouslySetInnerHTML={{ __html: html }} />
         </>
       ) : (
         <p className="faq-article__loading">Загрузка материала…</p>
+      )}
+    </section>
+  );
+}
       )}
     </section>
   );

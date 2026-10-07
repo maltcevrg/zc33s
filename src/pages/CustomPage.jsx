@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import customCards from 'virtual:custom-cards';
 import ProductCards from '../components/ProductCards';
 import TelegramCta from '../components/TelegramCta';
@@ -21,7 +22,17 @@ function CustomPage() {
       {customCards.length > 0 ? (
         <ProductCards cards={customCards} />
       ) : (
-        <p className="page__text tuning-page__empty">Карточки пока не добавлены.</p>
+        <div className="tuning-page__empty-state">
+          <p className="page__text">
+            Спецификации проверенных компонентов формируются на основе испытаний и реального опыта эксплуатации. Изучите подробные материалы о железе в Базе знаний или свяжитесь с нами для подбора компонентов.
+          </p>
+          <div className="tuning-page__empty-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginTop: '20px' }}>
+            <Link to="/knowledge" className="knowledge-card__btn">
+              Открыть базу знаний →
+            </Link>
+            <TelegramCta tone="ghost" label="Уточнить применимость" />
+          </div>
+        </div>
       )}
     </section>
   );

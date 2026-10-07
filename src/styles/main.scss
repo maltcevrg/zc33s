@@ -1,3 +1,4 @@
+@use 'fonts';
 @use 'background';
 @use 'header' with ($header-height: 76px);
 @use 'hero' with ($header-height: 76px);
@@ -50,6 +51,42 @@ p, h1, h2, h3, a, span, button {
 }
 
 ::selection { color: #f9f8f3; background: #2c2e31; }
+
+// Заметный и эстетичный :focus-visible для всех интерактивных элементов
+:focus-visible {
+  outline: 2px solid var(--color-accent) !important;
+  outline-offset: 3px !important;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-accent) !important;
+  outline-offset: 3px !important;
+}
+
+// Touch targets: минимальный удобный размер интерактивных элементов (~44×44 px)
+.header__burger,
+.header__nav-close,
+.card-modal__close,
+.card-modal__arrow {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.header__contact,
+.cta__btn,
+.knowledge-card__btn,
+.knowledge-article__back-btn,
+.faq-article__back {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

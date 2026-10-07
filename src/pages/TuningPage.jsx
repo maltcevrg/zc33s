@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import tuningCards from 'virtual:tuning-cards';
 import ProductCards from '../components/ProductCards';
 import TelegramCta from '../components/TelegramCta';
@@ -21,7 +22,17 @@ function TuningPage() {
       {tuningCards.length > 0 ? (
         <ProductCards cards={tuningCards} />
       ) : (
-        <p className="page__text tuning-page__empty">Карточки пока не добавлены.</p>
+        <div className="tuning-page__empty-state">
+          <p className="page__text">
+            Спецификации и графики конфигураций формируются на основе измерений и логов. Ознакомьтесь с подробными материалами по калибровкам K14C в Базе знаний или свяжитесь с калибровщиком для индивидуального расчёта.
+          </p>
+          <div className="tuning-page__empty-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginTop: '20px' }}>
+            <Link to="/knowledge" className="knowledge-card__btn">
+              Открыть базу знаний →
+            </Link>
+            <TelegramCta tone="ghost" label="Уточнить применимость" />
+          </div>
+        </div>
       )}
     </section>
   );

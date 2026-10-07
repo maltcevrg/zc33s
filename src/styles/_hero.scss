@@ -16,7 +16,21 @@ $header-height: 76px !default;
     border-radius: 32px;
     isolation: isolate;
   }
-  &__hero::before { content: ''; position: absolute; inset: 0; z-index: -1; background: url('/images/main_page-1920.jpg') center / cover no-repeat; filter: grayscale(.1) contrast(1.04); }
+  &__hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: var(--hero-bg-jpg, url('https://maltcevrg.github.io/zc33s/images/main_page-1920.jpg'));
+    background-image: image-set(
+      var(--hero-bg-webp, url('https://maltcevrg.github.io/zc33s/images/main_page-1920.webp')) type('image/webp'),
+      var(--hero-bg-jpg, url('https://maltcevrg.github.io/zc33s/images/main_page-1920.jpg')) type('image/jpeg')
+    );
+    filter: grayscale(.1) contrast(1.04);
+  }
   &__hero-body { min-width: 0; max-width: 1050px; }
   // H1 стал длиннее («SUZUKI SWIFT SPORT ZC33S»), поэтому кегль чуть меньше прежних 9rem:
   // на десктопе строка складывается в две примерно равные — «SUZUKI SWIFT» / «SPORT ZC33S».
@@ -85,6 +99,15 @@ $header-height: 76px !default;
     &__hero-accent { margin: 6px 0 18px; font-size: clamp(1.5rem,8vw,2.6rem); }
     &__card { min-height: 38svh; }
     &__card-body { padding: 20px 16px; }
-    &__card-desc { display: none; }
+    &__card-desc {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 0.76rem;
+      line-height: 1.35;
+      max-height: 4.2em;
+      opacity: 0.88;
+    }
   }
 }
