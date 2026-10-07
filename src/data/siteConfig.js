@@ -48,3 +48,8 @@ export const POWER_TEST_TITLE = 'Результат тестового авто�
 // Гарантия: единая формулировка в карточках и адрес страницы с условиями.
 export const WARRANTY_PATH = '/warranty';
 export const WARRANTY_MORE_LABEL = 'Подробнее';
+
+// Условия приобретения: адрес страницы и название.
+export const PURCHASE_PATH = '/purchase';
+export const PURCHASE_TITLE = 'Условия приобретения';
+

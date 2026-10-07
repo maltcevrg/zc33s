@@ -24,17 +24,16 @@ $header-height: 76px !default;
   &__contact:hover { color: #2c2e31; background: transparent; }
   &__burger, &__nav-close, &__overlay { display: none; }
 
-  // Пять пунктов меню и длинный CTA помещаются только от ~1100px,
-  // поэтому в диапазоне 1081–1240px уплотняем меню и кнопку.
-  @media (max-width: 1240px) and (min-width: 1081px) {
-    &__inner { gap: 20px; }
-    &__nav { gap: 18px; }
-    &__link { font-size: .74rem; }
-    &__contact { padding: 9px 14px; font-size: .74rem; }
+  // Шесть пунктов меню и CTA: уплотняем в диапазоне 1161–1340px
+  @media (max-width: 1340px) and (min-width: 1161px) {
+    &__inner { gap: 16px; padding: 0 20px; }
+    &__nav { gap: 16px; }
+    &__link { font-size: .73rem; }
+    &__contact { padding: 9px 14px; font-size: .73rem; }
   }
 
-  // Бургер включаем с 1080px (было 920px) — иначе шапка переполнялась бы на планшетах.
-  @media (max-width: 1080px) {
+  // Бургер включаем с 1160px — чтобы шапка не переполнялась на ноутбуках и планшетах
+  @media (max-width: 1160px) {
     &__inner { padding: 0 18px; }
     &__logo-full { display: none; }
     &__logo-short { display: inline; }

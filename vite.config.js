@@ -207,7 +207,23 @@ function cardsPlugin({ directory, moduleId, name }) {
 // Маршруты приложения (см. src/App.jsx). GitHub Pages не умеет SPA-фолбэк,
 // поэтому для каждого раздела нужна собственная оболочка index.html —
 // иначе прямая ссылка и обновление страницы на /zc33s/tuning отдают 404.
-const spaRoutes = ['tuning', 'service', 'faq', 'custom', 'catalog', 'warranty'];
+const spaRoutes = [
+  'tuning',
+  'service',
+  'faq',
+  'custom',
+  'catalog',
+  'warranty',
+  'purchase',
+  'about',
+  'knowledge',
+  'knowledge/zc33s-faq',
+  'knowledge/ecu-flashing',
+  'knowledge/tuning-stages',
+  'knowledge/buying-zc33s',
+  'knowledge/diagnostics',
+  'knowledge/hardware',
+];
 
 function spaFallbackPlugin(routes) {
   let outDir = 'dist';

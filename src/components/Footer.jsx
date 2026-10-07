@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import SiteDisclaimer from './SiteDisclaimer';
 import TelegramCta from './TelegramCta';
-import { WARRANTY_PATH } from '../data/siteConfig';
+import { PURCHASE_PATH, WARRANTY_PATH } from '../data/siteConfig';
+import { PURCHASE_TITLE } from '../data/purchase';
 import { WARRANTY_TITLE } from '../data/warranty';
 
 function Footer() {
@@ -11,8 +12,11 @@ function Footer() {
         {/* Юридическая модель: видна на каждой странице сайта. */}
         <SiteDisclaimer />
 
-        {/* Служебные разделы: условия гарантии и обращений по качеству. */}
+        {/* Служебные разделы сайта */}
         <nav className="footer__links" aria-label="Служебные разделы">
+          <Link className="footer__link" to="/about">О проекте</Link>
+          <Link className="footer__link" to="/knowledge">База знаний</Link>
+          <Link className="footer__link" to={PURCHASE_PATH}>{PURCHASE_TITLE}</Link>
           <Link className="footer__link" to={WARRANTY_PATH}>{WARRANTY_TITLE}</Link>
         </nav>
 
