@@ -9,6 +9,7 @@ const EASTER_EGG_CLICKS = 5;
 const RESET_TIMEOUT = 2000;
 const VISIBLE_DURATION = 1800;
 const EXIT_DURATION = 500;
+const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 // Меню — из единого источника разделов (src/data/siteSections.js): названия
 // пунктов совпадают с названиями разделов, а ненаполненные разделы не показываются.
@@ -19,27 +20,72 @@ function Header() {
   const eggCounterRef = useRef(0);
   const resetTimerRef = useRef(null);
 
+  const burgerRef = useRef(null);
+  const navRef = useRef(null);
+  const openerRef = useRef(null);
+
   // Close menu on route change (when a link is clicked)
   const handleNavClick = () => {
     setMenuOpen(false);
   };
 
-  // Close menu on Escape key
-  useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === 'Escape' && menuOpen) {
-        setMenuOpen(false);
-      }
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [menuOpen]);
-
-  // Prevent body scroll when menu is open
+  // Focus trap for Navigation Drawer
   useEffect(() => {
     if (!menuOpen) return undefined;
     lockScroll();
-    return unlockScroll;
+
+    openerRef.current = document.activeElement;
+
+    // Focus moves inside nav drawer
+    const nav = navRef.current;
+    if (nav) {
+      const focusable = [...nav.querySelectorAll(FOCUSABLE)];
+      if (focusable.length > 0) {
+        // Focus the close button or first link
+        focusable[0].focus();
+      }
+    }
+
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setMenuOpen(false);
+      } else if (e.key === 'Tab' && nav) {
+        const focusable = [...nav.querySelectorAll(FOCUSABLE)];
+        if (focusable.length === 0) {
+          e.preventDefault();
+          return;
+        }
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement;
+
+        if (e.shiftKey) {
+          if (active === first || !nav.contains(active)) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (active === last || !nav.contains(active)) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      unlockScroll();
+      if (openerRef.current instanceof HTMLElement && document.contains(openerRef.current)) {
+        openerRef.current.focus({ preventScroll: true });
+      } else if (burgerRef.current) {
+        burgerRef.current.focus({ preventScroll: true });
+      }
+    };
   }, [menuOpen]);
 
   const resetCounter = useCallback(() => {
@@ -78,19 +124,41 @@ function Header() {
   return (
     <header className="header">
       <div className="header__inner">
-        <NavLink to="/" className="header__logo" onClick={(e) => { handleNavClick(); handleLogoClick(); }}>
+        <NavLink
+          to="/"
+          className="header__logo"
+          onClick={(e) => {
+            handleNavClick();
+            handleLogoClick();
+          }}
+          aria-label="Swift Sport Tuning — Главная"
+        >
           <span className="header__logo-full">Swift Sport Tuning</span>
           <span className="header__logo-short">SST</span>
         </NavLink>
 
         <div className="header__right">
-          <nav className={`header__nav${menuOpen ? ' header__nav--open' : ''}`}>
+          <nav
+            ref={navRef}
+            className={`header__nav${menuOpen ? ' header__nav--open' : ''}`}
+            aria-label="Основное меню"
+          >
             <button
               className="header__nav-close"
               onClick={() => setMenuOpen(false)}
               aria-label="Закрыть меню"
+              type="button"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
@@ -111,7 +179,11 @@ function Header() {
           </nav>
 
           {menuOpen && (
-            <div className="header__overlay" onClick={() => setMenuOpen(false)} />
+            <div
+              className="header__overlay"
+              onClick={() => setMenuOpen(false)}
+              aria-hidden="true"
+            />
           )}
 
           <div className="header__actions">
@@ -121,10 +193,13 @@ function Header() {
               className="header__contact"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${CTA_LABEL} в официальном Telegram`}
             >
               {CTA_LABEL}
             </a>
             <button
+              ref={burgerRef}
+              type="button"
               className={`header__burger${menuOpen ? ' header__burger--active' : ''}`}
               onClick={() => setMenuOpen((prev) => !prev)}
               aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'}
@@ -142,11 +217,20 @@ function Header() {
       {eggPhase &&
         createPortal(
           <div className={`easter-egg easter-egg--${eggPhase}`}>
-            <img
-               src={`${import.meta.env.BASE_URL}images/kolenka.jpg`}
-              alt=""
-              className="easter-egg__img"
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcSet={`${import.meta.env.BASE_URL}images/kolenka.webp`}
+              />
+              <img
+                src={`${import.meta.env.BASE_URL}images/kolenka.jpg`}
+                alt="Инженерная пасхалка"
+                className="easter-egg__img"
+                width="300"
+                height="300"
+                loading="lazy"
+              />
+            </picture>
           </div>,
           document.body
         )}

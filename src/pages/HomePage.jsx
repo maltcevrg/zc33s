@@ -34,7 +34,13 @@ function HomePage() {
   return (
     <div className="home">
       {/* ===== Hero ===== */}
-      <section className="home__hero">
+      <section
+        className="home__hero"
+        style={{
+          '--hero-bg-webp': `url('${imageUrl('main_page-1920.webp')}')`,
+          '--hero-bg-jpg': `url('${imageUrl('main_page-1920.jpg')}')`,
+        }}
+      >
         <div className="home__hero-body">
           <h1 className="home__hero-title">
             <span className="home__hero-title-main">{heroBlock.title}</span>
@@ -68,7 +74,19 @@ function HomePage() {
         {visibleHomeSections.map((section) => (
           <Link key={section.id} to={section.link} className="home__card">
             <div className="home__card-image">
-              <img src={imageUrl(section.img)} alt={section.title} loading="lazy" />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet={imageUrl(section.img.replace(/\.jpg$/, '.webp'))}
+                />
+                <img
+                  src={imageUrl(section.img)}
+                  alt={`Иллюстрация раздела: ${section.title}`}
+                  loading="lazy"
+                  width="1280"
+                  height="720"
+                />
+              </picture>
             </div>
             <div className="home__card-overlay home__card-overlay--dark" />
             <div className="home__card-body">

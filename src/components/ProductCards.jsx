@@ -121,12 +121,20 @@ export function CardModalPanel({ card, onClose }) {
     const opener = document.activeElement;
 
     lockScroll();
-    panel?.focus({ preventScroll: true });
+    if (panel) {
+      const focusable = [...panel.querySelectorAll(FOCUSABLE)];
+      if (focusable.length > 0) {
+        focusable[0].focus();
+      } else {
+        panel.focus({ preventScroll: true });
+      }
+    }
 
     const handleKeyDown = (event) => {
       const count = imageCountRef.current;
 
       if (event.key === 'Escape') {
+        event.preventDefault();
         onCloseRef.current();
       } else if (event.key === 'ArrowLeft' && count > 1) {
         setActiveImage((index) => (index - 1 + count) % count);
@@ -144,12 +152,16 @@ export function CardModalPanel({ card, onClose }) {
         const last = focusable[focusable.length - 1];
         const active = document.activeElement;
 
-        if (event.shiftKey && (active === first || active === panel || !panel.contains(active))) {
-          event.preventDefault();
-          last.focus();
-        } else if (!event.shiftKey && (active === last || !panel.contains(active))) {
-          event.preventDefault();
-          first.focus();
+        if (event.shiftKey) {
+          if (active === first || active === panel || !panel.contains(active)) {
+            event.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (active === last || !panel.contains(active)) {
+            event.preventDefault();
+            first.focus();
+          }
         }
       }
     };
@@ -193,15 +205,35 @@ export function CardModalPanel({ card, onClose }) {
         onTouchEnd={handleTouchEnd}
       >
         {currentImage ? (
-          <img className="card-modal__main-image" src={currentImage} alt={card.title} />
+          <img
+            className="card-modal__main-image"
+            src={currentImage}
+            alt={card.title}
+            width="800"
+            height="600"
+          />
         ) : (
           <div className="card-modal__placeholder">Нет изображения</div>
         )}
 
         {hasMultipleImages && (
           <>
-            <button className="card-modal__arrow card-modal__arrow--previous" type="button" onClick={showPreviousImage} aria-label="Предыдущее изображение">‹</button>
-            <button className="card-modal__arrow card-modal__arrow--next" type="button" onClick={showNextImage} aria-label="Следующее изображение">›</button>
+            <button
+              className="card-modal__arrow card-modal__arrow--previous"
+              type="button"
+              onClick={showPreviousImage}
+              aria-label="Предыдущее изображение"
+            >
+              ‹
+            </button>
+            <button
+              className="card-modal__arrow card-modal__arrow--next"
+              type="button"
+              onClick={showNextImage}
+              aria-label="Следующее изображение"
+            >
+              ›
+            </button>
           </>
         )}
 
@@ -213,9 +245,16 @@ export function CardModalPanel({ card, onClose }) {
                 type="button"
                 className={`card-modal__thumbnail${index === activeImage ? ' card-modal__thumbnail--active' : ''}`}
                 onClick={() => setActiveImage(index)}
-                aria-label={`Показать изображение ${index + 1}`}
+                aria-label={`Фото ${index + 1} из ${imageCount} для ${card.title}`}
+                aria-pressed={index === activeImage}
               >
-                <img src={image} alt="" loading="lazy" />
+                <img
+                  src={image}
+                  alt={`Миниатюра ${index + 1} для ${card.title}`}
+                  loading="lazy"
+                  width="72"
+                  height="54"
+                />
               </button>
             ))}
           </div>
@@ -354,7 +393,14 @@ function ProductCards({ cards }) {
           >
             <span className="tuning-card__media">
               {card.images[0] ? (
-                <img className="tuning-card__image" src={card.images[0]} alt="" loading="lazy" />
+                <img
+                  className="tuning-card__image"
+                  src={card.images[0]}
+                  alt={card.title}
+                  loading="lazy"
+                  width="400"
+                  height="280"
+                />
               ) : (
                 <span className="tuning-card__placeholder">Нет изображения</span>
               )}

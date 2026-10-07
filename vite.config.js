@@ -309,9 +309,18 @@ function spaFallbackPlugin(routes) {
       }
 
       // Неизвестный адрес Pages отдаст со статусом 404, а роутер перенаправит
-      // на главную (catch-all в src/App.jsx). Пути к ассетам абсолютные, поэтому
-      // оболочка работает на любой глубине вложенности.
-      writeFileSync(join(outDir, '404.html'), shell);
+      // на NotFoundPage (catch-all в src/App.jsx).
+      const notFoundSeo = {
+        title: '404 — Страница не найдена | SST',
+        description:
+          'Страница не найдена. Возможно, материал был перемещён. Перейдите на главную или откройте базу знаний.',
+        canonical: 'https://maltcevrg.github.io/zc33s/404',
+        ogTitle: '404 — Страница не найдена | SST',
+        ogDescription:
+          'Страница не найдена. Возможно, материал был перемещён. Перейдите на главную или откройте базу знаний.',
+        ogImage: 'https://maltcevrg.github.io/zc33s/images/main_page-1920.jpg',
+      };
+      writeFileSync(join(outDir, '404.html'), injectSeoToHtml(shell, notFoundSeo));
     },
   };
 }

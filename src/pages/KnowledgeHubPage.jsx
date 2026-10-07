@@ -107,9 +107,9 @@ function KnowledgeHubPage() {
             <Link
               to={`/knowledge/${article.slug}`}
               className="knowledge-card__btn"
-              aria-label={`Читать: ${article.title}`}
+              aria-label={`Открыть материал: ${article.title}`}
             >
-              Читать материал →
+              Открыть материал →
             </Link>
           </article>
         ))}

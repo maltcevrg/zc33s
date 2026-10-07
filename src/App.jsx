@@ -12,6 +12,7 @@ import PurchasePage from './pages/PurchasePage';
 import AboutPage from './pages/AboutPage';
 import PrivacyPage from './pages/PrivacyPage';
 import LegalPage from './pages/LegalPage';
+import NotFoundPage from './pages/NotFoundPage';
 import CatalogApp from './CatalogApp';
 
 function App() {
@@ -30,10 +31,9 @@ function App() {
         <Route path="purchase" element={<PurchasePage />} />
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="legal" element={<LegalPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
       <Route path="/catalog/*" element={<CatalogApp />} />
-      {/* Неизвестный адрес (в том числе попадание через 404.html) — на главную. */}
-      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

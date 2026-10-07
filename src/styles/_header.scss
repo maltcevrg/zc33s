@@ -37,12 +37,12 @@ $header-height: 76px !default;
     &__inner { padding: 0 18px; }
     &__logo-full { display: none; }
     &__logo-short { display: inline; }
-    &__burger { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 40px; height: 40px; padding: 0; background: transparent; border: 1px solid var(--color-border); border-radius: 50%; cursor: pointer; }
+    &__burger { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 44px; height: 44px; min-width: 44px; min-height: 44px; padding: 0; background: transparent; border: 1px solid var(--color-border); border-radius: 50%; cursor: pointer; }
     &__burger span { width: 18px; height: 1.5px; background: #2c2e31; transition: transform .25s ease, opacity .2s ease; }
     &__burger--active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     &__burger--active span:nth-child(2) { opacity: 0; }
     &__burger--active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-    &__nav-close { position: absolute; top: 18px; right: 18px; display: grid; place-items: center; width: 40px; height: 40px; color: #f9f8f3; background: #2c2e31; border: 0; border-radius: 50%; cursor: pointer; }
+    &__nav-close { position: absolute; top: 18px; right: 18px; display: grid; place-items: center; width: 44px; height: 44px; min-width: 44px; min-height: 44px; color: #f9f8f3; background: #2c2e31; border: 0; border-radius: 50%; cursor: pointer; }
     &__nav { position: fixed; top: 0; right: 0; z-index: 200; display: flex; flex-direction: column; align-items: stretch; gap: 0; width: min(420px, 90vw); height: 100dvh; padding: 92px 28px 30px; background: #f9f8f3; border-left: 1px solid var(--color-border); transform: translateX(105%); transition: transform .35s cubic-bezier(.22,1,.36,1); }
     &__nav--open { transform: translateX(0); }
     &__link { padding: 17px 0; font-size: 1.2rem; border-bottom: 1px solid var(--color-border); }
@@ -51,14 +51,14 @@ $header-height: 76px !default;
 
   // Узкие телефоны: уменьшаем кегль CTA, чтобы строка «SST · Обсудить конфигурацию · бургер» влезала.
   @media (max-width: 430px) {
-    &__contact { min-height: 38px; padding: 8px 12px; font-size: .68rem; }
+    &__contact { min-height: 44px; padding: 8px 12px; font-size: .68rem; }
   }
 
   @media (max-width: 360px) {
-    &__inner { gap: 16px; padding: 0 12px; }
-    &__actions { gap: 10px; }
-    &__contact { padding: 8px 11px; font-size: .66rem; }
-    &__burger { width: 36px; height: 36px; }
+    &__inner { gap: 12px; padding: 0 10px; }
+    &__actions { gap: 8px; }
+    &__contact { padding: 8px 10px; font-size: .66rem; min-height: 44px; }
+    &__burger { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
   }
 }
 
