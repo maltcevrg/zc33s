@@ -216,6 +216,8 @@ const spaRoutes = [
   'warranty',
   'purchase',
   'about',
+  'privacy',
+  'legal',
   'knowledge',
   'knowledge/zc33s-faq',
   'knowledge/ecu-flashing',

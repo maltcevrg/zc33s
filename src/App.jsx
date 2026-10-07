@@ -10,6 +10,8 @@ import CustomPage from './pages/CustomPage';
 import WarrantyPage from './pages/WarrantyPage';
 import PurchasePage from './pages/PurchasePage';
 import AboutPage from './pages/AboutPage';
+import PrivacyPage from './pages/PrivacyPage';
+import LegalPage from './pages/LegalPage';
 import CatalogApp from './CatalogApp';
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
         <Route path="service" element={<ServicePage />} />
         <Route path="warranty" element={<WarrantyPage />} />
         <Route path="purchase" element={<PurchasePage />} />
+        <Route path="privacy" element={<PrivacyPage />} />
+        <Route path="legal" element={<LegalPage />} />
       </Route>
       <Route path="/catalog/*" element={<CatalogApp />} />
       {/* Неизвестный адрес (в том числе попадание через 404.html) — на главную. */}

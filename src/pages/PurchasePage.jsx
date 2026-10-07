@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import TelegramCta from '../components/TelegramCta';
 import { TELEGRAM_URL } from '../data/siteConfig';
 import { PURCHASE_LEAD, PURCHASE_SECTIONS, PURCHASE_TITLE } from '../data/purchase';
@@ -9,6 +11,20 @@ const sectionNumber = (index) => String(index + 1).padStart(2, '0');
  * Содержание — в src/data/purchase.js.
  */
 function PurchasePage() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location]);
   return (
     <section className="page purchase-page">
       <h1 className="page__title">{PURCHASE_TITLE}</h1>

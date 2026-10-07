@@ -1,17 +1,185 @@
-.footer { position: relative; z-index: 1; width: 100%; padding: 34px 24px 40px; color: var(--color-text-muted); font-size: .76rem; text-align: center; border-top: 1px solid var(--color-border); }
+.footer {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: clamp(48px, 6vw, 76px) max(20px, 4vw) 36px;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
 
-// Подвал держит юридическое пояснение (одинаковое на всех страницах) и основной CTA.
-.footer__inner { display: grid; gap: 24px; width: min(1100px, 100%); margin: 0 auto; }
-.footer__bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px 24px; }
-.footer__copy { font-size: .76rem; }
+.footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(36px, 5vw, 56px);
+  width: min(1140px, 100%);
+  margin: 0 auto;
+}
 
-// Служебные разделы подвала (гарантия и обращения по качеству).
-.footer__links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; }
-.footer__link { color: var(--color-text-muted); font-size: .78rem; text-decoration: none; border-bottom: 1px solid transparent; transition: color .2s ease, border-color .2s ease; }
-.footer__link:hover { color: var(--color-text); border-bottom-color: currentColor; }
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 1fr 1.15fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+  text-align: left;
+}
 
-@media (max-width: 768px) {
-  .footer { padding: 28px 18px 34px; }
-  .footer__inner { gap: 20px; }
-  .footer__bottom { flex-direction: column; gap: 16px; }
+.footer__col {
+  display: flex;
+  flex-direction: column;
+
+  &--brand {
+    gap: 16px;
+  }
+}
+
+.footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.footer__brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #f9f8f3;
+  background: var(--color-accent);
+  border-radius: 6px;
+}
+
+.footer__brand-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+}
+
+.footer__brand-desc {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  margin: 0;
+  max-width: 320px;
+}
+
+.footer__heading {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin: 0 0 16px;
+}
+
+.footer__group {
+  display: flex;
+  flex-direction: column;
+
+  &--contacts {
+    margin-top: 24px;
+  }
+}
+
+.footer__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.footer__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    color: var(--color-accent);
+    transform: translateX(3px);
+  }
+
+  &--contact {
+    font-weight: 600;
+    color: var(--color-text);
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+}
+
+.footer__contact-icon {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.footer__copy {
+  margin: 0;
+}
+
+.footer__disclaimer {
+  margin: 0;
+  opacity: 0.85;
+}
+
+@media (max-width: 960px) {
+  .footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px 28px;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer {
+    padding: 40px 20px 30px;
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
 }
