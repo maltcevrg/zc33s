@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import ArticleMeta from '../components/ArticleMeta';
 import { KNOWLEDGE_ARTICLES } from '../data/knowledge';
+import { getSeoForPath, updateDocumentSeo } from '../data/seo';
 
 // Insert anchor IDs before headings matching TOC entries
 function buildHtml(rawHtml, tocEntries) {
@@ -68,6 +69,8 @@ function KnowledgeArticlePage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const seo = getSeoForPath(`/knowledge/${slug}`);
+    updateDocumentSeo(seo);
   }, [slug]);
 
   useEffect(() => {

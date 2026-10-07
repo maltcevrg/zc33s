@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Background from './components/Background';
+import { getSeoForPath, updateDocumentSeo } from './data/seo';
 import './catalog.css';
 
 const pdfUrl = `${import.meta.env.BASE_URL}zc33s_catalog_s.pdf`;
@@ -206,6 +207,7 @@ function CodeBadge({ code }) {
 function CatalogApp() {
   useEffect(() => {
     window.scrollTo(0, 0);
+    updateDocumentSeo(getSeoForPath('/catalog'));
   }, []);
 
   return (

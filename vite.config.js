@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { extname, join, relative, resolve, sep } from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { getSeoForPath } from './src/data/seo.js';
 
 const imageExtensions = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.svg', '.webp']);
 const collator = new Intl.Collator('ru', { numeric: true });
@@ -227,6 +228,63 @@ const spaRoutes = [
   'knowledge/hardware',
 ];
 
+function injectSeoToHtml(html, seo) {
+  if (!seo) return html;
+  let result = html;
+  if (seo.title) {
+    result = result.replace(/<title>.*?<\/title>/s, `<title>${seo.title}</title>`);
+  }
+  if (seo.description) {
+    result = result.replace(
+      /<meta name="description" content=".*?" \/>/s,
+      `<meta name="description" content="${seo.description}" />`
+    );
+  }
+  if (seo.canonical) {
+    result = result.replace(
+      /<link rel="canonical" href=".*?" \/>/s,
+      `<link rel="canonical" href="${seo.canonical}" />`
+    );
+    result = result.replace(
+      /<meta property="og:url" content=".*?" \/>/s,
+      `<meta property="og:url" content="${seo.canonical}" />`
+    );
+  }
+  if (seo.ogTitle || seo.title) {
+    const titleVal = seo.ogTitle || seo.title;
+    result = result.replace(
+      /<meta property="og:title" content=".*?" \/>/s,
+      `<meta property="og:title" content="${titleVal}" />`
+    );
+    result = result.replace(
+      /<meta name="twitter:title" content=".*?" \/>/s,
+      `<meta name="twitter:title" content="${titleVal}" />`
+    );
+  }
+  if (seo.ogDescription || seo.description) {
+    const descVal = seo.ogDescription || seo.description;
+    result = result.replace(
+      /<meta property="og:description" content=".*?" \/>/s,
+      `<meta property="og:description" content="${descVal}" />`
+    );
+    result = result.replace(
+      /<meta name="twitter:description" content=".*?" \/>/s,
+      `<meta name="twitter:description" content="${descVal}" />`
+    );
+  }
+  if (seo.ogImage) {
+    result = result.replace(
+      /<meta property="og:image" content=".*?" \/>/s,
+      `<meta property="og:image" content="${seo.ogImage}" />`
+    );
+    result = result.replace(
+      /<meta name="twitter:image" content=".*?" \/>/s,
+      `<meta name="twitter:image" content="${seo.ogImage}" />`
+    );
+  }
+  return result;
+}
+
 function spaFallbackPlugin(routes) {
   let outDir = 'dist';
 
@@ -244,7 +302,10 @@ function spaFallbackPlugin(routes) {
       for (const route of routes) {
         const routeDirectory = join(outDir, route);
         mkdirSync(routeDirectory, { recursive: true });
-        writeFileSync(join(routeDirectory, 'index.html'), shell);
+        const routePath = route.startsWith('/') ? route : `/${route}`;
+        const routeSeo = getSeoForPath(routePath);
+        const routeHtml = injectSeoToHtml(shell, routeSeo);
+        writeFileSync(join(routeDirectory, 'index.html'), routeHtml);
       }
 
       // Неизвестный адрес Pages отдаст со статусом 404, а роутер перенаправит
