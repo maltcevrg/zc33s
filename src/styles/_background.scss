@@ -1,4 +1,4 @@
 .site-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: #f9f8f3; }
-.site-bg::after { content: ''; position: absolute; inset: 0; z-index: 2; background: rgba(249,248,243,.82); backdrop-filter: grayscale(.35) blur(8px); -webkit-backdrop-filter: grayscale(.35) blur(8px); }
+.site-bg::after { content: ''; position: absolute; inset: 0; z-index: 2; background: rgba(249,248,243,.68); backdrop-filter: grayscale(.35) blur(8px); -webkit-backdrop-filter: grayscale(.35) blur(8px); }
 .site-bg__layer { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; opacity: .2; transition: opacity .4s ease; }
 .site-bg__layer--2 { mix-blend-mode: multiply; }
