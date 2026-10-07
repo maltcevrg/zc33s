@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { createPortal } from 'react-dom';
+import { lockScroll, unlockScroll } from '../utils/scrollLock';
 
 const EASTER_EGG_CLICKS = 5;
 const RESET_TIMEOUT = 2000;
@@ -38,8 +39,9 @@ function Header() {
 
   // Prevent body scroll when menu is open
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    if (!menuOpen) return undefined;
+    lockScroll();
+    return unlockScroll;
   }, [menuOpen]);
 
   const resetCounter = useCallback(() => {
