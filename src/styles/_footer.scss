@@ -5,6 +5,11 @@
 .footer__bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px 24px; }
 .footer__copy { font-size: .76rem; }
 
+// Служебные разделы подвала (гарантия и обращения по качеству).
+.footer__links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; }
+.footer__link { color: var(--color-text-muted); font-size: .78rem; text-decoration: none; border-bottom: 1px solid transparent; transition: color .2s ease, border-color .2s ease; }
+.footer__link:hover { color: var(--color-text); border-bottom-color: currentColor; }
+
 @media (max-width: 768px) {
   .footer { padding: 28px 18px 34px; }
   .footer__inner { gap: 20px; }

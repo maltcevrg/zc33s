@@ -7,6 +7,7 @@ on:
       # Ветки coding-сессий: пуш в них сразу собирает и деплоит сайт.
       - arena/69275cb0-zc33s
       - arena/0670a8b3-zc33s
+      - arena/a9c5a0a4-zc33s
 
 jobs:
   build-and-deploy:
