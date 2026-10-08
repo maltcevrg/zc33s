@@ -50,13 +50,12 @@ function HomePage() {
           </span>
           <p className="home__hero-subtitle">{heroBlock.subtitle}</p>
 
-          {/* Основной CTA: переход в официальный Telegram-контакт проекта.
-              Рядом — короткое напоминание, что сайт не оформляет заказы. */}
+          {/* Основной CTA ведёт на консультацию в официальном Telegram-контакте. */}
           <TelegramCta
             className="home__hero-cta"
             tone="light"
             inline
-            note={`${PRICE_NOTE} Оформление заказа на сайте не осуществляется.`}
+            note={`${PRICE_NOTE} Сайт не оформляет заказы и не принимает платежи.`}
           />
         </div>
       </section>
