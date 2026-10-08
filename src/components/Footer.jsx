@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { TELEGRAM_URL } from '../data/siteConfig';
+import { CONSULTATIONS_PATH, TELEGRAM_URL } from '../data/siteConfig';
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -51,18 +51,13 @@ function Footer() {
             <h3 className="footer__heading">Информация</h3>
             <ul className="footer__list">
               <li>
-                <Link to="/purchase" className="footer__link">
-                  Условия приобретения
-                </Link>
-              </li>
-              <li>
-                <Link to="/purchase#payment-delivery" className="footer__link">
-                  Оплата и доставка
+                <Link to={CONSULTATIONS_PATH} className="footer__link">
+                  Консультации и информация о компонентах
                 </Link>
               </li>
               <li>
                 <Link to="/warranty" className="footer__link">
-                  Гарантия и обращения
+                  Гарантийная информация производителей
                 </Link>
               </li>
             </ul>
@@ -111,7 +106,7 @@ function Footer() {
             &copy; {currentYear} Swift Sport Tuning. Все права защищены.
           </p>
           <p className="footer__disclaimer">
-            Сайт является информационным каталогом. Размещённая информация не является публичной офертой.
+            Сайт — информационный каталог: заказы и платежи через сайт не принимаются. Фотографии и цены сами по себе не определяют правовой статус конкретных отношений.
           </p>
         </div>
       </div>

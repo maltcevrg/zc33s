@@ -4,8 +4,7 @@ import { WARRANTY_LEAD, WARRANTY_SECTIONS, WARRANTY_TITLE } from '../data/warran
 const sectionNumber = (index) => String(index + 1).padStart(2, '0');
 
 /**
- * Страница «Гарантия и обращения по качеству» (/warranty).
- * Открывается по ссылке «Подробнее» из карточек товаров, в которых указана гарантия.
+ * Справочная страница о гарантийных условиях производителей (/warranty).
  * Содержание — в src/data/warranty.js.
  */
 function WarrantyPage() {
@@ -15,7 +14,7 @@ function WarrantyPage() {
 
       <div className="page__intro">
         <p className="page__text">{WARRANTY_LEAD}</p>
-        <TelegramCta note="Обращения по качеству и гарантийные обращения принимаются в официальном Telegram-контакте проекта." />
+        <TelegramCta note="Telegram-контакт предназначен для технических консультаций. По вопросам гарантии используйте контакты и порядок, указанные изготовителем или продавцом конкретного изделия." />
       </div>
 
       <nav className="warranty-page__toc" aria-label="Содержание страницы">

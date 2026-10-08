@@ -215,6 +215,7 @@ const spaRoutes = [
   'custom',
   'catalog',
   'warranty',
+  'consultations',
   'purchase',
   'about',
   'privacy',

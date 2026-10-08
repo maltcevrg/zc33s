@@ -303,9 +303,9 @@ export function CardModalPanel({ card, onClose }) {
           </Block>
         )}
 
-        {/* 5. Варианты приобретения */}
+        {/* 5. Варианты исполнения и справочные цены */}
         {variants.length > 0 && (
-          <Block title="Варианты приобретения">
+          <Block title="Варианты исполнения">
             <ul className="variant-list">
               {variants.map((variant, index) => (
                 <li className="variant-list__item" key={`${variant.price}-${index}`}>
@@ -317,16 +317,17 @@ export function CardModalPanel({ card, onClose }) {
             {variantNotes.map((note, index) => (
               <p className="card-modal__note" key={`${note}-${index}`}>{note}</p>
             ))}
-            {/* Цена не читается как окончательная сумма сделки. */}
+            {/* Краткое пояснение о справочном характере цен. */}
             <p className="card-modal__note">{priceNote}</p>
           </Block>
         )}
 
-        {/* 6. Гарантия — короткая строка и переход к условиям. */}
+        {/* 6. Справочная информация о гарантии изготовителя. */}
         {card.warranty && (
-          <Block title="Гарантия">
+          <Block title="Гарантийная информация">
             <div className="warranty-note">
-              <p className="warranty-note__term">Гарантия: {card.warranty}</p>
+              <p className="warranty-note__term">Срок, указанный в каталоге: {card.warranty}</p>
+              <p className="card-modal__note">Условия гарантии и ответственное лицо проверяйте в документах на изделие.</p>
               <Link className="warranty-note__link" to={WARRANTY_PATH} onClick={onClose}>
                 {WARRANTY_MORE_LABEL} →
               </Link>
@@ -352,7 +353,7 @@ export function CardModalPanel({ card, onClose }) {
           <p className="card-modal__important">{IMPORTANT_NOTE}</p>
         </Block>
 
-        {/* Цена — справочная, не оферта; основной выход — в Telegram. */}
+        {/* Справочные цены; основной CTA ведёт на техническую консультацию. */}
         <div className="card-modal__cta">
           {variants.length === 0 && (
             <div className="card-modal__price-block">
@@ -431,9 +432,9 @@ function ProductCards({ cards }) {
       </div>
 
       <p className="tuning-page__grid-note">
-        Значения мощности на карточках — ориентировочные расчётные показатели. Стоимость
-        приведена для предварительного ознакомления; состав работ и окончательная цена
-        согласовываются индивидуально.
+        Значения мощности — ориентировочные расчётные показатели. Технические данные и цены
+        в карточках приведены для справки и не подтверждают наличие компонента или оформление
+        заказа на сайте.
       </p>
 
       {selectedCard && <CardModal card={selectedCard} onClose={() => setSelectedCard(null)} />}
