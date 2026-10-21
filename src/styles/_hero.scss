@@ -2,7 +2,7 @@ $header-height: 76px !default;
 
 .home {
   padding: 18px;
-  background: #f9f8f3;
+  background: var(--color-bg);
 
   &__hero {
     position: relative;
