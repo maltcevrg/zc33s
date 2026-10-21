@@ -63,8 +63,7 @@ $header-height: 76px !default;
   &__contacts-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; max-width: 900px; margin: auto; }
   .contact-card { position: relative; display: flex; align-items: center; justify-content: space-between; min-height: 120px; padding: 28px 32px; overflow: hidden; color: #f9f8f3; text-decoration: none; background: #242629; border: 1px solid rgba(249,248,243,.12); border-radius: 22px; transition: transform .25s ease, background-color .25s ease; }
   .contact-card:hover { transform: translateY(-4px); background: #343639; }
-  .contact-card__flag, .contact-card__bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .13; }
-  .contact-card__bg-img img { width: 100%; height: 100%; object-fit: cover; }
+  .contact-card__flag { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .13; }
   .contact-card__icon, .contact-card__label { position: relative; z-index: 1; }
   .contact-card__icon { display: flex; align-items: center; }
   .contact-card__tg-icon { display: block; width: 32px; height: 32px; object-fit: contain; }

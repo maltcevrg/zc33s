@@ -23,3 +23,7 @@ Thumbs.db
 /catalog-*.pdf
 /*.pdf
 /public/images/main_page.jpg
+
+# Скомпилированный CSS: собирается из src/styles/*.scss при vite build
+/src/styles/*.css
+/src/styles/*.css.map

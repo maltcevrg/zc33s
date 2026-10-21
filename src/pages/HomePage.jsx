@@ -5,14 +5,19 @@ import { useLanguage } from '../i18n/I18nContext';
 
 const imageUrl = (name) => `${import.meta.env.BASE_URL}images/${name}`;
 
-// Маппинг id разделов → ключам перевода
-const SECTION_I18N_KEY = {
-  tuning: 'home.sections.tuning',
-  components: 'home.sections.components',
-  knowledge: 'home.sections.knowledge',
-  about: 'home.sections.about',
-  service: 'home.sections.service',
-};
+// Разделы главной: один список вместо двух (id → ключ перевода → картинка → ссылка).
+// Раньше id жили в одном месте, а i18n-ключи в другом, и их приходилось
+// держать в синхроне руками.
+const HOME_SECTIONS = [
+  { id: 'tuning', i18nKey: 'tuning', img: 'dyno-1280.jpg', link: '/tuning' },
+  { id: 'components', i18nKey: 'components', img: 'turbo-960.jpg', link: '/custom' },
+  { id: 'knowledge', i18nKey: 'knowledge', img: 'baza-1280.jpg', link: '/knowledge' },
+  { id: 'about', i18nKey: 'about', img: 'gunrace.jpg', link: '/about' },
+  // Сервис пока не наполнен — раздел скрыт, но остаётся в списке на будущее.
+  { id: 'service', i18nKey: 'service', img: 'service-1280.jpg', link: '/service', hidden: true },
+];
+
+const VISIBLE_HOME_SECTIONS = HOME_SECTIONS.filter((section) => !section.hidden);
 
 function HomePage() {
   const { t } = useLanguage();
@@ -22,18 +27,6 @@ function HomePage() {
     accent: t('home.heroAccent'),
     subtitle: t('home.heroSubtitle'),
   };
-
-  const visibleHomeSections = [
-    { id: 'tuning', img: 'dyno-1280.jpg', link: '/tuning' },
-    { id: 'components', img: 'turbo-960.jpg', link: '/custom' },
-    { id: 'knowledge', img: 'baza-1280.jpg', link: '/knowledge' },
-    { id: 'about', img: 'gunrace.jpg', link: '/about' },
-    { id: 'service', img: 'service-1280.jpg', link: '/service' },
-  ].filter((section) => {
-    // Показываем только наполненные разделы: service пока выключен
-    if (section.id === 'service') return false;
-    return true;
-  });
 
   const contacts = [
     {
@@ -75,10 +68,10 @@ function HomePage() {
       <TuningLevels />
 
       {/* ===== Главные разделы ===== */}
-      <section className={`home__grid${visibleHomeSections.length % 2 ? ' home__grid--odd' : ''}`}>
-        {visibleHomeSections.map((section) => {
-          const title = t(`${SECTION_I18N_KEY[section.id]}.title`);
-          const desc = t(`${SECTION_I18N_KEY[section.id]}.desc`);
+      <section className={`home__grid${VISIBLE_HOME_SECTIONS.length % 2 ? ' home__grid--odd' : ''}`}>
+        {VISIBLE_HOME_SECTIONS.map((section) => {
+          const title = t(`home.sections.${section.i18nKey}.title`);
+          const desc = t(`home.sections.${section.i18nKey}.desc`);
           return (
             <Link key={section.id} to={section.link} className="home__card">
               <div className="home__card-image">
@@ -113,7 +106,7 @@ function HomePage() {
               href={c.link}
               target="_blank"
               rel="noopener noreferrer"
-              className={`contact-card${c.flag ? ` contact-card--${c.flag}` : ''}${c.gunrace ? ' contact-card--gunrace' : ''}${c.olego ? ' contact-card--olego' : ''}`}
+              className={`contact-card${c.flag ? ` contact-card--${c.flag}` : ''}`}
             >
               {c.flag === 'tatarstan' && (
                 <img
@@ -122,16 +115,6 @@ function HomePage() {
                   className="contact-card__flag"
                   aria-hidden="true"
                 />
-              )}
-              {c.gunrace && (
-                <div className="contact-card__bg-img">
-                  <img src={imageUrl('gunrace.jpg')} alt="" aria-hidden="true" loading="lazy" />
-                </div>
-              )}
-              {c.olego && (
-                <div className="contact-card__bg-img">
-                  <img src={imageUrl('olego.jpg')} alt="" aria-hidden="true" loading="lazy" />
-                </div>
               )}
               <span className="contact-card__icon">
                 <img src={`${imageUrl('telegram.svg')}?v=2`} alt="" className="contact-card__tg-icon" />

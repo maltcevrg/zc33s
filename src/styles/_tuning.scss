@@ -11,6 +11,14 @@
 
   &__empty { padding: 24px 0; }
 
+  // Действия пустой витрины: раньше эти отступы были инлайновым style в JSX.
+  &__empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 20px;
+  }
+
   // Пояснение под витриной: мощность расчётная, цена справочная.
   &__grid-note {
     max-width: 900px;
