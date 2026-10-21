@@ -3,6 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Тема ставится до первой отрисовки, чтобы не было вспышки светлой темы -->
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem('sst_theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      /* Подстраховка на время загрузки стилей: сразу красим фон тёмной темы. */
+      html[data-theme='dark'] { color-scheme: dark; background: #141517; }
+    </style>
     <title>Прошивки Suzuki Swift Sport ZC33S — Stage 1 и Stage 2 | SST</title>
     <meta name="description" content="Калибровки блока управления Bosch MED17.9.63 для двигателя K14C: Stage 1, Stage 2, индивидуальная настройка под бензин АИ-95, АИ-98 и АИ-100." />
     <link rel="canonical" href="https://maltcevrg.github.io/zc33s/tuning" />
@@ -17,8 +31,8 @@
     <meta name="twitter:title" content="Прошивки Suzuki Swift Sport ZC33S — Stage 1 и Stage 2 | SST" />
     <meta name="twitter:description" content="Калибровки блока управления Bosch MED17.9.63 для двигателя K14C: Stage 1, Stage 2, индивидуальная настройка под бензин АИ-95, АИ-98 и АИ-100." />
     <meta name="twitter:image" content="https://maltcevrg.github.io/zc33s/images/dyno-1280.jpg" />
-    <script type="module" crossorigin src="/zc33s/assets/index-BFM5tEqp.js"></script>
-    <link rel="stylesheet" crossorigin href="/zc33s/assets/index-BSotup-g.css">
+    <script type="module" crossorigin src="/zc33s/assets/index-d5QTLRd2.js"></script>
+    <link rel="stylesheet" crossorigin href="/zc33s/assets/index-DaN7pNN0.css">
   </head>
   <body>
     <div id="root"></div>

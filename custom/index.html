@@ -3,6 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Тема ставится до первой отрисовки, чтобы не было вспышки светлой темы -->
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem('sst_theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      /* Подстраховка на время загрузки стилей: сразу красим фон тёмной темы. */
+      html[data-theme='dark'] { color-scheme: dark; background: #141517; }
+    </style>
     <title>Тюнинг-компоненты Suzuki Swift Sport ZC33S | SST</title>
     <meta name="description" content="Турбины GunRace серии GR, фронтальные интеркулеры, даунпайпы, усиленное сцепление и проверенные детали для Suzuki Swift Sport ZC33S." />
     <link rel="canonical" href="https://maltcevrg.github.io/zc33s/custom" />
@@ -17,8 +31,8 @@
     <meta name="twitter:title" content="Тюнинг-компоненты Suzuki Swift Sport ZC33S | SST" />
     <meta name="twitter:description" content="Турбины GunRace серии GR, фронтальные интеркулеры, даунпайпы, усиленное сцепление и проверенные детали для Suzuki Swift Sport ZC33S." />
     <meta name="twitter:image" content="https://maltcevrg.github.io/zc33s/images/turbo-960.jpg" />
-    <script type="module" crossorigin src="/zc33s/assets/index-BFM5tEqp.js"></script>
-    <link rel="stylesheet" crossorigin href="/zc33s/assets/index-BSotup-g.css">
+    <script type="module" crossorigin src="/zc33s/assets/index-d5QTLRd2.js"></script>
+    <link rel="stylesheet" crossorigin href="/zc33s/assets/index-DaN7pNN0.css">
   </head>
   <body>
     <div id="root"></div>
