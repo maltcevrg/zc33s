@@ -8,8 +8,8 @@ import { cardsPlugin } from './plugins/cards-plugin.js';
 export default defineConfig({
   plugins: [
     react(),
-    cardsPlugin({ directory: 'TuningCards', moduleId: 'virtual:tuning-cards', name: 'tuning-cards' }),
-    cardsPlugin({ directory: 'CustomCards', moduleId: 'virtual:custom-cards', name: 'custom-cards' }),
+    cardsPlugin({ directory: 'TuningCards', virtualPath: 'src/data/cards-tuning.js', name: 'tuning-cards' }),
+    cardsPlugin({ directory: 'CustomCards', virtualPath: 'src/data/cards-custom.js', name: 'custom-cards' }),
   ],
   test: {
     environment: 'jsdom',

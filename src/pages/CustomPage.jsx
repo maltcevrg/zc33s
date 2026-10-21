@@ -1,4 +1,4 @@
-import customCards from 'virtual:custom-cards';
+import customCards from '../data/cards-custom.js';
 import CardListPage from '../components/CardListPage';
 import useCards from '../i18n/useCards';
 

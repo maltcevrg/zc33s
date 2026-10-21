@@ -138,12 +138,12 @@ export default defineConfig({
     spaFallbackPlugin(spaRoutes),
     cardsPlugin({
       directory: 'TuningCards',
-      moduleId: 'virtual:tuning-cards',
+      virtualPath: 'src/data/cards-tuning.js',
       name: 'tuning-cards',
     }),
     cardsPlugin({
       directory: 'CustomCards',
-      moduleId: 'virtual:custom-cards',
+      virtualPath: 'src/data/cards-custom.js',
       name: 'custom-cards',
     }),
   ],
