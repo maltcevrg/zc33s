@@ -363,7 +363,7 @@ function ProductCards({ cards }) {
             type="button"
             className="tuning-card"
             onClick={() => setSelectedCard(card)}
-            aria-label={`Open card "${card.title}"`}
+            aria-label={`${t('product.openCard')}: ${card.title}`}
           >
             <span className="tuning-card__media">
               {card.images[0] ? (

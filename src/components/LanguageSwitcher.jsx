@@ -18,7 +18,7 @@ function LanguageSwitcher({ variant = 'default' }) {
         onClick={() => setLang('ru')}
         aria-pressed={isRu}
         aria-label={t('language.switchToRu')}
-        title="Русский"
+        title={lang === 'en' ? 'Russian' : 'Русский'}
       >
         {t('language.ru')}
       </button>

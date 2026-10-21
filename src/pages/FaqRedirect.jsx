@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { FAQ_MODULE_REDIRECTS } from '../data/knowledge';
+import { FAQ_MODULE_REDIRECTS } from '../data/faqRedirects';
 
 function FaqRedirect() {
   const [searchParams] = useSearchParams();

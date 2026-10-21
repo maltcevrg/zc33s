@@ -1,44 +1,49 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TelegramCta from '../components/TelegramCta';
-import {
-  KNOWLEDGE_ARTICLES,
-  KNOWLEDGE_CATEGORIES,
-  KNOWLEDGE_LEAD,
-  KNOWLEDGE_TITLE,
-} from '../data/knowledge';
+import { useLanguage } from '../i18n/I18nContext';
+
+const CATEGORY_ORDER = ['all', 'car', 'ecu', 'hardware', 'diagnostics'];
 
 function KnowledgeHubPage() {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('all');
+
+  const content = t('knowledge');
+  const articles = content?.articles || [];
+
+  const categories = CATEGORY_ORDER.map((id) => ({
+    id,
+    title: content?.categories?.[id] || id,
+    desc: content?.categoryDesc?.[id] || '',
+    topics: content?.categoryTopics?.[id] || [],
+  }));
 
   const filteredArticles =
     activeCategory === 'all'
-      ? KNOWLEDGE_ARTICLES
-      : KNOWLEDGE_ARTICLES.filter(
+      ? articles
+      : articles.filter(
           (a) =>
             a.category === activeCategory ||
             (a.additionalCategories && a.additionalCategories.includes(activeCategory))
         );
 
-  const getCategoryTitle = (id) => {
-    const found = KNOWLEDGE_CATEGORIES.find((c) => c.id === id);
-    return found ? found.title : id;
-  };
+  const getCategoryTitle = (id) => content?.categories?.[id] || id;
 
   return (
     <section className="page knowledge-page">
-      <h1 className="page__title">{KNOWLEDGE_TITLE}</h1>
+      <h1 className="page__title">{content?.title}</h1>
 
       <div className="page__intro">
-        <p className="page__text">{KNOWLEDGE_LEAD}</p>
-        <TelegramCta note="Не нашли ответ на свой вопрос? Задайте его напрямую в официальном Telegram-чате проекта." />
+        <p className="page__text">{content?.lead}</p>
+        <TelegramCta note={content?.notFoundNote} />
       </div>
 
       {/* Структура категорий базы знаний (пункт 18 ТЗ) */}
       <div className="knowledge-categories-overview">
-        <h2 className="knowledge-categories-overview__title">Тематические разделы</h2>
+        <h2 className="knowledge-categories-overview__title">{content?.categoriesTitle}</h2>
         <div className="knowledge-categories-grid">
-          {KNOWLEDGE_CATEGORIES.filter((c) => c.id !== 'all').map((cat) => (
+          {categories.filter((c) => c.id !== 'all').map((cat) => (
             <article
               key={cat.id}
               className={`knowledge-cat-card${activeCategory === cat.id ? ' knowledge-cat-card--active' : ''}`}
@@ -63,9 +68,9 @@ function KnowledgeHubPage() {
 
       {/* Фильтр статей */}
       <div className="knowledge-filter-bar">
-        <span className="knowledge-filter-bar__label">Категория:</span>
+        <span className="knowledge-filter-bar__label">{content?.filterLabel}</span>
         <div className="knowledge-filter-bar__buttons" role="tablist">
-          {KNOWLEDGE_CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <button
               key={cat.id}
               type="button"
@@ -97,19 +102,19 @@ function KnowledgeHubPage() {
 
             <div className="knowledge-card__meta-bar">
               <span className="knowledge-card__meta-item">
-                Обновлено: <strong>{article.meta.updated}</strong>
+                {content?.updated} <strong>{article.meta?.updated}</strong>
               </span>
               <span className="knowledge-card__meta-item">
-                Проверил: <strong>{article.meta.reviewer}</strong>
+                {content?.reviewedBy} <strong>{article.meta?.reviewer}</strong>
               </span>
             </div>
 
             <Link
               to={`/knowledge/${article.slug}`}
               className="knowledge-card__btn"
-              aria-label={`Открыть материал: ${article.title}`}
+              aria-label={`${content?.openMaterial}: ${article.title}`}
             >
-              Открыть материал →
+              {content?.openMaterial}
             </Link>
           </article>
         ))}

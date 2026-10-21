@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import ArticleMeta from '../components/ArticleMeta';
-import { KNOWLEDGE_ARTICLES } from '../data/knowledge';
 import { getSeoForPath, updateDocumentSeo } from '../data/seo';
+import { useLanguage } from '../i18n/I18nContext';
 
 // Insert anchor IDs before headings matching TOC entries
 function buildHtml(rawHtml, tocEntries) {
@@ -62,16 +62,18 @@ function scrollToSectionByIndex(idx) {
 
 function KnowledgeArticlePage() {
   const { slug } = useParams();
-  const article = KNOWLEDGE_ARTICLES.find((a) => a.slug === slug);
+  const { t, lang } = useLanguage();
+  const knowledge = t('knowledge');
+  const article = (knowledge?.articles || []).find((a) => a.slug === slug);
 
   const [html, setHtml] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const seo = getSeoForPath(`/knowledge/${slug}`);
+    const seo = getSeoForPath(`/knowledge/${slug}`, lang);
     updateDocumentSeo(seo);
-  }, [slug]);
+  }, [slug, lang]);
 
   useEffect(() => {
     if (article) {
@@ -97,7 +99,7 @@ function KnowledgeArticlePage() {
       <button
         className={`faq-back-to-top${scrolled ? ' faq-back-to-top--visible' : ''}`}
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        aria-label="Наверх"
+        aria-label={t('articleMeta.toTop')}
       >
         ↑
       </button>
@@ -105,7 +107,7 @@ function KnowledgeArticlePage() {
       <article className="faq-article knowledge-article">
         <div className="faq-article__bar">
           <Link to="/knowledge" className="faq-article__back">
-            ← Вернуться к базе знаний
+            {knowledge?.articleBack}
           </Link>
           <span className="knowledge-article__reading-time">{article.readingTime}</span>
         </div>
@@ -117,8 +119,8 @@ function KnowledgeArticlePage() {
         </header>
 
         {article.toc && article.toc.length > 0 && (
-          <nav className="faq-article__toc" aria-label="Содержание статьи">
-            <h2 className="faq-article__toc-heading">Содержание статьи</h2>
+          <nav className="faq-article__toc" aria-label={knowledge?.tocTitle}>
+            <h2 className="faq-article__toc-heading">{knowledge?.tocTitle}</h2>
             <ol className="faq-article__toc-list">
               {article.toc.map((entry, idx) => {
                 const cleanEntry = entry.replace(/^\d+[\.\)]\s*/, '');
@@ -148,7 +150,7 @@ function KnowledgeArticlePage() {
 
         <div className="knowledge-article__bottom-nav">
           <Link to="/knowledge" className="knowledge-article__back-btn">
-            ← Все материалы базы знаний
+            {knowledge?.allMaterials}
           </Link>
         </div>
       </article>

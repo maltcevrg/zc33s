@@ -3,9 +3,11 @@ import tuningCards from 'virtual:tuning-cards';
 import ProductCards from '../components/ProductCards';
 import TelegramCta from '../components/TelegramCta';
 import { useLanguage } from '../i18n/I18nContext';
+import useCards from '../i18n/useCards';
 
 function TuningPage() {
   const { t } = useLanguage();
+  const cards = useCards(tuningCards);
   return (
     <section className="page tuning-page">
       <h1 className="page__title">{t('tuning.title')}</h1>
@@ -15,8 +17,8 @@ function TuningPage() {
         <TelegramCta note={t('tuning.note')} />
       </div>
 
-      {tuningCards.length > 0 ? (
-        <ProductCards cards={tuningCards} />
+      {cards.length > 0 ? (
+        <ProductCards cards={cards} />
       ) : (
         <div className="tuning-page__empty-state">
           <p className="page__text">{t('tuning.empty')}</p>

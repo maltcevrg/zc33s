@@ -255,7 +255,7 @@ function Header() {
               />
               <img
                 src={`${import.meta.env.BASE_URL}images/kolenka.jpg`}
-                alt="Инженерная пасхалка"
+                alt={t('header.easterEggAlt')}
                 className="easter-egg__img"
                 width="300"
                 height="300"
