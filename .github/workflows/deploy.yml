@@ -1,19 +1,26 @@
-name: Deploy to GitHub Pages
+name: CI and Deploy to GitHub Pages
 
 on:
   push:
     branches:
       - main
-      # Ветки coding-сессий: пуш в них сразу собирает и деплоит сайт.
-      - arena/69275cb0-zc33s
-      - arena/0670a8b3-zc33s
-      - arena/a9c5a0a4-zc33s
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Пуш в main во время уже идущего деплоя не должен его обгонять.
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  build-and-deploy:
+  check:
+    name: Lint, tests, build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -24,9 +31,52 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: npm run build
 
-      - name: Deploy to gh-pages
+      # Быстрые проверки — отдельными шагами, чтобы в логах сразу было видно,
+      # что именно упало: стиль, тесты или сборка.
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier
+        run: npm run format:check
+
+      - name: Unit tests
+        run: npm run test
+
+      - name: TOC anchors
+        run: npm run check:anchors
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+
+  deploy:
+    name: Deploy to gh-pages
+    needs: check
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Publish to gh-pages
+        id: deployment
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
