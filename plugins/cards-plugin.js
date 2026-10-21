@@ -1,24 +1,9 @@
 import { createHash } from 'node:crypto';
 import { createReadStream, existsSync, readdirSync, readFileSync } from 'node:fs';
-import { dirname, extname, join, resolve, sep } from 'node:path';
+import { extname, join, resolve, sep } from 'node:path';
 
 import { byName, imageExtensions, parseCard } from './parse-card.js';
 
-/**
- * Плагин карточек: собирает папки с card.txt в модуль карточек.
- *
- * Импортируется он обычным относительным путём (`../data/cards-tuning.js`),
- * а resolveId возвращает абсолютный путь к несуществующему файлу. Это важно:
- * id с префиксом «\0» Vite отдаёт браузеру как /@id/__x00__virtual:… —
- * служебный префикс и двоеточие в адресе ломаются на прокси и в некоторых
- * окружениях предпросмотра. С обычным путём запрос выглядит как
- * /zc33s/src/data/cards-tuning.js и проходит везде.
- *
- * @param {object} options
- * @param {string} options.directory — папка с карточками (TuningCards, CustomCards)
- * @param {string} options.virtualPath — путь модуля внутри проекта
- * @param {string} options.name — имя плагина
- */
 // Расширение → Content-Type для отдачи картинок в dev.
 const MIME_TYPES = {
   '.avif': 'image/avif',
@@ -30,10 +15,28 @@ const MIME_TYPES = {
   '.webp': 'image/webp',
 };
 
-export function cardsPlugin({ directory, virtualPath, name }) {
+/**
+ * Плагин карточек: собирает папки с card.txt в виртуальный модуль.
+ *
+ * Модуль виртуальный намеренно: файла на диске у него нет, и сканер
+ * зависимостей Vite (esbuild) такие id пропускает. Если подставить вместо него
+ * путь к несуществующему файлу, optimizeDeps падает с ENOENT, и React приезжает
+ * в приложение как null («Cannot read properties of null (reading 'useMemo')»).
+ *
+ * Картинки карточек, наоборот, отдаются по ASCII-адресам
+ * /<base>card-images/<хэш папки>/N.jpg: папки называются «Stage 1»,
+ * «Турбина GR30», и пробелы с кириллицей в адресах модулей — лишний риск
+ * для прокси и кодирования. В сборке картинки кладёт Rollup (emitFile),
+ * там имена и так ASCII.
+ *
+ * @param {object} options
+ * @param {string} options.directory — папка с карточками (TuningCards, CustomCards)
+ * @param {string} options.moduleId — id виртуального модуля (virtual:tuning-cards)
+ * @param {string} options.name — имя плагина
+ */
+export function cardsPlugin({ directory, moduleId, name }) {
   const cardsDirectory = resolve(directory);
-  let root = process.cwd();
-  let modulePath = resolve(root, virtualPath);
+  const resolvedModuleId = `\0${moduleId}`;
   let base = '/';
   let isBuild = false;
 
@@ -74,8 +77,6 @@ export function cardsPlugin({ directory, virtualPath, name }) {
   return {
     name,
     configResolved(config) {
-      root = config.root;
-      modulePath = resolve(root, virtualPath);
       base = config.base || '/';
       isBuild = config.command === 'build';
     },
@@ -95,31 +96,17 @@ export function cardsPlugin({ directory, virtualPath, name }) {
       server.watcher.add(cardsDirectory);
       const reload = (file) => {
         if (!isInsideCards(file)) return;
-        const module = server.moduleGraph.getModuleById(modulePath);
+        const module = server.moduleGraph.getModuleById(resolvedModuleId);
         if (module) server.moduleGraph.invalidateModule(module);
         server.ws.send({ type: 'full-reload' });
       };
       ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) => server.watcher.on(event, reload));
     },
-    resolveId(id, importer) {
-      if (id === modulePath) return modulePath;
-
-      // Запрос за самим модулем приходит как URL: /zc33s/src/data/cards-tuning.js
-      if (id.startsWith('/')) {
-        const withoutBase = base !== '/' && id.startsWith(base) ? id.slice(base.length) : id.slice(1);
-        if (resolve(root, withoutBase) === modulePath) return modulePath;
-        return null;
-      }
-
-      if (!importer || !id.startsWith('.')) return null;
-
-      // Импорт пишется относительно страницы: ../data/cards-tuning.js
-      const cleanImporter = importer.split('?')[0];
-      const target = resolve(dirname(cleanImporter), id);
-      return target === modulePath ? modulePath : null;
+    resolveId(id) {
+      return id === moduleId ? resolvedModuleId : null;
     },
     load(id) {
-      if (id !== modulePath) return null;
+      if (id !== resolvedModuleId) return null;
       if (!existsSync(cardsDirectory)) return 'export default [];';
 
       const folders = readdirSync(cardsDirectory, { withFileTypes: true })

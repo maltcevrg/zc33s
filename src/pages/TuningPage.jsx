@@ -1,4 +1,4 @@
-import tuningCards from '../data/cards-tuning.js';
+import tuningCards from 'virtual:tuning-cards';
 import CardListPage from '../components/CardListPage';
 import useCards from '../i18n/useCards';
 

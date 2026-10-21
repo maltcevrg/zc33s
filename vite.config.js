@@ -138,12 +138,12 @@ export default defineConfig({
     spaFallbackPlugin(spaRoutes),
     cardsPlugin({
       directory: 'TuningCards',
-      virtualPath: 'src/data/cards-tuning.js',
+      moduleId: 'virtual:tuning-cards',
       name: 'tuning-cards',
     }),
     cardsPlugin({
       directory: 'CustomCards',
-      virtualPath: 'src/data/cards-custom.js',
+      moduleId: 'virtual:custom-cards',
       name: 'custom-cards',
     }),
   ],
@@ -165,6 +165,13 @@ export default defineConfig({
     },
   },
   base: '/zc33s/',
+  // Фиксированный список зависимостей: Vite не будет пересобирать их посреди
+  // сессии. Раньше кеш .vite/deps успевал перезаписаться (несколько запусков
+  // сервера, npm install), адреса модулей расходились с файлами на диске,
+  // и браузер получал «Cannot read properties of null (reading 'useMemo')».
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-dom/client', 'react-router-dom', 'dompurify'],
+  },
   server: {
     host: '0.0.0.0',
     allowedHosts: true,

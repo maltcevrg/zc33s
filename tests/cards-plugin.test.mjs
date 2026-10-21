@@ -1,55 +1,44 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { resolve } from 'node:path';
 
 import { cardsPlugin } from '../plugins/cards-plugin.js';
 
-const root = process.cwd();
-
-function setup(directory, virtualPath) {
-  const plugin = cardsPlugin({ directory, virtualPath, name: 'test-cards' });
-  plugin.configResolved({ root, base: '/zc33s/', command: 'serve' });
-  return { plugin, modulePath: resolve(root, virtualPath) };
+// Мини-контекст Rollup для load(): плагин пользуется warn/error/addWatchFile/emitFile.
+function context(overrides = {}) {
+  return {
+    addWatchFile() {},
+    warn() {},
+    error(message) {
+      throw new Error(message);
+    },
+    emitFile() {
+      throw new Error('emitFile не должен вызываться в режиме serve');
+    },
+    ...overrides,
+  };
 }
 
-// Мини-контекст Rollup для load(): плагин пользуется warn/error/addWatchFile.
-const context = {
-  addWatchFile() {},
-  warn() {},
-  error(message) {
-    throw new Error(message);
-  },
-  emitFile() {
-    throw new Error('emitFile не должен вызываться в режиме serve');
-  },
-};
+function setup(directory, moduleId, command = 'serve') {
+  const plugin = cardsPlugin({ directory, moduleId, name: 'test-cards' });
+  plugin.configResolved({ root: process.cwd(), base: '/zc33s/', command });
+  return { plugin, virtualId: `\0${moduleId}`, moduleId };
+}
 
-test('импорт из страницы резолвится в обычный путь, а не в virtual-модуль', () => {
-  const { plugin, modulePath } = setup('TuningCards', 'src/data/cards-tuning.js');
+test('модуль карточек резолвится как виртуальный (сканер зависимостей его пропускает)', () => {
+  const { plugin, virtualId, moduleId } = setup('TuningCards', 'virtual:tuning-cards');
 
-  // Относительный импорт (../data/cards-tuning.js) из страницы.
-  assert.equal(
-    plugin.resolveId('../data/cards-tuning.js', resolve(root, 'src/pages/TuningPage.jsx')),
-    modulePath
-  );
-});
-
-test('запрос самого модуля по URL с base тоже резолвится', () => {
-  const { plugin, modulePath } = setup('TuningCards', 'src/data/cards-tuning.js');
-
-  assert.equal(plugin.resolveId('/zc33s/src/data/cards-tuning.js'), modulePath);
-  assert.equal(plugin.resolveId('/src/data/cards-tuning.js'), modulePath);
-  assert.equal(plugin.resolveId('/zc33s/src/pages/TuningPage.jsx'), null);
+  assert.equal(plugin.resolveId(moduleId), virtualId);
+  assert.equal(plugin.resolveId('react'), null);
 });
 
 test('модуль карточек содержит данные и ASCII-адреса картинок', () => {
-  const { plugin, modulePath } = setup('TuningCards', 'src/data/cards-tuning.js');
-  const code = plugin.load.call(context, modulePath);
+  const { plugin, virtualId } = setup('TuningCards', 'virtual:tuning-cards');
+  const code = plugin.load.call(context(), virtualId);
 
   assert.match(code, /^export default \[/);
   assert.match(code, /id: "Stage 1"/);
 
-  const urls = [...code.matchAll(/"(https?:|\/)[^"]*"/g)].map((match) => match[0]);
+  const urls = [...code.matchAll(/"(?:https?:)?\/[^"]*"/g)].map((match) => match[0]);
   assert.ok(urls.length >= 6, `ожидались адреса картинок, найдено ${urls.length}`);
 
   for (const url of urls) {
@@ -60,8 +49,8 @@ test('модуль карточек содержит данные и ASCII-ад�
 });
 
 test('кириллические имена папок тоже дают ASCII-адреса', () => {
-  const { plugin, modulePath } = setup('CustomCards', 'src/data/cards-custom.js');
-  const code = plugin.load.call(context, modulePath);
+  const { plugin, virtualId } = setup('CustomCards', 'virtual:custom-cards');
+  const code = plugin.load.call(context(), virtualId);
 
   assert.match(code, /id: "Турбина GR30"/);
   assert.ok(!/Турбина[^"]*\/images/.test(code), 'путь к файлу не должен попадать в адрес');
@@ -69,23 +58,17 @@ test('кириллические имена папок тоже дают ASCII-�
 });
 
 test('в production-сборке картинки уходят в emitFile, а не в card-images', () => {
-  const plugin = cardsPlugin({
-    directory: 'TuningCards',
-    virtualPath: 'src/data/cards-tuning.js',
-    name: 'test',
-  });
-  plugin.configResolved({ root, base: '/zc33s/', command: 'build' });
+  const { plugin, virtualId } = setup('TuningCards', 'virtual:tuning-cards', 'build');
 
   const emitted = [];
-  const buildContext = {
-    ...context,
+  const buildContext = context({
     emitFile(file) {
       emitted.push(file.name);
       return `ref${emitted.length - 1}`;
     },
-  };
+  });
 
-  const code = plugin.load.call(buildContext, resolve(root, 'src/data/cards-tuning.js'));
+  const code = plugin.load.call(buildContext, virtualId);
 
   assert.ok(emitted.length >= 6, `ожидались картинки, отправленные в сборку: ${emitted.length}`);
   assert.ok(
@@ -93,4 +76,11 @@ test('в production-сборке картинки уходят в emitFile, а �
     `имена: ${emitted.join(', ')}`
   );
   assert.match(code, /import\.meta\.ROLLUP_FILE_URL_ref0/);
+  assert.ok(!code.includes('/card-images/'), 'в сборке dev-адреса не нужны');
+});
+
+test('отсутствующая папка карточек даёт пустой список, а не падение', () => {
+  const { plugin, virtualId } = setup('NoSuchCards', 'virtual:none-cards');
+
+  assert.equal(plugin.load.call(context(), virtualId), 'export default [];');
 });
