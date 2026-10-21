@@ -1,25 +1,26 @@
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import RouteFallback from './components/RouteFallback';
+import { lazyWithRetry } from './utils/lazyWithRetry';
 
 // Главная остаётся в основном бандле: это точка входа, и ждать её отдельный
 // чанк незачем. Остальные разделы подгружаются по переходу — так первый экран
 // не тянет код страниц, которые посетитель может никогда не открыть.
-const TuningPage = lazy(() => import('./pages/TuningPage'));
-const CustomPage = lazy(() => import('./pages/CustomPage'));
-const KnowledgeHubPage = lazy(() => import('./pages/KnowledgeHubPage'));
-const KnowledgeArticlePage = lazy(() => import('./pages/KnowledgeArticlePage'));
-const FaqRedirect = lazy(() => import('./pages/FaqRedirect'));
-const AboutPage = lazy(() => import('./pages/AboutPage'));
-const ServicePage = lazy(() => import('./pages/ServicePage'));
-const WarrantyPage = lazy(() => import('./pages/WarrantyPage'));
-const ConsultationsPage = lazy(() => import('./pages/ConsultationsPage'));
-const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
-const LegalPage = lazy(() => import('./pages/LegalPage'));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
-const CatalogApp = lazy(() => import('./CatalogApp'));
+const TuningPage = lazyWithRetry(() => import('./pages/TuningPage'));
+const CustomPage = lazyWithRetry(() => import('./pages/CustomPage'));
+const KnowledgeHubPage = lazyWithRetry(() => import('./pages/KnowledgeHubPage'));
+const KnowledgeArticlePage = lazyWithRetry(() => import('./pages/KnowledgeArticlePage'));
+const FaqRedirect = lazyWithRetry(() => import('./pages/FaqRedirect'));
+const AboutPage = lazyWithRetry(() => import('./pages/AboutPage'));
+const ServicePage = lazyWithRetry(() => import('./pages/ServicePage'));
+const WarrantyPage = lazyWithRetry(() => import('./pages/WarrantyPage'));
+const ConsultationsPage = lazyWithRetry(() => import('./pages/ConsultationsPage'));
+const PrivacyPage = lazyWithRetry(() => import('./pages/PrivacyPage'));
+const LegalPage = lazyWithRetry(() => import('./pages/LegalPage'));
+const NotFoundPage = lazyWithRetry(() => import('./pages/NotFoundPage'));
+const CatalogApp = lazyWithRetry(() => import('./CatalogApp'));
 
 // Suspense живёт внутри Layout (вокруг <Outlet />), чтобы шапка и подвал
 // не пропадали на время загрузки чанка страницы. Каталог — отдельный маршрут
