@@ -338,7 +338,6 @@ export function CardModalPanel({ card, onClose }) {
 
           <div className="card-modal__actions">
             <TelegramCta />
-            <TelegramCta tone="ghost" label={t('cta.clarify')} />
           </div>
 
           {!card.power && hasPowerEstimate(card.description) && (
