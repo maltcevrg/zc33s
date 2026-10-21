@@ -191,6 +191,10 @@ export const translations = {
       title: 'Прошивки',
       lead: 'Варианты прошивок для Suzuki Swift Sport ZC33S: ориентировочная стоимость, требования к конфигурации и расчётная мощность. Результат зависит от конфигурации автомобиля, топлива и состояния узлов.',
       note: 'Технические характеристики и ориентировочная стоимость приведены для справки. Сайт не оформляет заказы и не принимает платежи.',
+      overviewAlt:
+        'Сравнение уровней тюнинга GunRace для Suzuki Swift Sport ZC33S: пиковая мощность и момент Stage 1, Stage 2, GR30 и GR39 и графики мощности и момента.',
+      overviewCaption:
+        'Сводка замеров на диностенде: Stage 1 — 166,6 л.с. и 219,5 Н·м, Stage 2 — 184,1 л.с. и 304,7 Н·м, GR30 — 220,4 л.с. и 324,3 Н·м, GR39 — 244,8 л.с. и 386,0 Н·м.',
       empty:
         'Спецификации и графики конфигураций формируются на основе измерений и логов. Ознакомьтесь с подробными материалами по калибровкам K14C в Базе знаний или задайте технический вопрос в Telegram.',
       gridNote:
@@ -477,6 +481,10 @@ export const translations = {
       title: 'ECU Tunes',
       lead: 'ECU tune options for Suzuki Swift Sport ZC33S: indicative pricing, hardware requirements and estimated power. Results depend on vehicle configuration, fuel and component condition.',
       note: 'Specs and indicative prices are for reference only. The site does not process orders or accept payments.',
+      overviewAlt:
+        'GunRace tuning levels comparison for Suzuki Swift Sport ZC33S: peak power and torque of Stage 1, Stage 2, GR30 and GR39 with power and torque curves.',
+      overviewCaption:
+        'Dyno summary: Stage 1 — 166.6 hp and 219.5 Nm, Stage 2 — 184.1 hp and 304.7 Nm, GR30 — 220.4 hp and 324.3 Nm, GR39 — 244.8 hp and 386.0 Nm.',
       empty:
         'Specifications and graphs are based on measurements and logs. Explore detailed K14C calibration materials in the Knowledge Base or ask a technical question on Telegram.',
       gridNote:
