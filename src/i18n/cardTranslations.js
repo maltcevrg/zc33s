@@ -53,6 +53,12 @@ export const cardTranslations = {
       'Flashing with log verification',
     ],
     recommended: ['Modified exhaust system', 'Modified intake'],
+    tests: [
+      { label: 'Measured on a dyno', text: '184.1 hp at 5450 rpm' },
+      { label: 'Torque', text: '304.7 Nm at 2550 rpm' },
+      { label: 'SAE correction', text: '0.957' },
+      { label: 'Ambient temperature', text: '+14.2 °C' },
+    ],
     price: '5 000 ₽',
   },
   'Интеркулеры': {
