@@ -7,17 +7,21 @@ import ErrorBoundary from './ErrorBoundary';
 import RouteFallback from './RouteFallback';
 import { getSeoForPath, updateDocumentSeo } from '../data/seo';
 import { useLanguage } from '../i18n/I18nContext';
+import { syncUrlLang } from '../i18n/langUrl';
 
 function Layout() {
   const location = useLocation();
   const { lang } = useLanguage();
 
-  // Сбрасываем скролл и обновляем SEO-метаданные при смене маршрута или языка
+  // Сбрасываем скролл и обновляем SEO-метаданные при смене маршрута или языка.
+  // Здесь же возвращаем ?lang= в адрес: роутер не знает о replaceState, поэтому
+  // после навигации вида setSearchParams({ module }) параметр языка теряется.
   useEffect(() => {
     window.scrollTo(0, 0);
     const seo = getSeoForPath(location.pathname, lang);
     updateDocumentSeo(seo);
-  }, [location.pathname, lang]);
+    syncUrlLang(lang);
+  }, [location.pathname, location.search, lang]);
 
   return (
     <>
