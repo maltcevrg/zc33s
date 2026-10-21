@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { extname, join, relative, resolve, sep } from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { getSeoForPath } from './src/data/seo.js';
+import { getSeoForPath, SEO_DATA } from './src/data/seo.js';
 
 const imageExtensions = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.svg', '.webp']);
 const collator = new Intl.Collator('ru', { numeric: true });
@@ -220,28 +220,24 @@ function cardsPlugin({ directory, moduleId, name }) {
   };
 }
 
-// Маршруты приложения (см. src/App.jsx). GitHub Pages не умеет SPA-фолбэк,
-// поэтому для каждого раздела нужна собственная оболочка index.html —
-// иначе прямая ссылка и обновление страницы на /zc33s/tuning отдают 404.
+// Маршруты приложения. GitHub Pages не умеет SPA-фолбэк, поэтому для каждого
+// раздела нужна собственная оболочка index.html — иначе прямая ссылка и
+// обновление страницы на /zc33s/tuning отдают 404.
+//
+// Список берётся из реестра SEO-метаданных (src/data/seo.js), а не
+// переписывается руками: новая страница = новый ключ в seoContent, и оболочка
+// появится сама. Оболочки нужны и редиректам — иначе прямая ссылка на /faq
+// упрётся в 404 GitHub Pages раньше, чем сработает роутер.
+const REDIRECT_ROUTES = [
+  { path: '/faq', seoPath: '/knowledge' },
+  { path: '/purchase', seoPath: '/consultations' },
+];
+
 const spaRoutes = [
-  'tuning',
-  'service',
-  'faq',
-  'custom',
-  'catalog',
-  'warranty',
-  'consultations',
-  'purchase',
-  'about',
-  'privacy',
-  'legal',
-  'knowledge',
-  'knowledge/zc33s-faq',
-  'knowledge/ecu-flashing',
-  'knowledge/tuning-stages',
-  'knowledge/buying-zc33s',
-  'knowledge/diagnostics',
-  'knowledge/hardware',
+  ...Object.keys(SEO_DATA)
+    .filter((path) => path !== '/' && path !== '/404')
+    .map((path) => ({ path, seoPath: path })),
+  ...REDIRECT_ROUTES,
 ];
 
 function injectSeoToHtml(html, seo) {
@@ -265,6 +261,21 @@ function injectSeoToHtml(html, seo) {
       /<meta property="og:url" content=".*?" \/>/s,
       `<meta property="og:url" content="${seo.canonical}" />`
     );
+  }
+  if (seo.alternates) {
+    for (const [code, href] of Object.entries(seo.alternates)) {
+      const tag = `<link rel="alternate" hreflang="${code}" href="${href}" />`;
+      const existing = new RegExp(`<link rel="alternate" hreflang="${code}" href=".*?" />`, 's');
+      result = existing.test(result)
+        ? result.replace(existing, tag)
+        : result.replace('</head>', `  ${tag}\n  </head>`);
+    }
+  }
+  if (seo.robots) {
+    const tag = `<meta name="robots" content="${seo.robots}" />`;
+    result = result.includes('<meta name="robots"')
+      ? result.replace(/<meta name="robots" content=".*?" \/>/s, tag)
+      : result.replace('</head>', `  ${tag}\n  </head>`);
   }
   if (seo.ogTitle || seo.title) {
     const titleVal = seo.ogTitle || seo.title;
@@ -316,26 +327,17 @@ function spaFallbackPlugin(routes) {
 
       const shell = readFileSync(shellPath, 'utf8');
       for (const route of routes) {
-        const routeDirectory = join(outDir, route);
+        const routeDirectory = join(outDir, route.path);
         mkdirSync(routeDirectory, { recursive: true });
-        const routePath = route.startsWith('/') ? route : `/${route}`;
-        const routeSeo = getSeoForPath(routePath);
+        const routeSeo = getSeoForPath(route.seoPath);
         const routeHtml = injectSeoToHtml(shell, routeSeo);
         writeFileSync(join(routeDirectory, 'index.html'), routeHtml);
       }
 
       // Неизвестный адрес Pages отдаст со статусом 404, а роутер перенаправит
-      // на NotFoundPage (catch-all в src/App.jsx).
-      const notFoundSeo = {
-        title: '404 — Страница не найдена | SST',
-        description:
-          'Страница не найдена. Возможно, материал был перемещён. Перейдите на главную или откройте базу знаний.',
-        canonical: 'https://maltcevrg.github.io/zc33s/404',
-        ogTitle: '404 — Страница не найдена | SST',
-        ogDescription:
-          'Страница не найдена. Возможно, материал был перемещён. Перейдите на главную или откройте базу знаний.',
-        ogImage: 'https://maltcevrg.github.io/zc33s/images/main_page-1920.jpg',
-      };
+      // на NotFoundPage (catch-all в src/App.jsx). noindex — чтобы ошибочный
+      // адрес не попал в индекс вместо главной.
+      const notFoundSeo = { ...getSeoForPath('/404'), robots: 'noindex, follow' };
       writeFileSync(join(outDir, '404.html'), injectSeoToHtml(shell, notFoundSeo));
     },
   };

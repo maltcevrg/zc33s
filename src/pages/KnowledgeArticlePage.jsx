@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import ArticleMeta from '../components/ArticleMeta';
-import { getSeoForPath, updateDocumentSeo } from '../data/seo';
 import { useLanguage } from '../i18n/I18nContext';
 import { useArticleContent } from '../i18n/articles/useArticleContent';
+import { useScrolledPast } from '../hooks/useScrolledPast';
 
 function KnowledgeArticlePage() {
   const { slug } = useParams();
@@ -12,22 +11,7 @@ function KnowledgeArticlePage() {
   const article = (knowledge?.articles || []).find((a) => a.slug === slug);
 
   const { html, toc, status } = useArticleContent(lang, slug);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    const seo = getSeoForPath(`/knowledge/${slug}`, lang);
-    updateDocumentSeo(seo);
-  }, [slug, lang]);
-
-  useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 400);
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const scrolled = useScrolledPast(400);
 
   if (!article) {
     return <Navigate to="/knowledge" replace />;

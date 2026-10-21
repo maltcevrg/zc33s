@@ -3,13 +3,44 @@ import { translations } from './translations';
 
 const STORAGE_KEY = 'sst_lang';
 const SUPPORTED = ['ru', 'en'];
+// Язык хранится ещё и в адресе (?lang=en), чтобы ссылкой можно было поделиться
+// и чтобы версия на другом языке нормально индексировалась. Русский — язык
+// по умолчанию, для него адрес остаётся чистым.
+const LANG_PARAM = 'lang';
+
+function readUrlLang() {
+  try {
+    const value = new URLSearchParams(window.location.search).get(LANG_PARAM);
+    return SUPPORTED.includes(value) ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+function syncUrlLang(lang) {
+  try {
+    const url = new URL(window.location.href);
+    const current = url.searchParams.get(LANG_PARAM);
+    const next = lang === 'ru' ? null : lang;
+    if (current === next) return;
+    if (next === null) {
+      url.searchParams.delete(LANG_PARAM);
+    } else {
+      url.searchParams.set(LANG_PARAM, next);
+    }
+    // replaceState: переключение языка не должно засорять историю браузера.
+    window.history.replaceState(window.history.state, '', url);
+  } catch {}
+}
 
 function getInitialLang() {
+  // Приоритет: явный ?lang= в адресе → выбор пользователя → язык браузера → ru.
+  const fromUrl = readUrlLang();
+  if (fromUrl) return fromUrl;
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored && SUPPORTED.includes(stored)) return stored;
   } catch {}
-  // Попытка угадать по браузеру, fallback ru
   try {
     const nav = (navigator.language || '').toLowerCase();
     if (nav.startsWith('en')) return 'en';
@@ -24,7 +55,7 @@ function getNested(obj, path) {
 const I18nContext = createContext(null);
 
 export function LanguageProvider({ children }) {
-  const [lang, setLangState] = useState(() => getInitialLang());
+  const [lang, setLangState] = useState(getInitialLang);
 
   const setLang = useCallback((next) => {
     if (!SUPPORTED.includes(next)) return;
@@ -32,23 +63,27 @@ export function LanguageProvider({ children }) {
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {}
-    try {
-      document.documentElement.lang = next;
-    } catch {}
+    syncUrlLang(next);
   }, []);
 
-  // Инициализация атрибута html lang и реакции на смену языка
+  // Атрибут html lang, запоминание языка и адрес страницы всегда соответствуют
+  // текущему состоянию — в том числе когда язык пришёл из ?lang=.
   useEffect(() => {
     try {
       document.documentElement.lang = lang;
     } catch {}
+    syncUrlLang(lang);
   }, [lang]);
 
-  // Загрузка сохранённого языка при монтировании (для SSR-подобной гидратации)
+  // Навигация «назад/вперёд» по ссылкам с разным ?lang= не перезагружает
+  // страницу, поэтому язык берём из адреса вручную.
   useEffect(() => {
-    const current = getInitialLang();
-    if (current !== lang) setLangState(current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const onPopState = () => {
+      const fromUrl = readUrlLang() || 'ru';
+      setLangState((prev) => (prev === fromUrl ? prev : fromUrl));
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
   const t = useCallback(

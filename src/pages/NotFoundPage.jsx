@@ -1,23 +1,10 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { updateDocumentSeo } from '../data/seo';
 import { useLanguage } from '../i18n/I18nContext';
 
 function NotFoundPage() {
-  const { t, lang } = useLanguage();
+  // Заголовок и noindex для 404 ставит Layout (единый источник SEO-метаданных).
+  const { t } = useLanguage();
   const content = t('notFound');
-
-  useEffect(() => {
-    const seo = (t('seo') || {})['/404'] || {
-      title: '404 — Страница не найдена | SST',
-      description: content?.text,
-    };
-    updateDocumentSeo({
-      title: `404 — ${content?.title} | SST`,
-      description: content?.text,
-      ...seo,
-    });
-  }, [lang, content, t]);
 
   return (
     <section className="page not-found-page">

@@ -1,11 +1,16 @@
 // Единый реестр метаданных для поисковой оптимизации (SEO) и Open Graph.
 // Используется как при динамической смене страниц в React SPA,
 // так и при генерации статических HTML-оболочек при сборке.
+//
+// Язык живёт в query-параметре (?lang=en), поэтому здесь же считаются
+// языковые адреса: canonical и hreflang-альтернативы.
 
 import { seoContent } from '../i18n/content/seo.js';
 
 export const SITE_URL = 'https://maltcevrg.github.io/zc33s';
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/main_page-1920.jpg`;
+export const DEFAULT_LANG = 'ru';
+export const SUPPORTED_LANGS = ['ru', 'en'];
 
 export const SEO_DATA = seoContent.ru;
 
@@ -22,29 +27,102 @@ const FALLBACK = {
   },
 };
 
-export function getSeoForPath(pathname, lang = 'ru') {
-  // Нормализуем путь: убираем завершающий слэш, если он не корневой
+/** Нормализует путь: убирает завершающий слэш и префикс base path. */
+export function normalizePath(pathname = '') {
   let clean = pathname.replace(/\/$/, '') || '/';
-  // Если зашли по префиксу /zc33s (base path)
   if (clean.startsWith('/zc33s')) {
     clean = clean.slice('/zc33s'.length) || '/';
   }
+  return clean;
+}
 
-  const dictionary = seoContent[lang] || seoContent.ru;
-  const found = dictionary[clean];
-  if (found) return found;
+/**
+ * Языковой адрес страницы: русская версия — чистый путь, английская — ?lang=en.
+ * Английский адрес отличается от русского, иначе поисковик считал бы это
+ * дублем и не показывал бы EN-версию отдельно.
+ */
+export function localizedUrl(cleanPath, lang) {
+  const url = `${SITE_URL}${cleanPath === '/' ? '/' : cleanPath}`;
+  if (lang === DEFAULT_LANG || !SUPPORTED_LANGS.includes(lang)) return url;
+  return `${url}?lang=${lang}`;
+}
 
-  const fallback = FALLBACK[lang] || FALLBACK.ru;
+function buildAlternates(cleanPath) {
   return {
-    title: fallback.title,
-    description: fallback.description,
-    canonical: `${SITE_URL}${clean === '/' ? '/' : clean}`,
-    ogTitle: fallback.title,
-    ogDescription: fallback.description,
-    ogImage: DEFAULT_OG_IMAGE,
+    ru: localizedUrl(cleanPath, 'ru'),
+    en: localizedUrl(cleanPath, 'en'),
+    'x-default': localizedUrl(cleanPath, DEFAULT_LANG),
   };
 }
 
+/**
+ * Метаданные маршрута: заголовок, описание, canonical, OG и языковые альтернативы.
+ * Для неизвестного пути возвращает страницу 404 с noindex, а не заголовок главной.
+ */
+export function getSeoForPath(pathname, lang = DEFAULT_LANG) {
+  const clean = normalizePath(pathname);
+  const dictionary = seoContent[lang] || seoContent.ru;
+  const found = dictionary[clean];
+
+  if (found) {
+    return {
+      ...found,
+      canonical: localizedUrl(clean, lang),
+      alternates: buildAlternates(clean),
+      robots: null,
+    };
+  }
+
+  const notFound = dictionary['/404'] || seoContent.ru['/404'];
+  const fallback = FALLBACK[lang] || FALLBACK.ru;
+
+  return {
+    ...notFound,
+    title: notFound?.title || fallback.title,
+    description: notFound?.description || fallback.description,
+    canonical: localizedUrl(clean, lang),
+    alternates: buildAlternates(clean),
+    // Страница-ошибка не должна попадать в индекс, но ссылки с неё обходить можно.
+    robots: 'noindex, follow',
+    isNotFound: true,
+  };
+}
+
+function upsertTag(selector, create, attrs) {
+  let el = document.head.querySelector(selector);
+  if (!el) {
+    el = document.createElement(create);
+    document.head.appendChild(el);
+  }
+  Object.entries(attrs).forEach(([name, value]) => el.setAttribute(name, value));
+  return el;
+}
+
+function removeTag(selector) {
+  document.head.querySelector(selector)?.remove();
+}
+
+function setMetaTag(attrName, attrValue, content) {
+  if (!content) {
+    removeTag(`meta[${attrName}="${attrValue}"]`);
+    return;
+  }
+  upsertTag(`meta[${attrName}="${attrValue}"]`, 'meta', { [attrName]: attrValue, content });
+}
+
+function setLinkTag(rel, href) {
+  if (!href) {
+    removeTag(`link[rel="${rel}"]`);
+    return;
+  }
+  upsertTag(`link[rel="${rel}"]`, 'link', { rel, href });
+}
+
+/**
+ * Обновляет document.head под переданные метаданные.
+ * Теги, которых больше не должно быть (robots, hreflang), снимаются —
+ * иначе при переходе с 404 на обычную страницу остался бы noindex.
+ */
 export function updateDocumentSeo(meta) {
   if (typeof document === 'undefined') return;
 
@@ -52,29 +130,8 @@ export function updateDocumentSeo(meta) {
     document.title = meta.title;
   }
 
-  const setMetaTag = (attrName, attrValue, content) => {
-    if (!content) return;
-    let el = document.querySelector(`meta[${attrName}="${attrValue}"]`);
-    if (!el) {
-      el = document.createElement('meta');
-      el.setAttribute(attrName, attrValue);
-      document.head.appendChild(el);
-    }
-    el.setAttribute('content', content);
-  };
-
-  const setLinkTag = (rel, href) => {
-    if (!href) return;
-    let el = document.querySelector(`link[rel="${rel}"]`);
-    if (!el) {
-      el = document.createElement('link');
-      el.setAttribute('rel', rel);
-      document.head.appendChild(el);
-    }
-    el.setAttribute('href', href);
-  };
-
   setMetaTag('name', 'description', meta.description);
+  setMetaTag('name', 'robots', meta.robots || null);
   setLinkTag('canonical', meta.canonical);
 
   setMetaTag('property', 'og:type', 'website');
@@ -89,4 +146,19 @@ export function updateDocumentSeo(meta) {
   setMetaTag('name', 'twitter:title', meta.ogTitle || meta.title);
   setMetaTag('name', 'twitter:description', meta.ogDescription || meta.description);
   setMetaTag('name', 'twitter:image', meta.ogImage || DEFAULT_OG_IMAGE);
+
+  // Языковые альтернативы для поисковиков: ru / en / x-default.
+  const alternates = meta.alternates || {};
+  SUPPORTED_LANGS.forEach((code) =>
+    upsertTag(`link[rel="alternate"][hreflang="${code}"]`, 'link', {
+      rel: 'alternate',
+      hreflang: code,
+      href: alternates[code] || '',
+    })
+  );
+  upsertTag('link[rel="alternate"][hreflang="x-default"]', 'link', {
+    rel: 'alternate',
+    hreflang: 'x-default',
+    href: alternates['x-default'] || alternates[DEFAULT_LANG] || '',
+  });
 }

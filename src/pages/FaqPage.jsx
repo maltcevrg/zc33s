@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../i18n/I18nContext';
 import { useArticleContent } from '../i18n/articles/useArticleContent';
+import { useScrolledPast } from '../hooks/useScrolledPast';
 
 // Модули FAQ (обратная совместимость со старыми ссылками ?module=01…04).
 const MODULE_SLUGS = {
@@ -81,13 +82,7 @@ export default function FaqPage() {
     if (m && validModules.includes(m)) activeModule = m;
   } catch {}
 
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    setScrolled(window.scrollY > 400);
-    const handler = () => setScrolled(window.scrollY > 400);
-    window.addEventListener('scroll', handler, { passive: true });
-    return () => window.removeEventListener('scroll', handler);
-  }, []);
+  const scrolled = useScrolledPast(400);
 
   const savePos = (n) => {
     try {
