@@ -88,6 +88,7 @@ export const translations = {
         title: 'Уровни тюнинга',
         lead: 'Четыре уровня конфигурации: какие узлы меняются, какое топливо требуется и какую мощность ориентировочно даёт каждый шаг.',
         note: 'Фактические показатели зависят от состояния автомобиля, состава оборудования, топлива, условий окружающей среды и индивидуальной настройки ECU.',
+        more: 'Все прошивки и характеристики →',
         table: {
           level: 'Уровень',
           config: 'Конфигурация',
@@ -378,6 +379,7 @@ export const translations = {
         title: 'Tuning Levels',
         lead: 'Four configuration levels: what changes, what fuel is required and what power each step delivers (approx).',
         note: 'Actual figures depend on vehicle condition, hardware, fuel, ambient conditions and ECU calibration.',
+        more: 'All tunes and specs →',
         table: {
           level: 'Level',
           config: 'Configuration',
