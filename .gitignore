@@ -14,3 +14,12 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+
+# Крупные бинарники не храним в git (см. images/README.md):
+# исходники изображений и PDF-каталог живут вне репозитория или в Git LFS.
+/images/*.jpg
+/images/*.png
+!/images/.gitkeep
+/catalog-*.pdf
+/*.pdf
+/public/images/main_page.jpg
