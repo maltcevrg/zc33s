@@ -3,7 +3,7 @@ import { Link, useParams, Navigate } from 'react-router-dom';
 import ArticleMeta from '../components/ArticleMeta';
 import { getSeoForPath, updateDocumentSeo } from '../data/seo';
 import { useLanguage } from '../i18n/I18nContext';
-import { buildArticleHtml } from '../utils/articleAnchors';
+import { useArticleContent } from '../i18n/articles/useArticleContent';
 
 function KnowledgeArticlePage() {
   const { slug } = useParams();
@@ -11,7 +11,7 @@ function KnowledgeArticlePage() {
   const knowledge = t('knowledge');
   const article = (knowledge?.articles || []).find((a) => a.slug === slug);
 
-  const [html, setHtml] = useState('');
+  const { html, toc, status } = useArticleContent(lang, slug);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -19,12 +19,6 @@ function KnowledgeArticlePage() {
     const seo = getSeoForPath(`/knowledge/${slug}`, lang);
     updateDocumentSeo(seo);
   }, [slug, lang]);
-
-  useEffect(() => {
-    if (article) {
-      setHtml(buildArticleHtml(article.html, article.toc));
-    }
-  }, [article]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -63,11 +57,11 @@ function KnowledgeArticlePage() {
           <ArticleMeta meta={article.meta} />
         </header>
 
-        {article.toc && article.toc.length > 0 && (
+        {toc.length > 0 && (
           <nav className="faq-article__toc" aria-label={knowledge?.tocTitle}>
             <h2 className="faq-article__toc-heading">{knowledge?.tocTitle}</h2>
             <ol className="faq-article__toc-list">
-              {article.toc.map((entry, idx) => {
+              {toc.map((entry, idx) => {
                 const cleanEntry = entry.replace(/^\d+[.)]\s*/, '');
                 return (
                   <li key={idx}>
@@ -82,7 +76,13 @@ function KnowledgeArticlePage() {
           </nav>
         )}
 
-        <div className="faq-article__content" dangerouslySetInnerHTML={{ __html: html || article.html }} />
+        {status === 'ready' ? (
+          <div className="faq-article__content" dangerouslySetInnerHTML={{ __html: html }} />
+        ) : (
+          <p className="faq-article__loading">
+            {status === 'loading' ? t('faq.loading') : t('faq.loadError')}
+          </p>
+        )}
 
         <div className="knowledge-article__bottom-nav">
           <Link to="/knowledge" className="knowledge-article__back-btn">

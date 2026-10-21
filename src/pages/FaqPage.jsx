@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../i18n/I18nContext';
-import { buildArticleHtml } from '../utils/articleAnchors';
+import { useArticleContent } from '../i18n/articles/useArticleContent';
 
 // Модули FAQ (обратная совместимость со старыми ссылками ?module=01…04).
 const MODULE_SLUGS = {
@@ -12,12 +12,8 @@ const MODULE_SLUGS = {
 };
 
 function FaqArticle({ article }) {
-  const { t } = useLanguage();
-  const [html, setHtml] = useState('');
-
-  useEffect(() => {
-    setHtml(buildArticleHtml(article.html, article.toc));
-  }, [article]);
+  const { t, lang } = useLanguage();
+  const { html, toc, status } = useArticleContent(lang, article.slug);
 
   return (
     <section className="faq-article">
@@ -32,12 +28,12 @@ function FaqArticle({ article }) {
         </button>
       </div>
 
-      {html ? (
+      {status === 'ready' ? (
         <>
           <nav className="faq-article__toc" aria-label={t('faq.tableOfContents')}>
             <h2 className="faq-article__toc-heading">{t('faq.sectionsTitle')}</h2>
             <ol className="faq-article__toc-list">
-              {article.toc.map((entry, idx) => {
+              {toc.map((entry, idx) => {
                 const cleanEntry = entry.replace(/^\d+[.)]\s*/, '');
                 return (
                   <li key={idx}>
@@ -52,8 +48,10 @@ function FaqArticle({ article }) {
           </nav>
           <div className="faq-article__content" dangerouslySetInnerHTML={{ __html: html }} />
         </>
-      ) : (
+      ) : status === 'loading' ? (
         <p className="faq-article__loading">{t('faq.loading')}</p>
+      ) : (
+        <p className="faq-article__error">{t('faq.loadError')}</p>
       )}
     </section>
   );

@@ -1,8 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
 import { translations } from '../src/i18n/translations.js';
 import { seoContent } from '../src/i18n/content/seo.js';
+
+const ARTICLES_DIR = fileURLToPath(new URL('../src/i18n/articles/', import.meta.url));
 
 const LANGS = ['ru', 'en'];
 
@@ -54,13 +59,31 @@ test('статьи базы знаний совпадают по слагам в
   assert.ok(slugs[0].length > 0, 'в словаре нет ни одной статьи');
 });
 
-test('у каждой статьи есть заголовок, лид, оглавление и HTML', () => {
+test('у каждой статьи есть метаданные и непустой лид', () => {
   for (const lang of LANGS) {
     for (const article of translations[lang].knowledge.articles) {
       assert.ok(article.title?.trim(), `${lang}/${article.slug}: нет title`);
       assert.ok(article.summary?.trim(), `${lang}/${article.slug}: нет summary`);
-      assert.ok(Array.isArray(article.toc) && article.toc.length > 0, `${lang}/${article.slug}: пустое toc`);
-      assert.ok(article.html?.includes('<p'), `${lang}/${article.slug}: пустой html`);
+      assert.ok(article.meta?.updated && article.meta?.reviewer, `${lang}/${article.slug}: нет meta`);
+      assert.ok(article.readingTime?.trim(), `${lang}/${article.slug}: нет readingTime`);
+    }
+  }
+});
+
+test('контент каждой статьи лежит в ленивом модуле', () => {
+  for (const lang of LANGS) {
+    for (const article of translations[lang].knowledge.articles) {
+      const path = `${ARTICLES_DIR}${lang}/${article.slug}.js`;
+      assert.ok(existsSync(path), `${lang}/${article.slug}: нет файла контента ${path}`);
+    }
+  }
+});
+
+test('тяжёлый HTML статьи не попадает в словарь интерфейса', () => {
+  for (const lang of LANGS) {
+    for (const article of translations[lang].knowledge.articles) {
+      assert.equal(article.html, undefined, `${lang}/${article.slug}: html должен грузиться лениво`);
+      assert.equal(article.toc, undefined, `${lang}/${article.slug}: toc должен грузиться лениво`);
     }
   }
 });

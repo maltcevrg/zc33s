@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Background from './Background';
 import ErrorBoundary from './ErrorBoundary';
+import RouteFallback from './RouteFallback';
 import { getSeoForPath, updateDocumentSeo } from '../data/seo';
 import { useLanguage } from '../i18n/I18nContext';
 
@@ -24,7 +25,9 @@ function Layout() {
       <Header />
       <main>
         <ErrorBoundary resetKey={`${location.pathname}:${lang}`}>
-          <Outlet />
+          <Suspense fallback={<RouteFallback />}>
+            <Outlet />
+          </Suspense>
         </ErrorBoundary>
       </main>
       <Footer />

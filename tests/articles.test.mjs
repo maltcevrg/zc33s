@@ -50,19 +50,23 @@ test('строка «Термин: продолжение текста» не с
   assert.deepEqual(anchorIds(result), [2]);
 });
 
-test('якоря находятся на своих местах в реальных статьях (RU и EN)', () => {
+test('якоря находятся на своих местах в реальных статьях (RU и EN)', async () => {
+  // Контент статей грузится лениво из отдельных модулей — читаем их напрямую,
+  // ровно так же, как это делает страница статьи.
   for (const lang of Object.keys(translations)) {
     const articles = translations[lang]?.knowledge?.articles || [];
 
     for (const article of articles) {
-      const html = buildArticleHtml(article.html, article.toc);
+      const url = new URL(`../src/i18n/articles/${lang}/${article.slug}.js`, import.meta.url);
+      const { toc, html: rawHtml } = await import(url.href);
+      const html = buildArticleHtml(rawHtml, toc);
       const ids = anchorIds(html);
       const ordered = ids.every((id, index) => index === 0 || id > ids[index - 1]);
 
-      assert.equal(ids.length, article.toc.length, `${lang}/${article.slug}: не все якоря расставлены`);
+      assert.equal(ids.length, toc.length, `${lang}/${article.slug}: не все якоря расставлены`);
       assert.deepEqual(
         ids,
-        article.toc.map((_, index) => index + 1),
+        toc.map((_, index) => index + 1),
         `${lang}/${article.slug}: порядок якорей`
       );
       assert.ok(ordered);

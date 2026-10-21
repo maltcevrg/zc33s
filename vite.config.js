@@ -356,6 +356,23 @@ export default defineConfig({
       name: 'custom-cards',
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        // React и роутер меняются редко, страницы — часто. Разные чанки дают
+        // кэшу браузера переиспользовать vendor после каждой выкатки контента.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined;
+          if (
+            /node_modules\/(react|react-dom|scheduler|react-router|react-router-dom|@remix-run)\//.test(id)
+          ) {
+            return 'vendor-react';
+          }
+          return 'vendor';
+        },
+      },
+    },
+  },
   base: '/zc33s/',
   server: {
     host: '0.0.0.0',
