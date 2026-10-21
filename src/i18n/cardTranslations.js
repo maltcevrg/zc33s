@@ -137,6 +137,13 @@ export const cardTranslations = {
       { price: '80 000 ₽', text: 'When built from SST/GunRace donor turbo' },
     ],
     variantNotes: [],
+    tests: [
+      { label: 'Measured on a dyno, GR30', text: '220.4 hp at 5000 rpm' },
+      { label: 'Torque', text: '324.3 Nm at 4175 rpm' },
+      { label: 'Previous run', text: '212.3 hp' },
+      { label: 'SAE correction', text: '0.982' },
+      { label: 'Ambient temperature', text: '+19.1 °C' },
+    ],
     warranty: '6 months',
     priceNote: 'Indicative price for reference only and does not confirm availability or ability to order via the site.',
     price: '65 000 – 80 000 ₽',
