@@ -182,6 +182,12 @@ export const cardTranslations = {
       { price: '100 000 ₽', text: 'When built from SST/GunRace stock donor turbo' },
     ],
     variantNotes: ['ECU tuning and related expenses are calculated separately. Indicative for St. Petersburg, Moscow and Crimea: tuning — 30 000 ₽, logger work — 7 000 ₽, dyno session — 10 000–15 000 ₽ depending on duration.'],
+    tests: [
+      { label: 'Measured on a dyno, GR39', text: '244.8 hp at 5950 rpm' },
+      { label: 'Torque', text: '386.0 Nm at 2975 rpm' },
+      { label: 'SAE correction', text: '0.939' },
+      { label: 'Ambient temperature', text: '+12.7 °C' },
+    ],
     warranty: '6 months',
     priceNote: 'Indicative price for reference only and does not confirm availability or ability to order via the site.',
     price: '75 000 – 100 000 ₽',
