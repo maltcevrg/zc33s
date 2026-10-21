@@ -1,4 +1,4 @@
-import { CTA_LABEL, TELEGRAM_URL } from '../data/siteConfig';
+import { TELEGRAM_URL } from '../data/siteConfig';
 import { useLanguage } from '../i18n/I18nContext';
 
 // Компактный залитый самолётик: остаётся контрастным на светлой и тёмной кнопке.
@@ -33,12 +33,7 @@ function TelegramCta({ tone = 'dark', label, note = '', inline = false, classNam
 
   return (
     <div className={classes}>
-      <a
-        className="cta__button"
-        href={TELEGRAM_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a className="cta__button" href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">
         <SendIcon />
         <span>{displayLabel}</span>
       </a>

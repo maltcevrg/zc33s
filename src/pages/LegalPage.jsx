@@ -28,12 +28,11 @@ function LegalPage() {
       <div className="faq-article__content">
         {sections.map((section, index) => (
           <div key={section.title}>
-            <p><strong>{section.title}</strong></p>
+            <p>
+              <strong>{section.title}</strong>
+            </p>
             {section.paragraphs?.map((text, idx) => (
-              <p
-                key={idx}
-                dangerouslySetInnerHTML={{ __html: text }}
-              />
+              <p key={idx} dangerouslySetInnerHTML={{ __html: text }} />
             ))}
             {index === sections.length - 1 && (
               <p>

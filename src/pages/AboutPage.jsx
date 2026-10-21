@@ -41,9 +41,7 @@ function AboutPage() {
               {section.title}
             </h2>
 
-            {section.lead && (
-              <p className="about-section__text about-section__text--lead">{section.lead}</p>
-            )}
+            {section.lead && <p className="about-section__text about-section__text--lead">{section.lead}</p>}
 
             {section.paragraphs?.map((p, idx) => (
               <p className="about-section__text" key={idx}>
@@ -69,9 +67,7 @@ function AboutPage() {
               </blockquote>
             )}
 
-            {section.afterQuote && (
-              <p className="about-section__text">{section.afterQuote}</p>
-            )}
+            {section.afterQuote && <p className="about-section__text">{section.afterQuote}</p>}
           </section>
         ))}
       </div>

@@ -5,15 +5,6 @@ import { getSeoForPath, updateDocumentSeo } from '../data/seo';
 import { useLanguage } from '../i18n/I18nContext';
 import { buildArticleHtml } from '../utils/articleAnchors';
 
-function scrollToSectionByIndex(idx) {
-  requestAnimationFrame(() => {
-    const target = document.getElementById('section-' + idx);
-    if (!target) return;
-    const rect = target.getBoundingClientRect();
-    window.scrollTo({ top: Math.max(0, window.scrollY + rect.top - 84), behavior: 'smooth' });
-  });
-}
-
 function KnowledgeArticlePage() {
   const { slug } = useParams();
   const { t, lang } = useLanguage();
@@ -77,16 +68,10 @@ function KnowledgeArticlePage() {
             <h2 className="faq-article__toc-heading">{knowledge?.tocTitle}</h2>
             <ol className="faq-article__toc-list">
               {article.toc.map((entry, idx) => {
-                const cleanEntry = entry.replace(/^\d+[\.\)]\s*/, '');
+                const cleanEntry = entry.replace(/^\d+[.)]\s*/, '');
                 return (
                   <li key={idx}>
-                    <a
-                      href={`#section-${idx + 1}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSectionByIndex(idx + 1);
-                      }}
-                    >
+                    <a href={`#section-${idx + 1}`}>
                       <span className="toc-num">{idx + 1}.</span>
                       <span className="toc-title">{cleanEntry}</span>
                     </a>
@@ -97,10 +82,7 @@ function KnowledgeArticlePage() {
           </nav>
         )}
 
-        <div
-          className="faq-article__content"
-          dangerouslySetInnerHTML={{ __html: html || article.html }}
-        />
+        <div className="faq-article__content" dangerouslySetInnerHTML={{ __html: html || article.html }} />
 
         <div className="knowledge-article__bottom-nav">
           <Link to="/knowledge" className="knowledge-article__back-btn">

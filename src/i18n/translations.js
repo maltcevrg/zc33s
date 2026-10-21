@@ -221,7 +221,6 @@ export const translations = {
       updated: 'Обновлено:',
       reviewedBy: 'Проверил:',
       compatibility: 'Применимость:',
-      compatibilityNote: '',
       readingTime: 'мин',
       categories: {
         all: 'Все материалы',
@@ -293,7 +292,7 @@ export const translations = {
       sectionsTitle: 'Разделы статьи',
       tableOfContents: 'Оглавление',
     },
-    articleMeta: { updated: 'Обновлено:', reviewer: 'Проверил:', compatibility: 'Применимость:', note: '', toTop: 'Наверх', metaLabel: 'Метаданные материала' },
+    articleMeta: { updated: 'Обновлено:', reviewer: 'Проверил:', compatibility: 'Применимость:', toTop: 'Наверх', metaLabel: 'Метаданные материала' },
     notFound: {
       title: 'Страница не найдена',
       text: 'Возможно, материал был перемещён. Перейдите на главную или откройте базу знаний.',
@@ -592,7 +591,7 @@ export const translations = {
       sectionsTitle: 'Article sections',
       tableOfContents: 'Table of contents',
     },
-    articleMeta: { updated: 'Updated:', reviewer: 'Reviewed by:', compatibility: 'Compatibility:', note: '', toTop: 'Back to top', metaLabel: 'Article metadata' },
+    articleMeta: { updated: 'Updated:', reviewer: 'Reviewed by:', compatibility: 'Compatibility:', toTop: 'Back to top', metaLabel: 'Article metadata' },
     notFound: {
       title: 'Page not found',
       text: 'The material may have been moved. Go to the homepage or open the knowledge base.',

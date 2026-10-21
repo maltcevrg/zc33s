@@ -28,17 +28,14 @@ function PrivacyPage() {
       <div className="faq-article__content">
         {sections.map((section, index) => (
           <div key={section.title}>
-            <p><strong>{section.title}</strong></p>
+            <p>
+              <strong>{section.title}</strong>
+            </p>
 
-            {section.intro && (
-              <p dangerouslySetInnerHTML={{ __html: section.intro }} />
-            )}
+            {section.intro && <p dangerouslySetInnerHTML={{ __html: section.intro }} />}
 
             {section.paragraphs?.map((text, idx) => (
-              <p
-                key={idx}
-                dangerouslySetInnerHTML={{ __html: text }}
-              />
+              <p key={idx} dangerouslySetInnerHTML={{ __html: text }} />
             ))}
 
             {section.list && (

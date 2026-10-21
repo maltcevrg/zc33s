@@ -58,6 +58,7 @@ function Header() {
     lockScroll();
 
     openerRef.current = document.activeElement;
+    const burger = burgerRef.current;
 
     // Focus moves inside nav drawer
     const nav = navRef.current;
@@ -104,8 +105,8 @@ function Header() {
       unlockScroll();
       if (openerRef.current instanceof HTMLElement && document.contains(openerRef.current)) {
         openerRef.current.focus({ preventScroll: true });
-      } else if (burgerRef.current) {
-        burgerRef.current.focus({ preventScroll: true });
+      } else if (burger) {
+        burger.focus({ preventScroll: true });
       }
     };
   }, [menuOpen]);
@@ -149,7 +150,7 @@ function Header() {
         <NavLink
           to="/"
           className="header__logo"
-          onClick={(e) => {
+          onClick={() => {
             handleNavClick();
             handleLogoClick();
           }}
@@ -209,11 +210,7 @@ function Header() {
           </nav>
 
           {menuOpen && (
-            <div
-              className="header__overlay"
-              onClick={() => setMenuOpen(false)}
-              aria-hidden="true"
-            />
+            <div className="header__overlay" onClick={() => setMenuOpen(false)} aria-hidden="true" />
           )}
 
           <div className="header__actions">
@@ -258,10 +255,7 @@ function Header() {
         createPortal(
           <div className={`easter-egg easter-egg--${eggPhase}`}>
             <picture>
-              <source
-                type="image/webp"
-                srcSet={`${import.meta.env.BASE_URL}images/kolenka.webp`}
-              />
+              <source type="image/webp" srcSet={`${import.meta.env.BASE_URL}images/kolenka.webp`} />
               <img
                 src={`${import.meta.env.BASE_URL}images/kolenka.jpg`}
                 alt={t('header.easterEggAlt')}

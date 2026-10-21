@@ -137,7 +137,11 @@
   border-radius: 999px;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
   flex-shrink: 0;
 }
 
@@ -173,7 +177,10 @@
   border: 1px solid var(--color-border);
   border-radius: 22px;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .catalog-card:hover {
@@ -240,7 +247,8 @@
   align-items: center;
   gap: 6px;
   padding: 5px 10px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   font-size: 0.84rem;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -250,7 +258,10 @@
   border-radius: 8px;
   cursor: pointer;
   user-select: all;
-  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.12s ease;
   position: relative;
 }
 
@@ -283,8 +294,14 @@
 }
 
 @keyframes badge-copied-pop {
-  from { opacity: 0; transform: translate(-50%, 4px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, 4px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 /* Описание и аналоги внутри карточки */
@@ -358,7 +375,10 @@
   text-decoration: none;
   font-weight: 650;
   font-size: 0.95rem;
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .catalog-store-card:hover {
@@ -370,7 +390,9 @@
 .catalog-store-card__arrow {
   display: inline-flex;
   color: var(--color-text-muted);
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 
 .catalog-store-card:hover .catalog-store-card__arrow {

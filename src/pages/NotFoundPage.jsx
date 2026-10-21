@@ -17,7 +17,7 @@ function NotFoundPage() {
       description: content?.text,
       ...seo,
     });
-  }, [lang, content]);
+  }, [lang, content, t]);
 
   return (
     <section className="page not-found-page">

@@ -44,7 +44,9 @@ function WarrantyPage() {
             </h2>
 
             {section.paragraphs?.map((paragraph) => (
-              <p className="warranty-section__text" key={paragraph}>{paragraph}</p>
+              <p className="warranty-section__text" key={paragraph}>
+                {paragraph}
+              </p>
             ))}
 
             {section.list && (
@@ -56,7 +58,9 @@ function WarrantyPage() {
             )}
 
             {section.notes?.map((note) => (
-              <p className="warranty-section__note" key={note}>{note}</p>
+              <p className="warranty-section__note" key={note}>
+                {note}
+              </p>
             ))}
           </section>
         ))}

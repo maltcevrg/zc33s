@@ -11,15 +11,6 @@ const MODULE_SLUGS = {
   '04': 'buying-zc33s',
 };
 
-function scrollToSectionByIndex(idx) {
-  requestAnimationFrame(() => {
-    const target = document.getElementById('section-' + idx);
-    if (!target) return;
-    const rect = target.getBoundingClientRect();
-    window.scrollTo({ top: Math.max(0, window.scrollY + rect.top - 76), behavior: 'smooth' });
-  });
-}
-
 function FaqArticle({ article }) {
   const { t } = useLanguage();
   const [html, setHtml] = useState('');
@@ -47,10 +38,10 @@ function FaqArticle({ article }) {
             <h2 className="faq-article__toc-heading">{t('faq.sectionsTitle')}</h2>
             <ol className="faq-article__toc-list">
               {article.toc.map((entry, idx) => {
-                const cleanEntry = entry.replace(/^\d+[\.\)]\s*/, '');
+                const cleanEntry = entry.replace(/^\d+[.)]\s*/, '');
                 return (
                   <li key={idx}>
-                    <a href="#" onClick={(e) => { e.preventDefault(); scrollToSectionByIndex(idx + 1); }}>
+                    <a href={`#section-${idx + 1}`}>
                       <span className="toc-num">{idx + 1}.</span>
                       <span className="toc-title">{cleanEntry}</span>
                     </a>
@@ -101,12 +92,12 @@ export default function FaqPage() {
   }, []);
 
   const savePos = (n) => {
-    try { const el = document.querySelector('[data-module="' + n + '"]'); if (el) localStorage.setItem('faq-scroll-' + n, String(el.getBoundingClientRect().top + window.scrollY)); } catch {}
+    try {
+      const el = document.querySelector('[data-module="' + n + '"]');
+      if (el)
+        localStorage.setItem('faq-scroll-' + n, String(el.getBoundingClientRect().top + window.scrollY));
+    } catch {}
   };
-  const restorePos = (n) => {
-    try { const p = localStorage.getItem('faq-scroll-' + n); if (p && !isNaN(+p)) window.scrollTo({ top: +p, behavior: 'smooth' }); } catch {}
-  };
-
   return (
     <>
       <button
@@ -130,7 +121,12 @@ export default function FaqPage() {
                   <button
                     className="faq-module__link"
                     type="button"
-                    onClick={() => { savePos(mod.number); setSearchParams({ module: mod.number }); forceUpdate(n => n + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    onClick={() => {
+                      savePos(mod.number);
+                      setSearchParams({ module: mod.number });
+                      forceUpdate((n) => n + 1);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                   >
                     {t('faq.openSection')}
                   </button>

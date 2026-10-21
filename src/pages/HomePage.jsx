@@ -67,12 +67,7 @@ function HomePage() {
           <p className="home__hero-subtitle">{heroBlock.subtitle}</p>
 
           {/* Основной CTA ведёт на консультацию в официальном Telegram-контакте. */}
-          <TelegramCta
-            className="home__hero-cta"
-            tone="light"
-            inline
-            note={t('home.heroCtaNoteLong')}
-          />
+          <TelegramCta className="home__hero-cta" tone="light" inline note={t('home.heroCtaNoteLong')} />
         </div>
       </section>
 
@@ -80,9 +75,7 @@ function HomePage() {
       <TuningLevels />
 
       {/* ===== Главные разделы ===== */}
-      <section
-        className={`home__grid${visibleHomeSections.length % 2 ? ' home__grid--odd' : ''}`}
-      >
+      <section className={`home__grid${visibleHomeSections.length % 2 ? ' home__grid--odd' : ''}`}>
         {visibleHomeSections.map((section) => {
           const title = t(`${SECTION_I18N_KEY[section.id]}.title`);
           const desc = t(`${SECTION_I18N_KEY[section.id]}.desc`);
@@ -90,10 +83,7 @@ function HomePage() {
             <Link key={section.id} to={section.link} className="home__card">
               <div className="home__card-image">
                 <picture>
-                  <source
-                    type="image/webp"
-                    srcSet={imageUrl(section.img.replace(/\.jpg$/, '.webp'))}
-                  />
+                  <source type="image/webp" srcSet={imageUrl(section.img.replace(/\.jpg$/, '.webp'))} />
                   <img
                     src={imageUrl(section.img)}
                     alt={`Illustration: ${title}`}

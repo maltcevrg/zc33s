@@ -166,7 +166,9 @@ function cardsPlugin({ directory, moduleId, name }) {
       const cards = folders.map((folder) => {
         const folderPath = join(cardsDirectory, folder.name);
         const entries = readdirSync(folderPath, { withFileTypes: true });
-        const textFile = entries.find((entry) => entry.isFile() && extname(entry.name).toLowerCase() === '.txt');
+        const textFile = entries.find(
+          (entry) => entry.isFile() && extname(entry.name).toLowerCase() === '.txt'
+        );
 
         if (textFile) this.addWatchFile(join(folderPath, textFile.name));
         const { hasHeader, order, ...details } = parseCard(
@@ -194,7 +196,8 @@ function cardsPlugin({ directory, moduleId, name }) {
           return variable;
         });
 
-        if (!textFile) this.warn(`[${name}] В папке «${folder.name}» нет .txt файла, используется имя папки.`);
+        if (!textFile)
+          this.warn(`[${name}] В папке «${folder.name}» нет .txt файла, используется имя папки.`);
         else if (!hasHeader) this.warn(`[${name}] В карточке «${folder.name}» не найдено поле HEADER.`);
         if (images.length === 0) this.warn(`[${name}] В карточке «${folder.name}» нет картинок.`);
 

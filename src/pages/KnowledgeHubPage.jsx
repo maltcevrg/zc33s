@@ -43,26 +43,37 @@ function KnowledgeHubPage() {
       <div className="knowledge-categories-overview">
         <h2 className="knowledge-categories-overview__title">{content?.categoriesTitle}</h2>
         <div className="knowledge-categories-grid">
-          {categories.filter((c) => c.id !== 'all').map((cat) => (
-            <article
-              key={cat.id}
-              className={`knowledge-cat-card${activeCategory === cat.id ? ' knowledge-cat-card--active' : ''}`}
-              onClick={() => setActiveCategory(cat.id)}
-            >
-              <div className="knowledge-cat-card__header">
-                <span className="knowledge-cat-card__id">{cat.title}</span>
-                <span className="knowledge-cat-card__arrow">→</span>
-              </div>
-              <p className="knowledge-cat-card__desc">{cat.desc}</p>
-              <ul className="knowledge-cat-card__topics">
-                {cat.topics.map((topic) => (
-                  <li key={topic} className="knowledge-cat-card__topic">
-                    {topic}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+          {categories
+            .filter((c) => c.id !== 'all')
+            .map((cat) => (
+              <article
+                key={cat.id}
+                className={`knowledge-cat-card${activeCategory === cat.id ? ' knowledge-cat-card--active' : ''}`}
+                role="button"
+                tabIndex={0}
+                aria-pressed={activeCategory === cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    setActiveCategory(cat.id);
+                  }
+                }}
+              >
+                <div className="knowledge-cat-card__header">
+                  <span className="knowledge-cat-card__id">{cat.title}</span>
+                  <span className="knowledge-cat-card__arrow">→</span>
+                </div>
+                <p className="knowledge-cat-card__desc">{cat.desc}</p>
+                <ul className="knowledge-cat-card__topics">
+                  {cat.topics.map((topic) => (
+                    <li key={topic} className="knowledge-cat-card__topic">
+                      {topic}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
         </div>
       </div>
 
@@ -88,9 +99,7 @@ function KnowledgeHubPage() {
         {filteredArticles.map((article) => (
           <article className="knowledge-card" key={article.slug}>
             <div className="knowledge-card__top">
-              <span className="knowledge-card__category">
-                {getCategoryTitle(article.category)}
-              </span>
+              <span className="knowledge-card__category">{getCategoryTitle(article.category)}</span>
               <span className="knowledge-card__time">{article.readingTime}</span>
             </div>
 

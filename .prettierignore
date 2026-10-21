@@ -1,0 +1,23 @@
+# Артефакты и зависимости
+dist/
+node_modules/
+package-lock.json
+public/
+
+# Стили и шрифты
+src/styles/
+src/assets/
+
+# Лонгриды и словари: длинные строки контента, форматирование их только портит.
+# Эти файлы правятся вручную или генерируются из Word (см. WordTextForFAQ/).
+src/data/
+src/i18n/translations.js
+src/i18n/knowledgeEn.js
+src/i18n/cardTranslations.js
+src/i18n/content/
+
+# Материалы и документация
+WordTextForFAQ/
+docs/
+images/
+*.md

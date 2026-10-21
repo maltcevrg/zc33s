@@ -9,7 +9,8 @@ import { useLanguage } from '../i18n/I18nContext';
 // «Расчётная мощность» показываем только там, где в тексте карточки действительно
 // заявлены расчётные лошадиные силы, — иначе подпись была бы не по делу.
 // Используется для старых карточек, заполненных только полем DESC.
-const hasPowerEstimate = (description = '') => /расч[её]тн/i.test(description) && /л\.?\s*с/i.test(description);
+const hasPowerEstimate = (description = '') =>
+  /расч[её]тн/i.test(description) && /л\.?\s*с/i.test(description);
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -49,7 +50,9 @@ function RequirementList({ items, tone }) {
   if (!items.length) return null;
   return (
     <div className={`req-list req-list--${tone}`}>
-      <h4 className="req-list__title">{tone === 'required' ? t('product.required') : t('product.recommended')}</h4>
+      <h4 className="req-list__title">
+        {tone === 'required' ? t('product.required') : t('product.recommended')}
+      </h4>
       <ul className="req-list__items">
         {items.map((item, index) => (
           <li key={`${item}-${index}`}>{item}</li>
@@ -61,6 +64,8 @@ function RequirementList({ items, tone }) {
 
 function CardModal({ card, onClose }) {
   return createPortal(
+    // Клик по подложке закрывает окно; клавиатурный путь — Escape (см. обработчик ниже).
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div className="card-modal" role="dialog" aria-modal="true" aria-label={card.title} onClick={onClose}>
       <CardModalPanel card={card} onClose={onClose} />
     </div>,
@@ -169,7 +174,8 @@ export function CardModalPanel({ card, onClose }) {
   const variantNotes = card.variantNotes || [];
   const tests = card.tests || [];
   const summary = card.summary || card.description;
-  const priceNote = card.priceNote || (variants.length ? t('product.productPriceNote') : t('product.priceNote'));
+  const priceNote =
+    card.priceNote || (variants.length ? t('product.productPriceNote') : t('product.priceNote'));
   const hasStructuredContent =
     specs.length > 0 ||
     required.length > 0 ||
@@ -179,7 +185,14 @@ export function CardModalPanel({ card, onClose }) {
     Boolean(card.power);
 
   return (
-    <article ref={panelRef} tabIndex={-1} className="card-modal__panel" onClick={(event) => event.stopPropagation()}>
+    // Клик внутри панели не должен закрывать окно (гасим всплытие к подложке).
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    <article
+      ref={panelRef}
+      tabIndex={-1}
+      className="card-modal__panel"
+      onClick={(event) => event.stopPropagation()}
+    >
       <button className="card-modal__close" type="button" onClick={onClose} aria-label={t('product.close')}>
         <span />
         <span />
@@ -294,7 +307,9 @@ export function CardModalPanel({ card, onClose }) {
               ))}
             </ul>
             {variantNotes.map((note, index) => (
-              <p className="card-modal__note" key={`${note}-${index}`}>{note}</p>
+              <p className="card-modal__note" key={`${note}-${index}`}>
+                {note}
+              </p>
             ))}
             <p className="card-modal__note">{priceNote}</p>
           </Block>
@@ -303,7 +318,9 @@ export function CardModalPanel({ card, onClose }) {
         {card.warranty && (
           <Block title={t('product.warranty')}>
             <div className="warranty-note">
-              <p className="warranty-note__term">{t('product.warrantyTerm')} {card.warranty}</p>
+              <p className="warranty-note__term">
+                {t('product.warrantyTerm')} {card.warranty}
+              </p>
               <p className="card-modal__note">{t('product.warrantyNote')}</p>
               <Link className="warranty-note__link" to={WARRANTY_PATH} onClick={onClose}>
                 {t('product.warrantyMore')} →
@@ -385,7 +402,9 @@ function ProductCards({ cards }) {
               {card.highlights?.length > 0 && (
                 <span className="tuning-card__specs">
                   {card.highlights.map((item) => (
-                    <span className="tuning-card__chip" key={item}>{item}</span>
+                    <span className="tuning-card__chip" key={item}>
+                      {item}
+                    </span>
                   ))}
                 </span>
               )}
@@ -402,9 +421,7 @@ function ProductCards({ cards }) {
         ))}
       </div>
 
-      <p className="tuning-page__grid-note">
-        {t('tuning.gridNote')}
-      </p>
+      <p className="tuning-page__grid-note">{t('tuning.gridNote')}</p>
 
       {selectedCard && <CardModal card={selectedCard} onClose={() => setSelectedCard(null)} />}
     </>

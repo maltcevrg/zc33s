@@ -22,7 +22,10 @@ function CustomPage() {
       ) : (
         <div className="tuning-page__empty-state">
           <p className="page__text">{t('custom.empty')}</p>
-          <div className="tuning-page__empty-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginTop: '20px' }}>
+          <div
+            className="tuning-page__empty-actions"
+            style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginTop: '20px' }}
+          >
             <Link to="/knowledge" className="knowledge-card__btn">
               {t('cta.openKnowledge')}
             </Link>
