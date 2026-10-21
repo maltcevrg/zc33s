@@ -45,6 +45,7 @@ const CARD_FIELD_NAMES = [
   'PRICE_NOTE',
   'DESC',
   'PRICE',
+  'ORDER',
 ];
 
 // Строки списка: пустые отбрасываем, маркеры «-», «•», «*» в начале убираем.
@@ -111,6 +112,9 @@ export function parseCard(rawContent, folderName) {
     priceNote: fields.PRICE_NOTE || '',
     description: fields.DESC || '',
     price: fields.PRICE || '',
+    // Порядок на витрине: меньшее число — выше карточка. Пустое значение —
+    // карточка идёт после всех упорядоченных, в алфавитном порядке папок.
+    order: Number.isFinite(Number(fields.ORDER)) && fields.ORDER ? Number(fields.ORDER) : null,
   };
 }
 
@@ -165,7 +169,7 @@ function cardsPlugin({ directory, moduleId, name }) {
         const textFile = entries.find((entry) => entry.isFile() && extname(entry.name).toLowerCase() === '.txt');
 
         if (textFile) this.addWatchFile(join(folderPath, textFile.name));
-        const { hasHeader, ...details } = parseCard(
+        const { hasHeader, order, ...details } = parseCard(
           textFile ? readFileSync(join(folderPath, textFile.name), 'utf8') : '',
           folder.name
         );
@@ -197,10 +201,18 @@ function cardsPlugin({ directory, moduleId, name }) {
         const fields = Object.entries({ id: folder.name, ...details })
           .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
           .join(', ');
-        return `{ ${fields}, images: [${images.join(', ')}] }`;
+        return {
+          name: folder.name,
+          code: `{ ${fields}, images: [${images.join(', ')}] }`,
+          // Без ORDER карточка уезжает в конец, сохраняя алфавитный порядок папок.
+          order: order ?? Number.POSITIVE_INFINITY,
+        };
       });
 
-      return `${imports.join('\n')}\nexport default [\n  ${cards.join(',\n  ')}\n];`;
+      // Сортировка по полю ORDER из card.txt; при равных значениях — по имени папки.
+      cards.sort((a, b) => a.order - b.order || byName(a, b));
+
+      return `${imports.join('\n')}\nexport default [\n  ${cards.map((card) => card.code).join(',\n  ')}\n];`;
     },
   };
 }
