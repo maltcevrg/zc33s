@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../i18n/I18nContext';
+import { buildArticleHtml } from '../utils/articleAnchors';
 
 // Модули FAQ (обратная совместимость со старыми ссылками ?module=01…04).
 const MODULE_SLUGS = {
@@ -9,57 +10,6 @@ const MODULE_SLUGS = {
   '03': 'tuning-stages',
   '04': 'buying-zc33s',
 };
-
-// For each TOC entry, find its heading in HTML and insert an anchor before it
-function buildHtml(rawHtml, tocEntries) {
-  let processed = rawHtml;
-  let cumulativeOffset = 0; // adjust for previously inserted markers
-
-  for (let i = 0; i < tocEntries.length; i++) {
-    const rawTitle = tocEntries[i].replace(/<[^>]+>/g, '').trim();
-    if (rawTitle.length < 8 || rawTitle.length > 120) continue;
-
-    // Search for exact title text starting from adjusted position
-    const searchFrom = Math.max(0, processed.length - 5000);
-    let searchIdx = processed.indexOf(rawTitle, searchFrom);
-
-    while (searchIdx > -1) {
-      // Walk back to find opening bracket '<'
-      let pStart = Math.max(0, searchIdx - 500);
-      while (pStart > 0 && processed[pStart] !== '<') pStart--;
-
-      const beforeText = processed.slice(pStart, searchIdx).toLowerCase();
-      const closePIdx = processed.indexOf('</p>', searchIdx + rawTitle.length);
-
-      if (closePIdx === -1) break;
-
-      const segLen = closePIdx - pStart;
-
-      // Must look like <p...><strong>TITLE</strong>...</p> within reasonable segment size
-      const hasMarker = /(<p|<h\d).*?<strong/i.test(beforeText);
-      // Exclude non-heading segments (li, ul+ol starts, tables)
-      const topSegment = processed.slice(Math.max(0, pStart - 2), pStart).toLowerCase();
-      const isNonHeading = /^(<\/?li)/i.test(topSegment.replace(/\s/g, ''))
-        || /^(<ul\s*style=[^>]*list-style-type:\s*disc)/i.test(processed.slice(Math.max(0, pStart-50), pStart));
-
-      if (!hasMarker || !isFinite(segLen) || segLen > 400 || isNonHeading) {
-        // Try next occurrence
-        searchIdx = processed.indexOf(rawTitle, searchIdx + 1);
-        continue;
-      }
-
-      // Found a real heading — insert anchor marker BEFORE this paragraph tag
-      const actualPos = pStart + cumulativeOffset;
-      const marker = `<span style="display:inline;" id="section-${i + 1}">`;
-      processed = processed.slice(0, actualPos) + marker + processed.slice(actualPos);
-      cumulativeOffset += marker.length;
-
-      break; // Move to next TOC item
-    }
-  }
-
-  return processed;
-}
 
 function scrollToSectionByIndex(idx) {
   requestAnimationFrame(() => {
@@ -75,7 +25,7 @@ function FaqArticle({ article }) {
   const [html, setHtml] = useState('');
 
   useEffect(() => {
-    setHtml(buildHtml(article.html, article.toc));
+    setHtml(buildArticleHtml(article.html, article.toc));
   }, [article]);
 
   return (

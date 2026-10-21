@@ -3,53 +3,7 @@ import { Link, useParams, Navigate } from 'react-router-dom';
 import ArticleMeta from '../components/ArticleMeta';
 import { getSeoForPath, updateDocumentSeo } from '../data/seo';
 import { useLanguage } from '../i18n/I18nContext';
-
-// Insert anchor IDs before headings matching TOC entries
-function buildHtml(rawHtml, tocEntries) {
-  if (!rawHtml || !tocEntries) return rawHtml || '';
-  let processed = rawHtml;
-  let cumulativeOffset = 0;
-
-  for (let i = 0; i < tocEntries.length; i++) {
-    const rawTitle = tocEntries[i].replace(/<[^>]+>/g, '').trim();
-    if (rawTitle.length < 5 || rawTitle.length > 140) continue;
-
-    const searchFrom = Math.max(0, processed.length - 8000);
-    let searchIdx = processed.indexOf(rawTitle, searchFrom);
-
-    while (searchIdx > -1) {
-      let pStart = Math.max(0, searchIdx - 500);
-      while (pStart > 0 && processed[pStart] !== '<') pStart--;
-
-      const beforeText = processed.slice(pStart, searchIdx).toLowerCase();
-      const closePIdx = processed.indexOf('</p>', searchIdx + rawTitle.length);
-
-      if (closePIdx === -1) break;
-
-      const segLen = closePIdx - pStart;
-      const hasMarker = /(<p|<h\d).*?<strong/i.test(beforeText) || /<h\d/i.test(beforeText);
-      const topSegment = processed.slice(Math.max(0, pStart - 2), pStart).toLowerCase();
-      const isNonHeading =
-        /^<\/?li/i.test(topSegment.replace(/\s/g, '')) ||
-        /^<ul\s*style=[^>]*list-style-type:\s*disc/i.test(
-          processed.slice(Math.max(0, pStart - 50), pStart)
-        );
-
-      if (!hasMarker || !isFinite(segLen) || segLen > 400 || isNonHeading) {
-        searchIdx = processed.indexOf(rawTitle, searchIdx + 1);
-        continue;
-      }
-
-      const actualPos = pStart + cumulativeOffset;
-      const marker = `<span style="display:inline;" id="section-${i + 1}"></span>`;
-      processed = processed.slice(0, actualPos) + marker + processed.slice(actualPos);
-      cumulativeOffset += marker.length;
-      break;
-    }
-  }
-
-  return processed;
-}
+import { buildArticleHtml } from '../utils/articleAnchors';
 
 function scrollToSectionByIndex(idx) {
   requestAnimationFrame(() => {
@@ -77,7 +31,7 @@ function KnowledgeArticlePage() {
 
   useEffect(() => {
     if (article) {
-      setHtml(buildHtml(article.html, article.toc));
+      setHtml(buildArticleHtml(article.html, article.toc));
     }
   }, [article]);
 
