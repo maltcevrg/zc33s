@@ -82,3 +82,39 @@
 
 // Если на странице есть вступление, заголовок прижимаем к нему плотнее.
 .page:has(.page__intro) .page__title { margin-bottom: clamp(20px, 3vw, 34px); }
+
+// Страница с сообщением об ошибке рендера (ErrorBoundary).
+.page--error .page__text { max-width: 680px; }
+
+.page__error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.page__error-button {
+  padding: 12px 22px;
+  color: #f9f8f3;
+  font: inherit;
+  font-size: .86rem;
+  font-weight: 650;
+  background: #2c2e31;
+  border: 1px solid #2c2e31;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform .2s ease, opacity .2s ease;
+
+  &:hover { transform: translateY(-1px); opacity: .9; }
+}
+
+.page__error-link {
+  color: var(--color-text);
+  font-size: .86rem;
+  font-weight: 650;
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-border);
+
+  &:hover { border-bottom-color: var(--color-text); }
+}

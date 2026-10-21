@@ -342,6 +342,11 @@ export const translations = {
     common: {
       priceLabel: 'Ориентировочная стоимость',
       priceFallback: 'Справочная цена не указана',
+      loadErrorTitle: 'Раздел не загрузился',
+      loadErrorText:
+        'При отображении этой страницы произошла ошибка. Перезагрузите страницу — обычно этого достаточно. Если раздел не открывается, начните с главной.',
+      loadErrorReload: 'Перезагрузить страницу',
+      loadErrorHome: 'На главную →',
     },
   },
   en: {
@@ -631,6 +636,11 @@ export const translations = {
     common: {
       priceLabel: 'Indicative price',
       priceFallback: 'Reference price not specified',
+      loadErrorTitle: 'This section failed to load',
+      loadErrorText:
+        'Something went wrong while rendering this page. Reload the page — that usually fixes it. If the section still does not open, start from the home page.',
+      loadErrorReload: 'Reload page',
+      loadErrorHome: 'Go to home →',
     },
   },
 };
