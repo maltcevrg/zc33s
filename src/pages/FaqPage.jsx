@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../i18n/I18nContext';
 import { useArticleContent } from '../i18n/articles/useArticleContent';
 import { useScrolledPast } from '../hooks/useScrolledPast';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
 
 // Модули FAQ (обратная совместимость со старыми ссылками ?module=01…04).
 const MODULE_SLUGS = {
@@ -15,6 +16,8 @@ const MODULE_SLUGS = {
 function FaqArticle({ article }) {
   const { t, lang } = useLanguage();
   const { html, toc, status } = useArticleContent(lang, article.slug);
+  // Санитайз статьи — не на каждый рендер: текст весит десятки килобайт.
+  const safeHtml = useMemo(() => sanitizeHtml(html), [html]);
 
   return (
     <section className="faq-article">
@@ -47,7 +50,7 @@ function FaqArticle({ article }) {
               })}
             </ol>
           </nav>
-          <div className="faq-article__content" dangerouslySetInnerHTML={{ __html: html }} />
+          <div className="faq-article__content" dangerouslySetInnerHTML={{ __html: safeHtml }} />
         </>
       ) : status === 'loading' ? (
         <p className="faq-article__loading">{t('faq.loading')}</p>

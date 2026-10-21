@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import ArticleMeta from '../components/ArticleMeta';
 import { useLanguage } from '../i18n/I18nContext';
 import { useArticleContent } from '../i18n/articles/useArticleContent';
 import { useScrolledPast } from '../hooks/useScrolledPast';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
 
 function KnowledgeArticlePage() {
   const { slug } = useParams();
@@ -12,6 +14,8 @@ function KnowledgeArticlePage() {
 
   const { html, toc, status } = useArticleContent(lang, slug);
   const scrolled = useScrolledPast(400);
+  // Санитайз статьи — не на каждый рендер: текст весит десятки килобайт.
+  const safeHtml = useMemo(() => sanitizeHtml(html), [html]);
 
   if (!article) {
     return <Navigate to="/knowledge" replace />;
@@ -61,7 +65,7 @@ function KnowledgeArticlePage() {
         )}
 
         {status === 'ready' ? (
-          <div className="faq-article__content" dangerouslySetInnerHTML={{ __html: html }} />
+          <div className="faq-article__content" dangerouslySetInnerHTML={{ __html: safeHtml }} />
         ) : (
           <p className="faq-article__loading">
             {status === 'loading' ? t('faq.loading') : t('faq.loadError')}

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TELEGRAM_URL } from '../data/siteConfig';
 import { useLanguage } from '../i18n/I18nContext';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
 
 function PrivacyPage() {
   const { t } = useLanguage();
@@ -32,10 +33,10 @@ function PrivacyPage() {
               <strong>{section.title}</strong>
             </p>
 
-            {section.intro && <p dangerouslySetInnerHTML={{ __html: section.intro }} />}
+            {section.intro && <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.intro) }} />}
 
             {section.paragraphs?.map((text, idx) => (
-              <p key={idx} dangerouslySetInnerHTML={{ __html: text }} />
+              <p key={idx} dangerouslySetInnerHTML={{ __html: sanitizeHtml(text) }} />
             ))}
 
             {section.list && (

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TELEGRAM_URL } from '../data/siteConfig';
 import { useLanguage } from '../i18n/I18nContext';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
 
 function LegalPage() {
   const { t } = useLanguage();
@@ -32,7 +33,7 @@ function LegalPage() {
               <strong>{section.title}</strong>
             </p>
             {section.paragraphs?.map((text, idx) => (
-              <p key={idx} dangerouslySetInnerHTML={{ __html: text }} />
+              <p key={idx} dangerouslySetInnerHTML={{ __html: sanitizeHtml(text) }} />
             ))}
             {index === sections.length - 1 && (
               <p>
