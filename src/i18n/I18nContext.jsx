@@ -1,37 +1,8 @@
 import { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { translations } from './translations';
+import { DEFAULT_LANG, SUPPORTED_LANGS, readUrlLang, syncUrlLang } from './langUrl';
 
 const STORAGE_KEY = 'sst_lang';
-const SUPPORTED = ['ru', 'en'];
-// Язык хранится ещё и в адресе (?lang=en), чтобы ссылкой можно было поделиться
-// и чтобы версия на другом языке нормально индексировалась. Русский — язык
-// по умолчанию, для него адрес остаётся чистым.
-const LANG_PARAM = 'lang';
-
-function readUrlLang() {
-  try {
-    const value = new URLSearchParams(window.location.search).get(LANG_PARAM);
-    return SUPPORTED.includes(value) ? value : null;
-  } catch {
-    return null;
-  }
-}
-
-function syncUrlLang(lang) {
-  try {
-    const url = new URL(window.location.href);
-    const current = url.searchParams.get(LANG_PARAM);
-    const next = lang === 'ru' ? null : lang;
-    if (current === next) return;
-    if (next === null) {
-      url.searchParams.delete(LANG_PARAM);
-    } else {
-      url.searchParams.set(LANG_PARAM, next);
-    }
-    // replaceState: переключение языка не должно засорять историю браузера.
-    window.history.replaceState(window.history.state, '', url);
-  } catch {}
-}
 
 function getInitialLang() {
   // Приоритет: явный ?lang= в адресе → выбор пользователя → язык браузера → ru.
@@ -39,13 +10,13 @@ function getInitialLang() {
   if (fromUrl) return fromUrl;
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored && SUPPORTED.includes(stored)) return stored;
+    if (stored && SUPPORTED_LANGS.includes(stored)) return stored;
   } catch {}
   try {
     const nav = (navigator.language || '').toLowerCase();
     if (nav.startsWith('en')) return 'en';
   } catch {}
-  return 'ru';
+  return DEFAULT_LANG;
 }
 
 function getNested(obj, path) {
@@ -58,7 +29,7 @@ export function LanguageProvider({ children }) {
   const [lang, setLangState] = useState(getInitialLang);
 
   const setLang = useCallback((next) => {
-    if (!SUPPORTED.includes(next)) return;
+    if (!SUPPORTED_LANGS.includes(next)) return;
     setLangState(next);
     try {
       localStorage.setItem(STORAGE_KEY, next);
