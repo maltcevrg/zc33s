@@ -21,7 +21,7 @@
   flex-direction: column;
   justify-content: center;
   padding: clamp(34px, 5vw, 64px);
-  background: #f9f8f3;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 28px;
   box-shadow: var(--shadow-sm);
@@ -35,7 +35,7 @@
   left: clamp(34px, 5vw, 64px);
   width: 90px;
   height: 6px;
-  background: #2c2e31;
+  background: var(--color-accent);
   border-radius: 0 0 4px 4px;
 }
 
@@ -51,7 +51,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text);
-  background: rgba(44, 46, 49, 0.06);
+  background: rgba(var(--rgb-ink), 0.06);
   border: 1px solid var(--color-border);
   border-radius: 999px;
 }
@@ -60,7 +60,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #2c2e31;
+  background: var(--color-accent);
 }
 
 .catalog-hero__title {
@@ -169,7 +169,7 @@
   display: flex;
   flex-direction: column;
   padding: clamp(22px, 3vw, 30px);
-  background: #f9f8f3;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 22px;
   box-shadow: var(--shadow-sm);
@@ -177,7 +177,7 @@
 }
 
 .catalog-card:hover {
-  background: #ffffff;
+  background: var(--color-surface-raised);
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
 }
@@ -245,8 +245,8 @@
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--color-text);
-  background: rgba(44, 46, 49, 0.07);
-  border: 1px solid rgba(44, 46, 49, 0.16);
+  background: rgba(var(--rgb-ink), 0.07);
+  border: 1px solid rgba(var(--rgb-ink), 0.16);
   border-radius: 8px;
   cursor: pointer;
   user-select: all;
@@ -255,8 +255,8 @@
 }
 
 .catalog-badge:hover {
-  background: rgba(44, 46, 49, 0.14);
-  border-color: rgba(44, 46, 49, 0.35);
+  background: rgba(var(--rgb-ink), 0.14);
+  border-color: rgba(var(--rgb-ink), 0.35);
   transform: translateY(-1px);
 }
 
@@ -269,8 +269,8 @@
   top: -24px;
   left: 50%;
   transform: translateX(-50%);
-  background: #2c2e31;
-  color: #f9f8f3;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
   font-size: 0.7rem;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
@@ -317,7 +317,7 @@
 /* 4. Секция «Где искать» (Ссылки на магазины и агрегаторы) */
 .catalog-stores {
   padding: clamp(30px, 5vw, 48px);
-  background: #f9f8f3;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 28px;
   box-shadow: var(--shadow-sm);
@@ -351,7 +351,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 18px 22px;
-  background: rgba(44, 46, 49, 0.045);
+  background: rgba(var(--rgb-ink), 0.045);
   border: 1px solid var(--color-border);
   border-radius: 16px;
   color: var(--color-text);
@@ -363,7 +363,7 @@
 
 .catalog-store-card:hover {
   transform: translateY(-3px);
-  background: #ffffff;
+  background: var(--color-surface-raised);
   box-shadow: var(--shadow-sm);
 }
 

@@ -17,19 +17,19 @@
     gap: 9px;
     min-height: 46px;
     padding: 12px 24px;
-    color: #f9f8f3;
+    color: var(--color-on-accent);
     font-size: .82rem;
     font-weight: 600;
     line-height: 1.2;
     text-decoration: none;
     white-space: nowrap;
-    background: #2c2e31;
-    border: 1px solid #2c2e31;
+    background: var(--color-accent);
+    border: 1px solid var(--color-accent);
     border-radius: 999px;
     transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease;
   }
 
-  &__button:hover { color: #2c2e31; background: transparent; transform: translateY(-2px); }
+  &__button:hover { color: var(--color-accent); background: transparent; transform: translateY(-2px); }
   &__icon { flex: 0 0 auto; }
   &__note { max-width: 470px; color: var(--color-text-muted); font-size: .78rem; line-height: 1.5; }
 
@@ -43,7 +43,7 @@
   // Прозрачная кнопка для подвала.
   &--ghost {
     .cta__button { min-height: 38px; padding: 9px 18px; color: var(--color-text); font-size: .76rem; background: transparent; border-color: var(--color-border); }
-    .cta__button:hover { color: #f9f8f3; background: #2c2e31; border-color: #2c2e31; }
+    .cta__button:hover { color: var(--color-on-accent); background: var(--color-accent); border-color: var(--color-accent); }
   }
 
   @media (max-width: 768px) {
@@ -96,12 +96,12 @@
 
 .page__error-button {
   padding: 12px 22px;
-  color: #f9f8f3;
+  color: var(--color-on-accent);
   font: inherit;
   font-size: .86rem;
   font-weight: 650;
-  background: #2c2e31;
-  border: 1px solid #2c2e31;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
   border-radius: 999px;
   cursor: pointer;
   transition: transform .2s ease, opacity .2s ease;

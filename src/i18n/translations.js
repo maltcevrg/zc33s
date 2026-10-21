@@ -62,6 +62,12 @@ export const translations = {
       mainNav: 'Основное меню',
       easterEggAlt: 'Инженерная пасхалка',
     },
+    theme: {
+      switchToDark: 'Включить тёмную тему',
+      switchToLight: 'Включить светлую тему',
+      dark: 'Тёмная тема',
+      light: 'Светлая тема',
+    },
     nav: {
       tuning: 'Прошивки',
       components: 'Компоненты',
@@ -354,6 +360,12 @@ export const translations = {
       closeMenu: 'Close menu',
       mainNav: 'Main navigation',
       easterEggAlt: 'Engineering easter egg',
+    },
+    theme: {
+      switchToDark: 'Switch to dark theme',
+      switchToLight: 'Switch to light theme',
+      dark: 'Dark theme',
+      light: 'Light theme',
     },
     nav: {
       tuning: 'ECU Tunes',

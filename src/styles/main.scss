@@ -10,15 +10,21 @@
 
 $header-height: 76px;
 
+// Палитра сайта. Базовая тема — светлая, тёмная включается атрибутом
+// data-theme="dark" на <html> (см. src/theme/ThemeContext.jsx).
 :root {
+  color-scheme: light;
+
   --color-bg: #f9f8f3;
   --color-surface: #f9f8f3;
   --color-surface-solid: #f9f8f3;
+  --color-surface-raised: #ffffff;
   --color-accent: #2c2e31;
   --color-coral: #2c2e31;
   --color-lilac: #2c2e31;
   --color-text: #2c2e31;
   --color-text-muted: #696b6d;
+  --color-on-accent: #f9f8f3;
   --color-border: rgba(44, 46, 49, 0.22);
   --color-hover-bg: rgba(44, 46, 49, 0.08);
   --color-header-bg: rgba(249, 248, 243, 0.94);
@@ -27,6 +33,50 @@ $header-height: 76px;
   --color-btn-hover: rgba(44, 46, 49, 0.15);
   --shadow-sm: 0 12px 32px rgba(44, 46, 49, 0.08);
   --shadow-lg: 0 30px 80px rgba(44, 46, 49, 0.16);
+
+  // Каналы для полупрозрачных подложек: ink — «чернила», paper — фон, scrim — затемнение.
+  --rgb-ink: 44, 46, 49;
+  --rgb-paper: 249, 248, 243;
+  --rgb-scrim: 44, 46, 49;
+
+  // Фиксированные цвета тёмных поверхностей (фото, контактные карточки, CTA на фото).
+  --color-ink-fixed: #2c2e31;
+  --color-paper-fixed: #f9f8f3;
+  --rgb-paper-fixed: 249, 248, 243;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #141517;
+  --color-surface: #191a1c;
+  --color-surface-solid: #1b1c1e;
+  --color-surface-raised: #232529;
+  --color-accent: #f2f1ec;
+  --color-coral: #f2f1ec;
+  --color-lilac: #f2f1ec;
+  --color-text: #f2f1ec;
+  --color-text-muted: #a1a2a4;
+  --color-on-accent: #16171a;
+  --color-border: rgba(242, 241, 236, 0.16);
+  --color-hover-bg: rgba(242, 241, 236, 0.1);
+  --color-header-bg: rgba(20, 21, 23, 0.9);
+  --color-accent-bg: #f2f1ec;
+  --color-btn-bg: rgba(242, 241, 236, 0.1);
+  --color-btn-hover: rgba(242, 241, 236, 0.18);
+  --shadow-sm: 0 12px 32px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.6);
+
+  --rgb-ink: 242, 241, 236;
+  --rgb-paper: 20, 21, 23;
+  --rgb-scrim: 0, 0, 0;
+}
+
+// В тёмной теме фиксированно-тёмные блоки (контакты, PDF-баннер) отделяем
+// от фона тонкой светлой рамкой, иначе они сливаются с ним.
+:root[data-theme='dark'] .home__contacts,
+:root[data-theme='dark'] .catalog-pdf-card {
+  border: 1px solid rgba(var(--rgb-paper-fixed), 0.1);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,6 +90,7 @@ body {
   line-height: 1.5;
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
+  transition: background-color .25s ease, color .25s ease;
 
   #root { min-height: 100vh; display: flex; flex-direction: column; }
 }
@@ -50,7 +101,7 @@ p, h1, h2, h3, a, span, button {
   word-break: break-word;
 }
 
-::selection { color: #f9f8f3; background: #2c2e31; }
+::selection { color: var(--color-on-accent); background: var(--color-accent); }
 
 // Заметный и эстетичный :focus-visible для всех интерактивных элементов
 :focus-visible {

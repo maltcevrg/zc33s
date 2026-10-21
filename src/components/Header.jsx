@@ -6,6 +6,7 @@ import { TELEGRAM_URL } from '../data/siteConfig';
 import { visibleNavItems } from '../data/siteSections';
 import { useLanguage } from '../i18n/I18nContext';
 import LanguageSwitcher from './LanguageSwitcher';
+import ThemeSwitcher from './ThemeSwitcher';
 
 const EASTER_EGG_CLICKS = 5;
 const RESET_TIMEOUT = 2000;
@@ -198,7 +199,10 @@ function Header() {
               </NavLink>
             ))}
 
-            {/* Переключатель языков внутри мобильного дровера */}
+            {/* Переключатели темы и языка внутри мобильного дровера */}
+            <div className="header__theme header__theme--mobile">
+              <ThemeSwitcher variant="mobile" />
+            </div>
             <div className="header__lang header__lang--mobile">
               <LanguageSwitcher variant="mobile" />
             </div>
@@ -213,6 +217,11 @@ function Header() {
           )}
 
           <div className="header__actions">
+            {/* Переключатель темы — десктоп */}
+            <div className="header__theme header__theme--desktop">
+              <ThemeSwitcher variant="desktop" />
+            </div>
+
             {/* Переключатель языков — десктоп */}
             <div className="header__lang header__lang--desktop">
               <LanguageSwitcher variant="desktop" />
