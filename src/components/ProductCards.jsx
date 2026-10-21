@@ -3,20 +3,8 @@ import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { lockScroll, unlockScroll } from '../utils/scrollLock';
 import TelegramCta from './TelegramCta';
-import {
-  IMPORTANT_NOTE,
-  IMPORTANT_TITLE,
-  POWER_CALC_NOTE,
-  POWER_NOTE,
-  POWER_TEST_NOTE,
-  POWER_TEST_TITLE,
-  PRICE_FALLBACK,
-  PRICE_LABEL,
-  PRICE_NOTE,
-  PRODUCT_PRICE_NOTE,
-  WARRANTY_MORE_LABEL,
-  WARRANTY_PATH,
-} from '../data/siteConfig';
+import { WARRANTY_PATH } from '../data/siteConfig';
+import { useLanguage } from '../i18n/I18nContext';
 
 // «Расчётная мощность» показываем только там, где в тексте карточки действительно
 // заявлены расчётные лошадиные силы, — иначе подпись была бы не по делу.
@@ -57,11 +45,11 @@ function PairList({ items }) {
 
 // Перечень требований: «Обязательно» либо «Рекомендуется».
 function RequirementList({ items, tone }) {
+  const { t } = useLanguage();
   if (!items.length) return null;
-
   return (
     <div className={`req-list req-list--${tone}`}>
-      <h4 className="req-list__title">{tone === 'required' ? 'Обязательно' : 'Рекомендуется'}</h4>
+      <h4 className="req-list__title">{tone === 'required' ? t('product.required') : t('product.recommended')}</h4>
       <ul className="req-list__items">
         {items.map((item, index) => (
           <li key={`${item}-${index}`}>{item}</li>
@@ -81,9 +69,8 @@ function CardModal({ card, onClose }) {
 }
 
 // Содержимое модального окна (без портала): галерея и блоки карточки товара.
-// Выделено в отдельный компонент, чтобы его можно было отрисовать и проверить
-// отдельно от обёртки с createPortal.
 export function CardModalPanel({ card, onClose }) {
+  const { t } = useLanguage();
   const [activeImage, setActiveImage] = useState(0);
   const [touchStartX, setTouchStartX] = useState(null);
   const panelRef = useRef(null);
@@ -141,7 +128,6 @@ export function CardModalPanel({ card, onClose }) {
       } else if (event.key === 'ArrowRight' && count > 1) {
         setActiveImage((index) => (index + 1) % count);
       } else if (event.key === 'Tab' && panel) {
-        // Фокус не уходит за пределы модального окна.
         const focusable = [...panel.querySelectorAll(FOCUSABLE)];
         if (focusable.length === 0) {
           event.preventDefault();
@@ -171,19 +157,19 @@ export function CardModalPanel({ card, onClose }) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       unlockScroll();
-      // Возвращаем фокус на карточку, с которой открыли окно.
       if (opener instanceof HTMLElement && document.contains(opener)) opener.focus({ preventScroll: true });
     };
   }, []);
 
-  const specs = card.specs || [];  const required = card.required || [];
+  const specs = card.specs || [];
+  const required = card.required || [];
   const recommended = card.recommended || [];
   const included = card.included || [];
   const variants = card.variants || [];
   const variantNotes = card.variantNotes || [];
   const tests = card.tests || [];
   const summary = card.summary || card.description;
-  const priceNote = card.priceNote || (variants.length ? PRODUCT_PRICE_NOTE : PRICE_NOTE);
+  const priceNote = card.priceNote || (variants.length ? t('product.productPriceNote') : t('product.priceNote'));
   const hasStructuredContent =
     specs.length > 0 ||
     required.length > 0 ||
@@ -194,7 +180,7 @@ export function CardModalPanel({ card, onClose }) {
 
   return (
     <article ref={panelRef} tabIndex={-1} className="card-modal__panel" onClick={(event) => event.stopPropagation()}>
-      <button className="card-modal__close" type="button" onClick={onClose} aria-label="Закрыть">
+      <button className="card-modal__close" type="button" onClick={onClose} aria-label={t('product.close')}>
         <span />
         <span />
       </button>
@@ -213,7 +199,7 @@ export function CardModalPanel({ card, onClose }) {
             height="600"
           />
         ) : (
-          <div className="card-modal__placeholder">Нет изображения</div>
+          <div className="card-modal__placeholder">{t('product.noImage')}</div>
         )}
 
         {hasMultipleImages && (
@@ -222,7 +208,7 @@ export function CardModalPanel({ card, onClose }) {
               className="card-modal__arrow card-modal__arrow--previous"
               type="button"
               onClick={showPreviousImage}
-              aria-label="Предыдущее изображение"
+              aria-label={t('product.prevImage')}
             >
               ‹
             </button>
@@ -230,7 +216,7 @@ export function CardModalPanel({ card, onClose }) {
               className="card-modal__arrow card-modal__arrow--next"
               type="button"
               onClick={showNextImage}
-              aria-label="Следующее изображение"
+              aria-label={t('product.nextImage')}
             >
               ›
             </button>
@@ -238,19 +224,19 @@ export function CardModalPanel({ card, onClose }) {
         )}
 
         {hasMultipleImages && (
-          <div className="card-modal__thumbnails" aria-label="Изображения карточки">
+          <div className="card-modal__thumbnails" aria-label={t('product.photoOf')}>
             {card.images.map((image, index) => (
               <button
                 key={`${image}-${index}`}
                 type="button"
                 className={`card-modal__thumbnail${index === activeImage ? ' card-modal__thumbnail--active' : ''}`}
                 onClick={() => setActiveImage(index)}
-                aria-label={`Фото ${index + 1} из ${imageCount} для ${card.title}`}
+                aria-label={`${t('product.photoOf')} ${index + 1} ${t('product.of')} ${imageCount} ${t('product.for')} ${card.title}`}
                 aria-pressed={index === activeImage}
               >
                 <img
                   src={image}
-                  alt={`Миниатюра ${index + 1} для ${card.title}`}
+                  alt={`${t('product.thumbnailFor')} ${index + 1} ${t('product.for')} ${card.title}`}
                   loading="lazy"
                   width="72"
                   height="54"
@@ -262,30 +248,24 @@ export function CardModalPanel({ card, onClose }) {
       </div>
 
       <div className="card-modal__content">
-        {/* 1. Название */}
         <h2 className="card-modal__title">{card.title}</h2>
-
-        {/* 2. Назначение */}
         {summary && <p className="card-modal__summary">{summary}</p>}
 
-        {/* 3. Основные характеристики */}
         {specs.length > 0 && (
-          <Block title="Основные характеристики">
+          <Block title={t('product.specs')}>
             <PairList items={specs} />
           </Block>
         )}
 
-        {/* Ориентировочная мощность — только как расчётный показатель. */}
         {card.power && (
-          <Block title="Ориентировочная мощность">
+          <Block title={t('product.power')}>
             <p className="card-modal__power">{card.power}</p>
-            <p className="card-modal__note">{POWER_CALC_NOTE}</p>
+            <p className="card-modal__note">{t('product.powerCalcNote')}</p>
           </Block>
         )}
 
-        {/* 4. Требования к конфигурации */}
         {(required.length > 0 || recommended.length > 0) && (
-          <Block title="Требования к конфигурации">
+          <Block title={t('product.requirements')}>
             <div className="card-modal__requirements">
               <RequirementList items={required} tone="required" />
               <RequirementList items={recommended} tone="recommended" />
@@ -294,7 +274,7 @@ export function CardModalPanel({ card, onClose }) {
         )}
 
         {included.length > 0 && (
-          <Block title="Входит в стоимость">
+          <Block title={t('product.included')}>
             <ul className="check-list">
               {included.map((item, index) => (
                 <li key={`${item}-${index}`}>{item}</li>
@@ -303,9 +283,8 @@ export function CardModalPanel({ card, onClose }) {
           </Block>
         )}
 
-        {/* 5. Варианты исполнения и справочные цены */}
         {variants.length > 0 && (
-          <Block title="Варианты исполнения">
+          <Block title={t('product.variants')}>
             <ul className="variant-list">
               {variants.map((variant, index) => (
                 <li className="variant-list__item" key={`${variant.price}-${index}`}>
@@ -317,60 +296,53 @@ export function CardModalPanel({ card, onClose }) {
             {variantNotes.map((note, index) => (
               <p className="card-modal__note" key={`${note}-${index}`}>{note}</p>
             ))}
-            {/* Краткое пояснение о справочном характере цен. */}
             <p className="card-modal__note">{priceNote}</p>
           </Block>
         )}
 
-        {/* 6. Справочная информация о гарантии изготовителя. */}
         {card.warranty && (
-          <Block title="Гарантийная информация">
+          <Block title={t('product.warranty')}>
             <div className="warranty-note">
-              <p className="warranty-note__term">Срок, указанный в каталоге: {card.warranty}</p>
-              <p className="card-modal__note">Условия гарантии и ответственное лицо проверяйте в документах на изделие.</p>
+              <p className="warranty-note__term">{t('product.warrantyTerm')} {card.warranty}</p>
+              <p className="card-modal__note">{t('product.warrantyNote')}</p>
               <Link className="warranty-note__link" to={WARRANTY_PATH} onClick={onClose}>
-                {WARRANTY_MORE_LABEL} →
+                {t('product.warrantyMore')} →
               </Link>
             </div>
           </Block>
         )}
 
-        {/* 7. Измеренный результат — только при наличии реальных замеров. */}
         {tests.length > 0 && (
-          <Block title={POWER_TEST_TITLE}>
+          <Block title={t('product.testTitle')}>
             <PairList items={tests} />
-            <p className="card-modal__note">{POWER_TEST_NOTE}</p>
+            <p className="card-modal__note">{t('product.testNote')}</p>
           </Block>
         )}
 
-        {/* Старые карточки без структурированных полей — показываем свободный текст. */}
         {!hasStructuredContent && card.description && !card.summary && (
           <p className="card-modal__description">{card.description}</p>
         )}
 
-        {/* 8. Важно */}
-        <Block title={IMPORTANT_TITLE} tone="important">
-          <p className="card-modal__important">{IMPORTANT_NOTE}</p>
+        <Block title={t('product.important')} tone="important">
+          <p className="card-modal__important">{t('product.importantNote')}</p>
         </Block>
 
-        {/* Справочные цены; основной CTA ведёт на техническую консультацию. */}
         <div className="card-modal__cta">
           {variants.length === 0 && (
             <div className="card-modal__price-block">
-              <span className="card-modal__price-label">{PRICE_LABEL}</span>
-              <span className="card-modal__price">{card.price || PRICE_FALLBACK}</span>
+              <span className="card-modal__price-label">{t('product.priceLabel')}</span>
+              <span className="card-modal__price">{card.price || t('product.priceFallback')}</span>
               <p className="card-modal__note">{priceNote}</p>
             </div>
           )}
 
           <div className="card-modal__actions">
             <TelegramCta />
-            {/* Разрешённая ТЗ формулировка: тот же Telegram-канал, другой сценарий обращения. */}
-            <TelegramCta tone="ghost" label="Уточнить применимость" />
+            <TelegramCta tone="ghost" label={t('cta.clarify')} />
           </div>
 
           {!card.power && hasPowerEstimate(card.description) && (
-            <p className="card-modal__note">{POWER_NOTE}</p>
+            <p className="card-modal__note">{t('product.powerNote')}</p>
           )}
         </div>
       </div>
@@ -379,6 +351,7 @@ export function CardModalPanel({ card, onClose }) {
 }
 
 function ProductCards({ cards }) {
+  const { t } = useLanguage();
   const [selectedCard, setSelectedCard] = useState(null);
 
   return (
@@ -390,7 +363,7 @@ function ProductCards({ cards }) {
             type="button"
             className="tuning-card"
             onClick={() => setSelectedCard(card)}
-            aria-label={`Открыть карточку «${card.title}»`}
+            aria-label={`${t('product.openCard')}: ${card.title}`}
           >
             <span className="tuning-card__media">
               {card.images[0] ? (
@@ -403,14 +376,13 @@ function ProductCards({ cards }) {
                   height="280"
                 />
               ) : (
-                <span className="tuning-card__placeholder">Нет изображения</span>
+                <span className="tuning-card__placeholder">{t('product.noImage')}</span>
               )}
             </span>
 
             <span className="tuning-card__content">
               <span className="tuning-card__title">{card.title || card.id}</span>
 
-              {/* Ключевые параметры — видно до открытия карточки. */}
               {card.highlights?.length > 0 && (
                 <span className="tuning-card__specs">
                   {card.highlights.map((item) => (
@@ -421,10 +393,10 @@ function ProductCards({ cards }) {
 
               <span className="tuning-card__footer">
                 <span className="tuning-card__price-block">
-                  <span className="tuning-card__price-label">{PRICE_LABEL}</span>
-                  <span className="tuning-card__price">{card.price || PRICE_FALLBACK}</span>
+                  <span className="tuning-card__price-label">{t('product.priceLabel')}</span>
+                  <span className="tuning-card__price">{card.price || t('product.priceFallback')}</span>
                 </span>
-                <span className="tuning-card__more">Подробнее</span>
+                <span className="tuning-card__more">{t('product.more')}</span>
               </span>
             </span>
           </button>
@@ -432,9 +404,7 @@ function ProductCards({ cards }) {
       </div>
 
       <p className="tuning-page__grid-note">
-        Значения мощности — ориентировочные расчётные показатели. Технические данные и цены
-        в карточках приведены для справки и не подтверждают наличие компонента или оформление
-        заказа на сайте.
+        {t('tuning.gridNote')}
       </p>
 
       {selectedCard && <CardModal card={selectedCard} onClose={() => setSelectedCard(null)} />}

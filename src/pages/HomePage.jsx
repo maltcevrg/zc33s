@@ -1,36 +1,52 @@
 import { Link } from 'react-router-dom';
 import TelegramCta from '../components/TelegramCta';
 import TuningLevels from '../components/TuningLevels';
-import { PRICE_NOTE } from '../data/siteConfig';
-import { visibleHomeSections } from '../data/siteSections';
+import { useLanguage } from '../i18n/I18nContext';
 
 const imageUrl = (name) => `${import.meta.env.BASE_URL}images/${name}`;
 
-// Позиционирование одно и конкретное: прошивки, конфигурации и компоненты под ZC33S.
-// Формулировку «профессиональный сервис + сообщество энтузиастов» не используем —
-// она смешивает две разные роли и размывает позиционирование.
-const heroBlock = {
-  title: 'SUZUKI SWIFT SPORT ZC33S',
-  // Вторая, декоративная строка заголовка: смысловой нагрузки не несёт,
-  // поэтому скрыта от скринридеров и поисковиков — H1 остаётся чистым.
-  accent: 'Tuning',
-  subtitle:
-    'Прошивки, проверенные конфигурации и компоненты для Suzuki Swift Sport ZC33S. Практическая база по настройке, обслуживанию и эксплуатации автомобиля.',
+// Маппинг id разделов → ключам перевода
+const SECTION_I18N_KEY = {
+  tuning: 'home.sections.tuning',
+  components: 'home.sections.components',
+  knowledge: 'home.sections.knowledge',
+  about: 'home.sections.about',
+  service: 'home.sections.service',
 };
 
-const contacts = [
-  {
-    label: 'Всероссийский чат',
-    flag: 'tatarstan',
-    link: 'https://t.me/ZC33Sru',
-  },
-  {
-    label: 'Чат по тюнингу',
-    link: 'https://t.me/+1hplL5z7qHo4Nzdi',
-  },
-];
-
 function HomePage() {
+  const { t } = useLanguage();
+
+  const heroBlock = {
+    title: t('home.heroTitle'),
+    accent: t('home.heroAccent'),
+    subtitle: t('home.heroSubtitle'),
+  };
+
+  const visibleHomeSections = [
+    { id: 'tuning', img: 'dyno-1280.jpg', link: '/tuning' },
+    { id: 'components', img: 'turbo-960.jpg', link: '/custom' },
+    { id: 'knowledge', img: 'baza-1280.jpg', link: '/knowledge' },
+    { id: 'about', img: 'gunrace.jpg', link: '/about' },
+    { id: 'service', img: 'service-1280.jpg', link: '/service' },
+  ].filter((section) => {
+    // Показываем только наполненные разделы: service пока выключен
+    if (section.id === 'service') return false;
+    return true;
+  });
+
+  const contacts = [
+    {
+      label: t('home.contacts.allRussia'),
+      flag: 'tatarstan',
+      link: 'https://t.me/ZC33Sru',
+    },
+    {
+      label: t('home.contacts.tuning'),
+      link: 'https://t.me/+1hplL5z7qHo4Nzdi',
+    },
+  ];
+
   return (
     <div className="home">
       {/* ===== Hero ===== */}
@@ -55,7 +71,7 @@ function HomePage() {
             className="home__hero-cta"
             tone="light"
             inline
-            note={`${PRICE_NOTE} Сайт не оформляет заказы и не принимает платежи.`}
+            note={t('home.heroCtaNoteLong')}
           />
         </div>
       </section>
@@ -63,42 +79,43 @@ function HomePage() {
       {/* ===== Уровни тюнинга ===== */}
       <TuningLevels />
 
-      {/* ===== Главные разделы =====
-          Крупные изображения и карточная композиция сохраняются.
-          Нечётное число разделов (пока «Обслуживание» не наполнено) даёт класс
-          home__grid--odd: первая карточка занимает всю ширину, пустой ячейки нет. */}
+      {/* ===== Главные разделы ===== */}
       <section
         className={`home__grid${visibleHomeSections.length % 2 ? ' home__grid--odd' : ''}`}
       >
-        {visibleHomeSections.map((section) => (
-          <Link key={section.id} to={section.link} className="home__card">
-            <div className="home__card-image">
-              <picture>
-                <source
-                  type="image/webp"
-                  srcSet={imageUrl(section.img.replace(/\.jpg$/, '.webp'))}
-                />
-                <img
-                  src={imageUrl(section.img)}
-                  alt={`Иллюстрация раздела: ${section.title}`}
-                  loading="lazy"
-                  width="1280"
-                  height="720"
-                />
-              </picture>
-            </div>
-            <div className="home__card-overlay home__card-overlay--dark" />
-            <div className="home__card-body">
-              <h2 className="home__card-title">{section.title}</h2>
-              <p className="home__card-desc">{section.desc}</p>
-            </div>
-          </Link>
-        ))}
+        {visibleHomeSections.map((section) => {
+          const title = t(`${SECTION_I18N_KEY[section.id]}.title`);
+          const desc = t(`${SECTION_I18N_KEY[section.id]}.desc`);
+          return (
+            <Link key={section.id} to={section.link} className="home__card">
+              <div className="home__card-image">
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcSet={imageUrl(section.img.replace(/\.jpg$/, '.webp'))}
+                  />
+                  <img
+                    src={imageUrl(section.img)}
+                    alt={`Illustration: ${title}`}
+                    loading="lazy"
+                    width="1280"
+                    height="720"
+                  />
+                </picture>
+              </div>
+              <div className="home__card-overlay home__card-overlay--dark" />
+              <div className="home__card-body">
+                <h2 className="home__card-title">{title}</h2>
+                <p className="home__card-desc">{desc}</p>
+              </div>
+            </Link>
+          );
+        })}
       </section>
 
       {/* ===== Контакты ===== */}
       <section className="home__contacts">
-        <h2 className="home__contacts-title">Контакты</h2>
+        <h2 className="home__contacts-title">{t('home.contacts.title')}</h2>
         <div className="home__contacts-grid">
           {contacts.map((c, i) => (
             <a

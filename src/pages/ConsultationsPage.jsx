@@ -1,17 +1,19 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import TelegramCta from '../components/TelegramCta';
-import { CONSULTATIONS_TITLE } from '../data/siteConfig';
-import { CONSULTATIONS_LEAD, CONSULTATION_SECTIONS } from '../data/consultations';
+import { useLanguage } from '../i18n/I18nContext';
 
 const sectionNumber = (index) => String(index + 1).padStart(2, '0');
 
 /**
  * Справочная страница о консультациях и компонентах (/consultations).
- * Содержание — в src/data/consultations.js.
+ * Содержание — в src/i18n/content/consultations.js.
  */
 function ConsultationsPage() {
   const location = useLocation();
+  const { t } = useLanguage();
+  const content = t('consultations');
+  const sections = content?.sections || [];
 
   useEffect(() => {
     if (location.hash) {
@@ -28,17 +30,17 @@ function ConsultationsPage() {
 
   return (
     <section className="page consultations-page">
-      <h1 className="page__title">{CONSULTATIONS_TITLE}</h1>
+      <h1 className="page__title">{content?.title}</h1>
 
       <div className="page__intro">
-        <p className="page__text">{CONSULTATIONS_LEAD}</p>
-        <TelegramCta note="Кнопка предназначена для технических консультаций; сайт не оформляет заказы и не принимает платежи." />
+        <p className="page__text">{content?.lead}</p>
+        <TelegramCta note={content?.ctaNote} />
       </div>
 
-      <nav className="consultations-page__toc" aria-label="Содержание страницы">
-        <h2 className="consultations-page__toc-title">Содержание</h2>
+      <nav className="consultations-page__toc" aria-label={content?.tocTitle || 'Contents'}>
+        <h2 className="consultations-page__toc-title">{content?.tocTitle}</h2>
         <ol className="consultations-page__toc-list">
-          {CONSULTATION_SECTIONS.map((section, index) => (
+          {sections.map((section, index) => (
             <li key={section.id}>
               <a href={`#${section.id}`}>
                 <span className="consultations-page__toc-index">{sectionNumber(index)}</span>
@@ -50,7 +52,7 @@ function ConsultationsPage() {
       </nav>
 
       <div className="consultations-page__sections">
-        {CONSULTATION_SECTIONS.map((section, index) => (
+        {sections.map((section, index) => (
           <section className="consultation-section" id={section.id} key={section.id}>
             <h2 className="consultation-section__title">
               <span className="consultation-section__index">{sectionNumber(index)}</span>

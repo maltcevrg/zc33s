@@ -1,8 +1,13 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TELEGRAM_URL } from '../data/siteConfig';
+import { useLanguage } from '../i18n/I18nContext';
 
 function PrivacyPage() {
+  const { t } = useLanguage();
+  const content = t('privacy');
+  const sections = content?.sections || [];
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -11,63 +16,61 @@ function PrivacyPage() {
     <section className="page privacy-page">
       <div className="faq-article__bar">
         <Link to="/" className="faq-article__back">
-          ← На главную
+          {content?.back}
         </Link>
       </div>
 
       <header className="page__intro" style={{ marginBottom: '32px' }}>
-        <h1 className="page__title">Политика обработки персональных данных</h1>
-        <p className="page__text">
-          Проект Swift Sport Tuning (SST) придерживается принципа максимальной минимизации и неприкосновенности личной информации посетителей сайта.
-        </p>
+        <h1 className="page__title">{content?.title}</h1>
+        <p className="page__text">{content?.lead}</p>
       </header>
 
       <div className="faq-article__content">
-        <p><strong>1. Общие положения</strong></p>
-        <p>
-          Настоящая Политика определяет порядок и принципы взаимодействия сайта <em>Swift Sport Tuning</em> с данными пользователей в соответствии с законодательством Российской Федерации (включая Федеральный закон № 152-ФЗ «О персональных данных»). Сайт носит исключительно информационный характер и не предназначен для коммерческого сбора персональных сведений.
-        </p>
+        {sections.map((section, index) => (
+          <div key={section.title}>
+            <p><strong>{section.title}</strong></p>
 
-        <p><strong>2. Отсутствие сбора персональных данных</strong></p>
-        <p>
-          На сайте Swift Sport Tuning <strong>полностью отсутствуют</strong>:
-        </p>
-        <ul>
-          <li>Формы регистрации, личные кабинеты и учётные записи;</li>
-          <li>Корзина товаров и модуль онлайн-оплаты банковскими картами;</li>
-          <li>Формы обратной связи, требующие обязательного ввода ФИО, номера телефона, e-mail или VIN-номера автомобиля;</li>
-          <li>Маркетинговые трекеры, пиксели рекламных сетей и системы профилирования поведения пользователей.</li>
-        </ul>
+            {section.intro && (
+              <p dangerouslySetInnerHTML={{ __html: section.intro }} />
+            )}
 
-        <p><strong>3. Использование локального хранилища браузера (LocalStorage)</strong></p>
-        <p>
-          Сайт может использовать энергонезависимое хранилище вашего веб-браузера (LocalStorage) исключительно в технических и прикладных целях для удобства чтения:
-        </p>
-        <ul>
-          <li>Сохранение позиции чтения и раскрытых блоков в Базе знаний (FAQ);</li>
-          <li>Запоминание выбранной цветовой темы оформления интерфейса (при наличии переключателя).</li>
-        </ul>
-        <p>
-          Данные из LocalStorage не передаются на внешние серверы и хранятся исключительно на вашем пользовательском устройстве. Вы можете очистить их в любой момент через настройки вашего браузера.
-        </p>
+            {section.paragraphs?.map((text, idx) => (
+              <p
+                key={idx}
+                dangerouslySetInnerHTML={{ __html: text }}
+              />
+            ))}
 
-        <p><strong>4. Взаимодействие через сторонние сервисы</strong></p>
-        <p>
-          Ссылка на Telegram предназначена для добровольного обращения с вопросами о компонентах, конфигурациях и технической информации. Если посетитель самостоятельно передаёт сведения в Telegram, их обработка регулируется условиями сервиса Telegram и применимым законодательством; сам сайт не получает эти сведения через формы.
-        </p>
+            {section.list && (
+              <ul>
+                {section.list.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            )}
 
-        <p><strong>5. Контакты по вопросам персональных данных</strong></p>
-        <p>
-          По любым вопросам, касающимся настоящей политики или используемых технических средств, вы можете обратиться через официальный канал связи проекта в Telegram:{' '}
-          <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
-            {TELEGRAM_URL}
-          </a>.
-        </p>
+            {section.note && <p>{section.note}</p>}
+
+            {index === sections.length - 1 && (
+              <p>
+                <a
+                  href={TELEGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}
+                >
+                  {TELEGRAM_URL}
+                </a>
+                .
+              </p>
+            )}
+          </div>
+        ))}
       </div>
 
       <div className="knowledge-article__bottom-nav" style={{ marginTop: '48px' }}>
         <Link to="/" className="knowledge-article__back-btn">
-          ← Вернуться на главную
+          {content?.bottomBack}
         </Link>
       </div>
     </section>
