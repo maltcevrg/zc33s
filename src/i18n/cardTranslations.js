@@ -24,6 +24,12 @@ export const cardTranslations = {
       'Oil and filter change before flashing',
       'Diagnostic scan for active DTCs before starting',
     ],
+    tests: [
+      { label: 'Measured on a dyno', text: '166.6 hp at 4375 rpm' },
+      { label: 'Torque', text: '219.5 Nm at 3450 rpm' },
+      { label: 'DIN correction', text: '1.016' },
+      { label: 'Ambient temperature', text: '+16.9 °C' },
+    ],
     price: '5 000 ₽',
   },
   'Stage 2': {
