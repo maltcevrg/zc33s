@@ -1,56 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '../i18n/I18nContext';
 
-const levels = [
-  {
-    id: 'stage-1',
-    name: 'Stage 1',
-    tag: 'Daily',
-    config: ['Стоковая конфигурация'],
-    fuel: 'АИ-95',
-    fuelNote: '',
-    powerPrefix: 'до',
-    power: '165',
-    powerValue: 165,
-  },
-  {
-    id: 'stage-2',
-    name: 'Stage 2',
-    tag: '',
-    config: ['Увеличенный интеркулер', 'Даунпайп'],
-    fuel: 'АИ-100/102',
-    fuelNote: '',
-    powerPrefix: 'до',
-    power: '175',
-    powerValue: 175,
-  },
-  {
-    id: 'gr30',
-    name: 'GR30',
-    tag: '',
-    config: ['Гибридная турбина', 'Сопутствующие доработки'],
-    fuel: 'АИ-95 / АИ-100',
-    fuelNote: 'в зависимости от калибровки',
-    powerPrefix: 'до',
-    power: '215–220',
-    powerValue: 220,
-  },
-  {
-    id: 'gr39',
-    name: 'GR39',
-    tag: '',
-    config: ['Расширенная аппаратная конфигурация', 'Индивидуальная настройка'],
-    fuel: 'АИ-100+',
-    fuelNote: '',
-    powerPrefix: '',
-    power: '240+',
-    powerValue: 240,
-  },
-];
-
-// Полоски мощности масштабируются относительно самого мощного уровня линейки.
-const maxPowerScale = Math.max(...levels.map((level) => level.powerValue));
-
-const powerScale = (level) => Math.min(level.powerValue / maxPowerScale, 1).toFixed(3);
 const stageNumber = (index) => String(index + 1).padStart(2, '0');
 
 // Полоски мощности «прорастают», когда блок появляется в кадре.
@@ -82,11 +32,12 @@ function useInView(ref) {
   return inView;
 }
 
-function PowerBar({ level, index }) {
+function PowerBar({ level, maxPowerScale, index }) {
+  const powerScale = Math.min(level.powerValue / maxPowerScale, 1).toFixed(3);
   return (
     <span
       className="level-bar"
-      style={{ '--level-index': index, '--level-scale': powerScale(level) }}
+      style={{ '--level-index': index, '--level-scale': powerScale }}
       aria-hidden="true"
     >
       <span className="level-bar__fill" />
@@ -95,8 +46,15 @@ function PowerBar({ level, index }) {
 }
 
 function TuningLevels() {
+  const { t } = useLanguage();
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef);
+
+  const levels = t('home.levels.items');
+  const table = t('home.levels.table');
+  const powerUnit = t('home.levels.powerUnit');
+
+  const maxPowerScale = Math.max(...levels.map((level) => level.powerValue));
 
   return (
     <section
@@ -106,26 +64,23 @@ function TuningLevels() {
       aria-labelledby="tuning-levels-title"
     >
       <header className="home__levels-head">
-        <p className="home__levels-eyebrow">Гид по уровням</p>
+        <p className="home__levels-eyebrow">{t('home.levels.eyebrow')}</p>
         <h2 className="home__levels-title" id="tuning-levels-title">
-          Уровни тюнинга
+          {t('home.levels.title')}
         </h2>
-        <p className="home__levels-lead">
-          Четыре уровня конфигурации: какие узлы меняются, какое топливо требуется и какую
-          мощность ориентировочно даёт каждый шаг.
-        </p>
+        <p className="home__levels-lead">{t('home.levels.lead')}</p>
       </header>
 
       {/* Desktop: горизонтальная сравнительная матрица */}
       <div className="levels-matrix">
         <table className="levels-matrix__table">
           <caption className="levels-matrix__caption">
-            Сравнение уровней тюнинга: конфигурация, топливо и ориентировочная мощность
+            {table.level}: {table.config}, {table.fuel}, {table.power}
           </caption>
           <thead>
             <tr>
               <th scope="col" className="levels-matrix__corner">
-                Уровень
+                {table.level}
               </th>
               {levels.map((level, index) => (
                 <th key={level.id} scope="col" className="levels-matrix__stage">
@@ -139,7 +94,7 @@ function TuningLevels() {
           <tbody>
             <tr>
               <th scope="row" className="levels-matrix__row-title">
-                Конфигурация
+                {table.config}
               </th>
               {levels.map((level) => (
                 <td key={level.id} className="levels-matrix__cell">
@@ -153,7 +108,7 @@ function TuningLevels() {
             </tr>
             <tr>
               <th scope="row" className="levels-matrix__row-title">
-                Топливо
+                {table.fuel}
               </th>
               {levels.map((level) => (
                 <td key={level.id} className="levels-matrix__cell">
@@ -166,7 +121,7 @@ function TuningLevels() {
             </tr>
             <tr>
               <th scope="row" className="levels-matrix__row-title levels-matrix__row-title--power">
-                Мощность, ориентировочно
+                {table.power}
               </th>
               {levels.map((level, index) => (
                 <td key={level.id} className="levels-matrix__cell levels-matrix__cell--power">
@@ -175,9 +130,9 @@ function TuningLevels() {
                       <span className="levels-matrix__power-prefix">{level.powerPrefix}</span>
                     ) : null}
                     <span className="levels-matrix__power-value">{level.power}</span>
-                    <span className="levels-matrix__power-unit">л.с.</span>
+                    <span className="levels-matrix__power-unit">{powerUnit}</span>
                   </span>
-                  <PowerBar level={level} index={index} />
+                  <PowerBar level={level} maxPowerScale={maxPowerScale} index={index} />
                 </td>
               ))}
             </tr>
@@ -199,19 +154,19 @@ function TuningLevels() {
               {level.tag ? <span className="level-card__tag">{level.tag}</span> : null}
             </header>
 
-            <p className="level-card__power-caption">Мощность, ориентировочно</p>
+            <p className="level-card__power-caption">{table.powerCaption}</p>
             <p className="level-card__power">
               {level.powerPrefix ? (
                 <span className="level-card__power-prefix">{level.powerPrefix}</span>
               ) : null}
               <span className="level-card__power-value">{level.power}</span>
-              <span className="level-card__power-unit">л.с.</span>
+              <span className="level-card__power-unit">{powerUnit}</span>
             </p>
-            <PowerBar level={level} index={index} />
+            <PowerBar level={level} maxPowerScale={maxPowerScale} index={index} />
 
             <dl className="level-card__specs">
               <div className="level-card__spec">
-                <dt>Конфигурация</dt>
+                <dt>{table.config}</dt>
                 <dd>
                   {level.config.map((item) => (
                     <span key={item}>{item}</span>
@@ -219,7 +174,7 @@ function TuningLevels() {
                 </dd>
               </div>
               <div className="level-card__spec">
-                <dt>Топливо</dt>
+                <dt>{table.fuel}</dt>
                 <dd>
                   <span>{level.fuel}</span>
                   {level.fuelNote ? <span className="level-card__fuel-note">{level.fuelNote}</span> : null}
@@ -230,10 +185,7 @@ function TuningLevels() {
         ))}
       </div>
 
-      <p className="home__levels-note">
-        Фактические показатели зависят от состояния автомобиля, состава оборудования, топлива,
-        условий окружающей среды и индивидуальной настройки ECU.
-      </p>
+      <p className="home__levels-note">{t('home.levels.note')}</p>
     </section>
   );
 }

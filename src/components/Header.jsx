@@ -2,8 +2,10 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { lockScroll, unlockScroll } from '../utils/scrollLock';
-import { CTA_LABEL, TELEGRAM_URL } from '../data/siteConfig';
+import { TELEGRAM_URL } from '../data/siteConfig';
 import { visibleNavItems } from '../data/siteSections';
+import { useLanguage } from '../i18n/I18nContext';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const EASTER_EGG_CLICKS = 5;
 const RESET_TIMEOUT = 2000;
@@ -11,10 +13,27 @@ const VISIBLE_DURATION = 1800;
 const EXIT_DURATION = 500;
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-// Меню — из единого источника разделов (src/data/siteSections.js): названия
-// пунктов совпадают с названиями разделов, а ненаполненные разделы не показываются.
+// Маппинг путей меню → ключам перевода
+const NAV_KEY_BY_PATH = {
+  '/tuning': 'nav.tuning',
+  '/custom': 'nav.components',
+  '/knowledge': 'nav.knowledge',
+  '/about': 'nav.about',
+  '/service': 'nav.service',
+  '/catalog': 'nav.catalog',
+};
+
+function getNavLabel(to, t, fallback) {
+  const key = NAV_KEY_BY_PATH[to];
+  if (!key) return fallback;
+  const translated = t(key);
+  // t возвращает ключ, если нет перевода — проверяем
+  if (translated === key) return fallback;
+  return translated;
+}
 
 function Header() {
+  const { t } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [eggPhase, setEggPhase] = useState(null); // null | 'entering' | 'visible' | 'exiting'
   const eggCounterRef = useRef(0);
@@ -23,6 +42,9 @@ function Header() {
   const burgerRef = useRef(null);
   const navRef = useRef(null);
   const openerRef = useRef(null);
+
+  const ctaLabel = t('cta.discuss');
+  const ctaAria = t('cta.discussAria');
 
   // Close menu on route change (when a link is clicked)
   const handleNavClick = () => {
@@ -41,7 +63,6 @@ function Header() {
     if (nav) {
       const focusable = [...nav.querySelectorAll(FOCUSABLE)];
       if (focusable.length > 0) {
-        // Focus the close button or first link
         focusable[0].focus();
       }
     }
@@ -131,7 +152,7 @@ function Header() {
             handleNavClick();
             handleLogoClick();
           }}
-          aria-label="Swift Sport Tuning — Главная"
+          aria-label={t('header.logoAria')}
         >
           <span className="header__logo-full">Swift Sport Tuning</span>
           <span className="header__logo-short">SST</span>
@@ -141,12 +162,12 @@ function Header() {
           <nav
             ref={navRef}
             className={`header__nav${menuOpen ? ' header__nav--open' : ''}`}
-            aria-label="Основное меню"
+            aria-label={t('header.mainNav')}
           >
             <button
               className="header__nav-close"
               onClick={() => setMenuOpen(false)}
-              aria-label="Закрыть меню"
+              aria-label={t('header.closeMenu')}
               type="button"
             >
               <svg
@@ -173,9 +194,14 @@ function Header() {
                 }
                 onClick={handleNavClick}
               >
-                {label}
+                {getNavLabel(to, t, label)}
               </NavLink>
             ))}
+
+            {/* Переключатель языков внутри мобильного дровера */}
+            <div className="header__lang header__lang--mobile">
+              <LanguageSwitcher variant="mobile" />
+            </div>
           </nav>
 
           {menuOpen && (
@@ -187,22 +213,27 @@ function Header() {
           )}
 
           <div className="header__actions">
+            {/* Переключатель языков — десктоп */}
+            <div className="header__lang header__lang--desktop">
+              <LanguageSwitcher variant="desktop" />
+            </div>
+
             {/* Основной CTA проекта: уход в официальный Telegram-контакт. */}
             <a
               href={TELEGRAM_URL}
               className="header__contact"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${CTA_LABEL} в официальном Telegram`}
+              aria-label={ctaAria}
             >
-              {CTA_LABEL}
+              {ctaLabel}
             </a>
             <button
               ref={burgerRef}
               type="button"
               className={`header__burger${menuOpen ? ' header__burger--active' : ''}`}
               onClick={() => setMenuOpen((prev) => !prev)}
-              aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'}
+              aria-label={menuOpen ? t('header.closeMenu') : t('header.openMenu')}
               aria-expanded={menuOpen}
             >
               <span />

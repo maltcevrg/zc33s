@@ -2,35 +2,29 @@ import { Link } from 'react-router-dom';
 import tuningCards from 'virtual:tuning-cards';
 import ProductCards from '../components/ProductCards';
 import TelegramCta from '../components/TelegramCta';
+import { useLanguage } from '../i18n/I18nContext';
 
 function TuningPage() {
+  const { t } = useLanguage();
   return (
     <section className="page tuning-page">
-      <h1 className="page__title">Прошивки</h1>
+      <h1 className="page__title">{t('tuning.title')}</h1>
 
-      {/* Справочная витрина: технические сведения и цены для ознакомления;
-          Telegram-контакт предназначен для консультаций. */}
       <div className="page__intro">
-        <p className="page__text">
-          Варианты прошивок для Suzuki Swift Sport ZC33S: ориентировочная стоимость, требования
-          к конфигурации и расчётная мощность. Результат зависит от конфигурации автомобиля,
-          топлива и состояния узлов.
-        </p>
-        <TelegramCta note="Технические характеристики и ориентировочная стоимость приведены для справки. Сайт не оформляет заказы и не принимает платежи." />
+        <p className="page__text">{t('tuning.lead')}</p>
+        <TelegramCta note={t('tuning.note')} />
       </div>
 
       {tuningCards.length > 0 ? (
         <ProductCards cards={tuningCards} />
       ) : (
         <div className="tuning-page__empty-state">
-          <p className="page__text">
-            Спецификации и графики конфигураций формируются на основе измерений и логов. Ознакомьтесь с подробными материалами по калибровкам K14C в Базе знаний или задайте технический вопрос в Telegram.
-          </p>
+          <p className="page__text">{t('tuning.empty')}</p>
           <div className="tuning-page__empty-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginTop: '20px' }}>
             <Link to="/knowledge" className="knowledge-card__btn">
-              Открыть базу знаний →
+              {t('cta.openKnowledge')}
             </Link>
-            <TelegramCta tone="ghost" label="Уточнить применимость" />
+            <TelegramCta tone="ghost" label={t('cta.clarify')} />
           </div>
         </div>
       )}

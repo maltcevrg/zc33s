@@ -1,4 +1,5 @@
 import { CTA_LABEL, TELEGRAM_URL } from '../data/siteConfig';
+import { useLanguage } from '../i18n/I18nContext';
 
 // Компактный залитый самолётик: остаётся контрастным на светлой и тёмной кнопке.
 function SendIcon() {
@@ -25,7 +26,9 @@ function SendIcon() {
  *        'light' — светлая кнопка на тёмном фоне (hero главной).
  * inline: true — кнопка и пояснение в одну строку (hero), false — пояснение под кнопкой.
  */
-function TelegramCta({ tone = 'dark', label = CTA_LABEL, note = '', inline = false, className = '' }) {
+function TelegramCta({ tone = 'dark', label, note = '', inline = false, className = '' }) {
+  const { t } = useLanguage();
+  const displayLabel = label || t('cta.discuss');
   const classes = ['cta', `cta--${tone}`, inline ? 'cta--inline' : '', className].filter(Boolean).join(' ');
 
   return (
@@ -37,7 +40,7 @@ function TelegramCta({ tone = 'dark', label = CTA_LABEL, note = '', inline = fal
         rel="noopener noreferrer"
       >
         <SendIcon />
-        <span>{label}</span>
+        <span>{displayLabel}</span>
       </a>
       {note && <p className="cta__note">{note}</p>}
     </div>

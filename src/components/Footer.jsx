@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { CONSULTATIONS_PATH, TELEGRAM_URL } from '../data/siteConfig';
+import { useLanguage } from '../i18n/I18nContext';
 
 function Footer() {
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -14,33 +16,31 @@ function Footer() {
               <span className="footer__brand-badge">SST</span>
               <span className="footer__brand-title">Swift Sport Tuning</span>
             </Link>
-            <p className="footer__brand-desc">
-              Независимый проект, посвящённый Suzuki Swift Sport ZC33S.
-            </p>
+            <p className="footer__brand-desc">{t('footer.brandDesc')}</p>
           </div>
 
           {/* Колонка 2: Разделы */}
           <div className="footer__col">
-            <h3 className="footer__heading">Разделы</h3>
+            <h3 className="footer__heading">{t('footer.sections')}</h3>
             <ul className="footer__list">
               <li>
                 <Link to="/tuning" className="footer__link">
-                  Прошивки
+                  {t('nav.tuning')}
                 </Link>
               </li>
               <li>
                 <Link to="/custom" className="footer__link">
-                  Компоненты
+                  {t('nav.components')}
                 </Link>
               </li>
               <li>
                 <Link to="/knowledge" className="footer__link">
-                  База знаний
+                  {t('nav.knowledge')}
                 </Link>
               </li>
               <li>
                 <Link to="/about" className="footer__link">
-                  О проекте
+                  {t('nav.about')}
                 </Link>
               </li>
             </ul>
@@ -48,16 +48,16 @@ function Footer() {
 
           {/* Колонка 3: Информация */}
           <div className="footer__col">
-            <h3 className="footer__heading">Информация</h3>
+            <h3 className="footer__heading">{t('footer.info')}</h3>
             <ul className="footer__list">
               <li>
                 <Link to={CONSULTATIONS_PATH} className="footer__link">
-                  Консультации и информация о компонентах
+                  {t('footer.consultations')}
                 </Link>
               </li>
               <li>
                 <Link to="/warranty" className="footer__link">
-                  Гарантийная информация производителей
+                  {t('footer.warranty')}
                 </Link>
               </li>
             </ul>
@@ -66,23 +66,23 @@ function Footer() {
           {/* Колонка 4: Правовая информация и Контакты */}
           <div className="footer__col">
             <div className="footer__group">
-              <h3 className="footer__heading">Правовая информация</h3>
+              <h3 className="footer__heading">{t('footer.legalHeading')}</h3>
               <ul className="footer__list">
                 <li>
                   <Link to="/privacy" className="footer__link">
-                    Политика обработки персональных данных
+                    {t('footer.privacy')}
                   </Link>
                 </li>
                 <li>
                   <Link to="/legal" className="footer__link">
-                    Правовая информация
+                    {t('footer.legalInfo')}
                   </Link>
                 </li>
               </ul>
             </div>
 
             <div className="footer__group footer__group--contacts">
-              <h3 className="footer__heading">Контакты</h3>
+              <h3 className="footer__heading">{t('footer.contacts')}</h3>
               <ul className="footer__list">
                 <li>
                   <a
@@ -92,7 +92,7 @@ function Footer() {
                     className="footer__link footer__link--contact"
                   >
                     <span className="footer__contact-icon">↗</span>
-                    <span>Telegram-канал</span>
+                    <span>{t('footer.telegram')}</span>
                   </a>
                 </li>
               </ul>
@@ -103,11 +103,9 @@ function Footer() {
         {/* Нижняя строка: дисклеймер и копирайт */}
         <div className="footer__bottom">
           <p className="footer__copy">
-            &copy; {currentYear} Swift Sport Tuning. Все права защищены.
+            &copy; {currentYear} {t('footer.copyright')}
           </p>
-          <p className="footer__disclaimer">
-            Сайт — информационный каталог: заказы и платежи через сайт не принимаются. Фотографии и цены сами по себе не определяют правовой статус конкретных отношений.
-          </p>
+          <p className="footer__disclaimer">{t('footer.disclaimer')}</p>
         </div>
       </div>
     </footer>
