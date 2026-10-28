@@ -145,7 +145,7 @@ function collectHeadingBlocks(html) {
 
 /**
  * Вставляет перед заголовками статей маркеры нужные для TOC:
- * <span style="display:inline;" id="section-N"></span>.
+ * <span class="article-anchor" id="section-N"></span>.
  *
  * @param {string} rawHtml — HTML статьи
  * @param {string[]} tocEntries — пункты оглавления в порядке отображения
@@ -206,7 +206,7 @@ export function buildArticleHtml(rawHtml, tocEntries) {
     .filter((block) => block.anchor > 0)
     .sort((a, b) => b.pos - a.pos)
     .reduce((acc, block) => {
-      const marker = `<span style="display:inline;" id="section-${block.anchor}"></span>`;
+      const marker = `<span class="article-anchor" id="section-${block.anchor}"></span>`;
       return acc.slice(0, block.pos) + marker + acc.slice(block.pos);
     }, html);
 }

@@ -123,7 +123,8 @@ $header-height: 76px !default;
   }
   &__content { width: min(1100px, 100%); margin: auto; color: var(--color-text); font-size: clamp(.95rem, 1.35vw, 1.12rem); line-height: 1.65; overflow-x: auto; }
   &__content h1, &__content h2, &__content h3 { margin: 2em 0 .65em; line-height: 1.1; }
-  [id^="section-"] { scroll-margin-top: 96px !important; display: inline; }
+  // Якоря статей располагаются ниже фиксированной шапки.
+  .article-anchor { scroll-margin-top: 84px; display: block; }
   &__content p { margin: 0 0 1em; }
   &__content ul, &__content ol { margin: 0 0 1em 1.4em; }
   &__content table { width: 100%; margin: 1.5em 0 2em; border-collapse: collapse; border: 1px solid var(--color-border); font-size: .92em; display: block; overflow-x: auto; }
@@ -499,6 +500,9 @@ $header-height: 76px !default;
 }
 
 .knowledge-cat-card {
+  font: inherit;
+  text-align: left;
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
   padding: 18px;

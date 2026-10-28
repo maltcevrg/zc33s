@@ -14,3 +14,7 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+
+# Browser test artifacts
+playwright-report/
+test-results/

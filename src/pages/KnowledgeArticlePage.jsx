@@ -1,39 +1,53 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams, Navigate } from 'react-router-dom';
-import ArticleMeta from '../components/ArticleMeta';
-import { getSeoForPath, updateDocumentSeo } from '../data/seo';
+import { Link, useParams, useLocation, Navigate } from 'react-router-dom';
+import PageLoading from '../components/PageLoading';
+import { loadArticleHtml } from '../i18n/articleContent';
 import { useLanguage } from '../i18n/I18nContext';
 import { buildArticleHtml } from '../utils/articleAnchors';
 
-function scrollToSectionByIndex(idx) {
-  requestAnimationFrame(() => {
-    const target = document.getElementById('section-' + idx);
-    if (!target) return;
-    const rect = target.getBoundingClientRect();
-    window.scrollTo({ top: Math.max(0, window.scrollY + rect.top - 84), behavior: 'smooth' });
-  });
-}
-
 function KnowledgeArticlePage() {
   const { slug } = useParams();
+  const location = useLocation();
   const { t, lang } = useLanguage();
   const knowledge = t('knowledge');
   const article = (knowledge?.articles || []).find((a) => a.slug === slug);
 
-  const [html, setHtml] = useState('');
+  const [content, setContent] = useState(null);
+  const contentKey = `${lang}:${slug}`;
+  const currentContent = content?.key === contentKey ? content : null;
+  const html = currentContent?.html;
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    const seo = getSeoForPath(`/knowledge/${slug}`, lang);
-    updateDocumentSeo(seo);
-  }, [slug, lang]);
+    if (!article) return;
+    let cancelled = false;
+    loadArticleHtml(lang, slug).then(
+      (rawHtml) => {
+        if (!cancelled) setContent({ key: contentKey, html: buildArticleHtml(rawHtml, article.toc) });
+      }
+    ).catch((error) => {
+      if (!cancelled) setContent({ key: contentKey, error });
+    });
+    return () => { cancelled = true; };
+  }, [article, lang, slug, contentKey]);
 
+  // Текст и web-шрифты должны быть готовы до вычисления положения якоря.
+  // location.key учитывает повторное нажатие той же ссылки и Back/Forward.
   useEffect(() => {
-    if (article) {
-      setHtml(buildArticleHtml(article.html, article.toc));
-    }
-  }, [article]);
+    if (!html || !location.hash) return;
+    let cancelled = false;
+    let frame;
+    const scrollToHash = () => {
+      if (cancelled) return;
+      frame = requestAnimationFrame(() => {
+        let id;
+        try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+        document.getElementById(id)?.scrollIntoView({ block: 'start', behavior: 'instant' });
+      });
+    };
+    Promise.resolve(document.fonts?.ready).then(scrollToHash);
+    return () => { cancelled = true; cancelAnimationFrame(frame); };
+  }, [html, location.hash, location.key]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -43,6 +57,8 @@ function KnowledgeArticlePage() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  if (currentContent?.error) throw currentContent.error;
 
   if (!article) {
     return <Navigate to="/knowledge" replace />;
@@ -63,13 +79,11 @@ function KnowledgeArticlePage() {
           <Link to="/knowledge" className="faq-article__back">
             {knowledge?.articleBack}
           </Link>
-          <span className="knowledge-article__reading-time">{article.readingTime}</span>
         </div>
 
         <header className="knowledge-article__header">
           <h1 className="knowledge-article__title">{article.title}</h1>
           <p className="knowledge-article__summary">{article.summary}</p>
-          <ArticleMeta meta={article.meta} />
         </header>
 
         {article.toc && article.toc.length > 0 && (
@@ -80,16 +94,10 @@ function KnowledgeArticlePage() {
                 const cleanEntry = entry.replace(/^\d+[\.\)]\s*/, '');
                 return (
                   <li key={idx}>
-                    <a
-                      href={`#section-${idx + 1}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSectionByIndex(idx + 1);
-                      }}
-                    >
+                    <Link to={`#section-${idx + 1}`}>
                       <span className="toc-num">{idx + 1}.</span>
                       <span className="toc-title">{cleanEntry}</span>
-                    </a>
+                    </Link>
                   </li>
                 );
               })}
@@ -97,10 +105,9 @@ function KnowledgeArticlePage() {
           </nav>
         )}
 
-        <div
-          className="faq-article__content"
-          dangerouslySetInnerHTML={{ __html: html || article.html }}
-        />
+        {html ? (
+          <div className="faq-article__content" dangerouslySetInnerHTML={{ __html: html }} />
+        ) : <PageLoading />}
 
         <div className="knowledge-article__bottom-nav">
           <Link to="/knowledge" className="knowledge-article__back-btn">

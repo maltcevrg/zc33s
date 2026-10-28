@@ -44,24 +44,28 @@ function KnowledgeHubPage() {
         <h2 className="knowledge-categories-overview__title">{content?.categoriesTitle}</h2>
         <div className="knowledge-categories-grid">
           {categories.filter((c) => c.id !== 'all').map((cat) => (
-            <article
+            <button
+              type="button"
+              aria-pressed={activeCategory === cat.id}
+              aria-controls="knowledge-results"
+              aria-label={cat.title}
               key={cat.id}
               className={`knowledge-cat-card${activeCategory === cat.id ? ' knowledge-cat-card--active' : ''}`}
               onClick={() => setActiveCategory(cat.id)}
             >
-              <div className="knowledge-cat-card__header">
+              <span className="knowledge-cat-card__header">
                 <span className="knowledge-cat-card__id">{cat.title}</span>
                 <span className="knowledge-cat-card__arrow">→</span>
-              </div>
-              <p className="knowledge-cat-card__desc">{cat.desc}</p>
-              <ul className="knowledge-cat-card__topics">
+              </span>
+              <span className="knowledge-cat-card__desc">{cat.desc}</span>
+              <span className="knowledge-cat-card__topics">
                 {cat.topics.map((topic) => (
-                  <li key={topic} className="knowledge-cat-card__topic">
+                  <span key={topic} className="knowledge-cat-card__topic">
                     {topic}
-                  </li>
+                  </span>
                 ))}
-              </ul>
-            </article>
+              </span>
+            </button>
           ))}
         </div>
       </div>
@@ -69,11 +73,13 @@ function KnowledgeHubPage() {
       {/* Фильтр статей */}
       <div className="knowledge-filter-bar">
         <span className="knowledge-filter-bar__label">{content?.filterLabel}</span>
-        <div className="knowledge-filter-bar__buttons" role="tablist">
+        <div className="knowledge-filter-bar__buttons" role="group" aria-label={content?.filterLabel}>
           {categories.map((cat) => (
             <button
               key={cat.id}
               type="button"
+              aria-pressed={activeCategory === cat.id}
+              aria-controls="knowledge-results"
               className={`knowledge-filter-btn${activeCategory === cat.id ? ' knowledge-filter-btn--active' : ''}`}
               onClick={() => setActiveCategory(cat.id)}
             >
@@ -84,14 +90,13 @@ function KnowledgeHubPage() {
       </div>
 
       {/* Сетка статей с постоянными чистыми URL (пункт 19 ТЗ) */}
-      <div className="knowledge-articles-grid">
+      <div className="knowledge-articles-grid" id="knowledge-results" aria-live="polite">
         {filteredArticles.map((article) => (
           <article className="knowledge-card" key={article.slug}>
             <div className="knowledge-card__top">
               <span className="knowledge-card__category">
                 {getCategoryTitle(article.category)}
               </span>
-              <span className="knowledge-card__time">{article.readingTime}</span>
             </div>
 
             <h3 className="knowledge-card__title">

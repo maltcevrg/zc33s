@@ -26,7 +26,7 @@ Swift Sport Tuning (SST) — информационный сайт для вла
 
 ## Быстрый старт
 
-Понадобятся **Node.js 22 LTS** и **npm**. В текущем CI используется Node.js 20; зависимость `sharp` требует версию не ниже 20.9.0.
+Понадобятся **Node.js 22 или новее** и **npm**. В CI используется Node.js 22.
 
 ```bash
 git clone https://github.com/maltcevrg/zc33s.git
@@ -48,6 +48,8 @@ npm run dev
 | `npm run build` | Production-сборка в `dist/` |
 | `npm run preview` | Локальный просмотр готовой сборки |
 | `npm run check:anchors` | Проверка якорей оглавления статей на русском и английском |
+| `npm test` | Модульные тесты загрузки статей и обработки якорей |
+| `npm run test:e2e` | Браузерные регрессионные тесты Chromium (нужна сборка) |
 
 Для просмотра production-сборки:
 
@@ -129,16 +131,18 @@ ORDER - 3
 | --- | --- |
 | Telegram-контакт, общие уведомления и подписи | [`src/data/siteConfig.js`](src/data/siteConfig.js) |
 | Русские тексты FAQ и руководств | `src/data/faq*.js` |
-| Рубрикатор и метаданные базы знаний | [`src/data/knowledge.js`](src/data/knowledge.js) |
+| Метаданные и оглавления статей RU / EN | [`src/i18n/knowledgeArticles.js`](src/i18n/knowledgeArticles.js) |
 | Словари интерфейса и данные статей RU / EN | [`src/i18n/translations.js`](src/i18n/translations.js) |
-| Английские тексты базы знаний | [`src/i18n/knowledgeEn.js`](src/i18n/knowledgeEn.js) |
+| Английские тексты базы знаний | [`src/i18n/articles/en/`](src/i18n/articles/en/) |
+| Русские статьи о диагностике и компонентах | [`src/i18n/articles/ru/`](src/i18n/articles/ru/) |
+| Карта отложенной загрузки текстов | [`src/i18n/articleContent.js`](src/i18n/articleContent.js) |
 | Переводы информационных страниц и каталога | [`src/i18n/content/`](src/i18n/content/) |
 | SEO и Open Graph | [`src/data/seo.js`](src/data/seo.js), [`src/i18n/content/seo.js`](src/i18n/content/seo.js) |
 | PDF-каталог, доступный на сайте | [`public/zc33s_catalog_s.pdf`](public/zc33s_catalog_s.pdf) |
 
 Материалы в `WordTextForFAQ/` не подключены к текущей сборке автоматически: после их редактирования нужно обновить соответствующий контент в `src/`.
 
-При добавлении страницы обновите маршруты в `src/App.jsx`, список `spaRoutes` в `vite.config.js` и SEO-метаданные. Для новой статьи также обновите данные базы знаний и словари RU / EN.
+При добавлении страницы обновите маршруты в `src/App.jsx`, список `spaRoutes` в `vite.config.js` и SEO-метаданные. Для новой статьи также обновите метаданные в `knowledgeArticles.js` и карту загрузчиков в `articleContent.js`. Тексты загружаются отдельно для выбранной статьи и языка; не импортируйте их в общий словарь интерфейса.
 
 ## Проверка изменений
 
@@ -146,8 +150,13 @@ ORDER - 3
 
 ```bash
 npm run check:anchors
+npm test
 npm run build
+npx playwright install chromium
+npm run test:e2e
 ```
+
+Для Linux при необходимости установите системные библиотеки через `npx playwright install --with-deps chromium`. Если браузер уже установлен отдельно, можно задать `CHROMIUM_EXECUTABLE_PATH`. E2E-тесты сами запускают сервер просмотра на порту 4173.
 
 Проверка якорей сверяет оглавления статей RU / EN с разделами в HTML. Она не заменяет ручную проверку: откройте изменённые страницы, проверьте оба языка, обе темы, мобильную вёрстку и прямые ссылки.
 
@@ -157,11 +166,11 @@ npm run build
 
 Workflow [`deploy.yml`](.github/workflows/deploy.yml):
 
-1. Запускается при push в `main` и дополнительные ветки, явно перечисленные в `on.push.branches`.
-2. Устанавливает зависимости через `npm ci` и выполняет `npm run build`.
-3. Публикует содержимое `dist/` в ветку `gh-pages`.
+1. Проверяет push в `main` и ветки `arena/**`, а также pull request в `main`.
+2. Устанавливает зависимости через `npm ci`, проверяет якоря, запускает модульные тесты, сборку и браузерные тесты Chromium.
+3. Только после успешных проверок **push в `main`** публикует проверенный артефакт `dist/` в `gh-pages`. Ветки разработки и PR не публикуются.
 
-Проверка `check:anchors` пока не включена в workflow — запускайте её отдельно перед публикацией.
+Новые запуски отменяют устаревшие проверки той же ветки через `concurrency`. Право записи в репозиторий предоставлено только заданию публикации.
 
 ### Базовый путь и прямые ссылки
 
