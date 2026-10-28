@@ -1,26 +1,26 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import { useLanguage } from './i18n/I18nContext';
+import ErrorBoundary from './components/ErrorBoundary';
+import PageLoading from './components/PageLoading';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
-import HomePage from './pages/HomePage';
-import TuningPage from './pages/TuningPage';
-import ServicePage from './pages/ServicePage';
-import FaqRedirect from './pages/FaqRedirect';
-import KnowledgeHubPage from './pages/KnowledgeHubPage';
-import KnowledgeArticlePage from './pages/KnowledgeArticlePage';
-import CustomPage from './pages/CustomPage';
-import WarrantyPage from './pages/WarrantyPage';
-import ConsultationsPage from './pages/ConsultationsPage';
-import AboutPage from './pages/AboutPage';
-import PrivacyPage from './pages/PrivacyPage';
-import LegalPage from './pages/LegalPage';
-import NotFoundPage from './pages/NotFoundPage';
-import CatalogApp from './CatalogApp';
 
+const HomePage = lazy(() => import('./pages/HomePage'));
+const TuningPage = lazy(() => import('./pages/TuningPage'));
+const ServicePage = lazy(() => import('./pages/ServicePage'));
+const FaqRedirect = lazy(() => import('./pages/FaqRedirect'));
+const KnowledgeHubPage = lazy(() => import('./pages/KnowledgeHubPage'));
+const KnowledgeArticlePage = lazy(() => import('./pages/KnowledgeArticlePage'));
+const CustomPage = lazy(() => import('./pages/CustomPage'));
+const WarrantyPage = lazy(() => import('./pages/WarrantyPage'));
+const ConsultationsPage = lazy(() => import('./pages/ConsultationsPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
+const LegalPage = lazy(() => import('./pages/LegalPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const CatalogApp = lazy(() => import('./CatalogApp'));
 const RepairManualPage = lazy(() => import('./pages/RepairManualPage'));
 
 function App() {
-  const { t } = useLanguage();
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -29,7 +29,7 @@ function App() {
         <Route path="custom" element={<CustomPage />} />
         <Route path="knowledge" element={<KnowledgeHubPage />} />
         <Route path="knowledge/:slug" element={<KnowledgeArticlePage />} />
-        <Route path="manual" element={<Suspense fallback={<p className="page">{t('manual.loading')}</p>}><RepairManualPage /></Suspense>} />
+        <Route path="manual" element={<RepairManualPage />} />
         <Route path="faq" element={<FaqRedirect />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="service" element={<ServicePage />} />
@@ -40,7 +40,14 @@ function App() {
         <Route path="legal" element={<LegalPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
-      <Route path="/catalog/*" element={<CatalogApp />} />
+      <Route
+        path="/catalog/*"
+        element={
+          <ErrorBoundary>
+            <Suspense fallback={<PageLoading />}><CatalogApp /></Suspense>
+          </ErrorBoundary>
+        }
+      />
     </Routes>
   );
 }

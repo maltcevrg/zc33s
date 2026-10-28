@@ -1,31 +1,57 @@
-name: Deploy to GitHub Pages
+name: Validate and deploy
 
 on:
   push:
     branches:
       - main
-      # Ветки coding-сессий: пуш в них сразу собирает и деплоит сайт.
-      - arena/69275cb0-zc33s
-      - arena/0670a8b3-zc33s
-      - arena/a9c5a0a4-zc33s
+      - 'arena/**'
+  pull_request:
+    branches:
+      - main
+
+# Новая проверка той же ветки отменяет устаревшую, но не публикацию другой ветки.
+concurrency:
+  group: site-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  build-and-deploy:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check:anchors
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          name: site
+          path: dist
+          if-no-files-found: error
+
+  deploy:
+    # Ни push в coding-ветку, ни PR не могут изменить production.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: validate
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - uses: actions/download-artifact@v4
         with:
-          node-version: 20
-          cache: npm
-
-      - run: npm ci
-      - run: npm run build
-
+          name: site
+          path: dist
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:

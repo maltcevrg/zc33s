@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const BACKGROUND_PHOTO = `${import.meta.env.BASE_URL}images/main_page-1920.jpg`;
+const BACKGROUND_PHOTO = `${import.meta.env.BASE_URL}images/main_page-1920.webp`;
 
 function getScrollProgress() {
   if (typeof window === 'undefined') return 0;

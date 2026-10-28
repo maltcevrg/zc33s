@@ -4,11 +4,12 @@ import { readFileSync } from 'node:fs';
 import { createServer } from 'vite';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom/server.js';
+import { StaticRouter } from 'react-router-dom';
 import { PILOT_IDS } from './pilot.mjs';
+// react-router 7 ships CommonJS and ESM builds; Vite must load the same ESM build as this file (module-sync), or the router context is lost.
 
 test('React reader renders every pilot image, table, diagnostic result and torque anchor',async()=>{
-  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},logLevel:'silent'});
+  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},ssr:{resolve:{externalConditions:['module-sync']}},logLevel:'silent'});
   try{
     const page = await server.ssrLoadModule('/src/pages/RepairManualPage.jsx');
     assert.equal(typeof page.default, 'function');
@@ -32,7 +33,7 @@ test('React reader renders every pilot image, table, diagnostic result and torqu
 });
 
 test('React reader renders every published document with all source images, actions and causes',async()=>{
-  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},logLevel:'silent'});
+  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},ssr:{resolve:{externalConditions:['module-sync']}},logLevel:'silent'});
   try{
     const { default:ManualContent }=await server.ssrLoadModule('/src/features/manual/ManualContent.jsx');
     const index=JSON.parse(readFileSync('public/manual/index.json'));
@@ -58,7 +59,7 @@ test('React reader renders every published document with all source images, acti
 });
 
 test('navigation groups sections by chapter and labels variant branches',async()=>{
-  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},logLevel:'silent'});
+  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},ssr:{resolve:{externalConditions:['module-sync']}},logLevel:'silent'});
   try{
     const { default:ManualNavigation }=await server.ssrLoadModule('/src/features/manual/ManualNavigation.jsx');
     const { manualContent }=await server.ssrLoadModule('/src/features/manual/manualContent.js');
@@ -84,7 +85,7 @@ test('navigation groups sections by chapter and labels variant branches',async()
 });
 
 test('overview links every section, reference list and continue-reading entry of the published manual',async()=>{
-  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},logLevel:'silent'});
+  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},ssr:{resolve:{externalConditions:['module-sync']}},logLevel:'silent'});
   try{
     const { default:ManualOverview }=await server.ssrLoadModule('/src/features/manual/ManualOverview.jsx');
     const { manualOverview }=await server.ssrLoadModule('/src/features/manual/model.js');

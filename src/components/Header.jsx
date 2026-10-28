@@ -12,6 +12,7 @@ const EASTER_EGG_CLICKS = 5;
 const RESET_TIMEOUT = 2000;
 const VISIBLE_DURATION = 1800;
 const EXIT_DURATION = 500;
+const MOBILE_MENU_QUERY = '(max-width: 1160px)';
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 // Маппинг путей меню → ключам перевода
@@ -38,6 +39,7 @@ function Header() {
   // Руководство по ремонту — часть базы знаний, хотя живёт по адресу /manual.
   const inManual = useLocation().pathname.startsWith('/manual');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobileMenu, setIsMobileMenu] = useState(() => window.matchMedia(MOBILE_MENU_QUERY).matches);
   const [eggPhase, setEggPhase] = useState(null); // null | 'entering' | 'visible' | 'exiting'
   const eggCounterRef = useRef(0);
   const resetTimerRef = useRef(null);
@@ -54,9 +56,21 @@ function Header() {
     setMenuOpen(false);
   };
 
+  // Панель портируется только на мобильной ширине; desktop-навигация остаётся в шапке.
+  useEffect(() => {
+    const media = window.matchMedia(MOBILE_MENU_QUERY);
+    const syncViewport = () => {
+      setIsMobileMenu(media.matches);
+      if (!media.matches) setMenuOpen(false);
+    };
+    syncViewport();
+    media.addEventListener('change', syncViewport);
+    return () => media.removeEventListener('change', syncViewport);
+  }, []);
+
   // Focus trap for Navigation Drawer
   useEffect(() => {
-    if (!menuOpen) return undefined;
+    if (!menuOpen || !isMobileMenu) return undefined;
     lockScroll();
 
     openerRef.current = document.activeElement;
@@ -110,7 +124,7 @@ function Header() {
         burgerRef.current.focus({ preventScroll: true });
       }
     };
-  }, [menuOpen]);
+  }, [menuOpen, isMobileMenu]);
 
   const resetCounter = useCallback(() => {
     eggCounterRef.current = 0;
@@ -145,6 +159,60 @@ function Header() {
     }
   }, [eggPhase]);
 
+  const navigation = (
+    <nav
+      ref={navRef}
+      inert={isMobileMenu && !menuOpen ? '' : undefined}
+      aria-hidden={isMobileMenu && !menuOpen ? true : undefined}
+      className={`header__nav${menuOpen ? ' header__nav--open' : ''}`}
+      aria-label={t('header.mainNav')}
+    >
+      <button
+        className="header__nav-close"
+        onClick={() => setMenuOpen(false)}
+        aria-label={t('header.closeMenu')}
+        type="button"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          aria-hidden="true"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
+      {visibleNavItems.map(({ to, label }) => (
+        <NavLink
+          key={to}
+          to={to}
+          className={({ isActive }) =>
+            isActive || (to === '/knowledge' && inManual)
+              ? 'header__link header__link--active'
+              : 'header__link'
+          }
+          onClick={handleNavClick}
+        >
+          {getNavLabel(to, t, label)}
+        </NavLink>
+      ))}
+
+      {/* Переключатели темы и языка внутри мобильного дровера */}
+      <div className="header__theme header__theme--mobile">
+        <ThemeSwitcher variant="mobile" />
+      </div>
+      <div className="header__lang header__lang--mobile">
+        <LanguageSwitcher variant="mobile" />
+      </div>
+    </nav>
+  );
+
   return (
     <header className="header">
       <div className="header__inner">
@@ -162,63 +230,21 @@ function Header() {
         </NavLink>
 
         <div className="header__right">
-          <nav
-            ref={navRef}
-            className={`header__nav${menuOpen ? ' header__nav--open' : ''}`}
-            aria-label={t('header.mainNav')}
-          >
-            <button
-              className="header__nav-close"
-              onClick={() => setMenuOpen(false)}
-              aria-label={t('header.closeMenu')}
-              type="button"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                aria-hidden="true"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-
-            {visibleNavItems.map(({ to, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                className={({ isActive }) =>
-                  isActive || (to === '/knowledge' && inManual)
-                    ? 'header__link header__link--active'
-                    : 'header__link'
-                }
-                onClick={handleNavClick}
-              >
-                {getNavLabel(to, t, label)}
-              </NavLink>
-            ))}
-
-            {/* Переключатели темы и языка внутри мобильного дровера */}
-            <div className="header__theme header__theme--mobile">
-              <ThemeSwitcher variant="mobile" />
-            </div>
-            <div className="header__lang header__lang--mobile">
-              <LanguageSwitcher variant="mobile" />
-            </div>
-          </nav>
-
-          {menuOpen && (
-            <div
-              className="header__overlay"
-              onClick={() => setMenuOpen(false)}
-              aria-hidden="true"
-            />
-          )}
+          {isMobileMenu
+            ? createPortal(
+                <>
+                  {menuOpen && (
+                    <div
+                      className="header__overlay"
+                      onClick={() => setMenuOpen(false)}
+                      aria-hidden="true"
+                    />
+                  )}
+                  {navigation}
+                </>,
+                document.body
+              )
+            : navigation}
 
           <div className="header__actions">
             {/* Переключатель темы — десктоп */}

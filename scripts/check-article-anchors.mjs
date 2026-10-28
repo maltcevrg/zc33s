@@ -2,6 +2,7 @@
 // Запуск: npm run check:anchors
 
 import { translations } from '../src/i18n/translations.js';
+import { loadArticleHtml } from '../src/i18n/articleContent.js';
 import { buildArticleHtml } from '../src/utils/articleAnchors.js';
 
 let failures = 0;
@@ -13,7 +14,7 @@ for (const lang of Object.keys(translations)) {
   console.log(`\n${lang.toUpperCase()}:`);
 
   for (const article of articles) {
-    const html = buildArticleHtml(article.html, article.toc);
+    const html = buildArticleHtml(await loadArticleHtml(lang, article.slug), article.toc);
     const ids = [...html.matchAll(/id="section-(\d+)"/g)].map((match) => Number(match[1]));
     const anchors = new Set(ids);
     const missing = article.toc.map((_, index) => index + 1).filter((num) => !anchors.has(num));
