@@ -30,3 +30,23 @@ export function layoutCalsTable(group) {
   if (occupied.some(Boolean)) throw new Error('CALS rowspan exceeds table');
   return {columns,rows};
 }
+
+// diag type="condition": one row per action; condition and possible cause cells span their actions, as in suzuki.xsl.
+export function layoutConditionDiag(diag) {
+  const items = elements(diag);
+  if (items.some(n=>!['condition','ps','action'].includes(n.tag)) || items[0]?.tag !== 'condition') throw new Error('Invalid condition diagnostic');
+  const rows = [];
+  let condition = null, ps = null, psOpen = false;
+  for (const item of items) {
+    if (item.tag === 'condition') { condition = {node:item,rowSpan:0,emitted:false}; ps = null; psOpen = false; continue; }
+    if (item.tag === 'ps') { if (psOpen && !ps.rowSpan) throw new Error('Possible cause without action'); ps = {node:item,rowSpan:0,emitted:false}; psOpen = true; continue; }
+    const row = {action:item};
+    condition.rowSpan++;
+    if (!condition.emitted) { row.condition = condition; condition.emitted = true; }
+    if (psOpen) { ps.rowSpan++; if (!ps.emitted) { row.ps = ps; ps.emitted = true; } }
+    else row.ps = {node:null,rowSpan:1};
+    rows.push(row);
+  }
+  if (psOpen && !ps.rowSpan) throw new Error('Possible cause without action');
+  return rows.map(({action,condition:c,ps:p})=>({action,condition:c&&{node:c.node,rowSpan:c.rowSpan},ps:p&&{node:p.node,rowSpan:p.rowSpan}}));
+}

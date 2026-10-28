@@ -150,5 +150,25 @@
       "webdocstructure_FB.xml": "d9818537410ca551d9eb81c4347084ca39be1c0dc083fa3f34c564e92ebfc6ff"
     },
     "sha256": "1e6b7cc58760c1e6c11fe216a0efcb8969e6a7c4d1b26ef476748853a4f6c325"
+  },
+  "AJPHSB0P1634001.xml": {
+    "path": "Xml/AJPHSB0P/AJPHSB0P1634001.xml",
+    "sha256": "5f71d92eea04a90474f1a753e45faae95d42b75ce288f7b7356e49438c44bbf4"
+  },
+  "AJPHSB0P1336003.xml": {
+    "path": "Xml/AJPHSB0P/AJPHSB0P1336003.xml",
+    "sha256": "a8730234f1fee3b8e2065b0f72257ee14acc8b0eaf9b4944f9b45a38ac3f9d7a"
+  },
+  "AJPHSB0P1436021.xml": {
+    "path": "Xml/AJPHSB0P/AJPHSB0P1436021.xml",
+    "sha256": "4ea0773fe1728728a52f76a5ccffd279267b275c173968941723435fbeb256e3"
+  },
+  "AJPHSB0P1536004.xml": {
+    "path": "Xml/AJPHSB0P/AJPHSB0P1536004.xml",
+    "sha256": "51d4c840676c2fcecee5cec0c794511f6bc02f32d15a6f4d1825bf1db113b766"
+  },
+  "webdocstructure.xml": {
+    "path": "Xml/AJPHSB0P/webdocstructure.xml",
+    "sha256": "810727438cf6a2bc5fac9fbc9eedefde8076f96686d6851e9d00e3f5a44d1476"
   }
 }

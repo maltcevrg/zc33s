@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="..\config8\suzuki.xsl" ?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "..\config8\sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki><manual>
+<section sectnbr = "1D">
+<servcat sctnbr = "01" scnbr = "04">
+<configtype typenbr = "3">
+<servinfotype sitcode = "6">
+<servinfo servinfosgmlid = "AJPHSB0P1436021" svcinfotypenbr = "08" svcinfoqualnbr = "01" page = "2" supplyoff = "1" modify = "0">
+<title>
+Снятие/установка крышки головки блока цилиндров
+</title>
+<ptxt>
+<intxrefpoff refid = "AJPHSB0P1436020">Схема конфигурации крышки головки блока цилиндров: K14C</intxrefpoff>
+</ptxt>
+<servinfosub id = "AJPHSB0P1436021001">
+<title>
+Удаление
+</title>
+<s1>
+<ptxt>
+Отсоедините отрицательный провод от аккумулятора.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите блок воздухоочистителя и выпускной шланг воздухоочистителя № 1. 
+<intxreftitleoff1 refid = "AJPHSB0P1436004"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите крышку насоса высокого давления. 
+<intxreftitleoff1 refid = "AJPHSB0P1736001"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите катушку зажигания. 
+<intxreftitleoff1 refid = "AJPHSB0P1836003"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите следующие детали с крышки головки блока цилиндров.
+</ptxt>
+<list1 type = "unordered">
+<item>
+<ptxt>
+Зажим жгута проводов двигателя (1)
+</ptxt>
+</item>
+<item>
+<ptxt>
+Болт кронштейна жгута проводов двигателя (2)
+</ptxt>
+</item>
+<item>
+<ptxt>
+Кронштейн крышки двигателя №1 (3)
+</ptxt>
+</item>
+<item>
+<ptxt>
+Указатель уровня масла (4)
+</ptxt>
+</item>
+<item>
+<ptxt>
+Дыхательный шланг (5)
+</ptxt>
+</item>
+</list1>
+</s1>
+<s1>
+<ptxt>
+Снимите разъем ABV-VSV (6), шланг управления ABV № 3 (7) и зажим жгута проводов двигателя (8) с ABV-VSV.
+</ptxt>
+<figure>
+<graphic graphicname = "IHSB0P143043.swf" width = "88.000mm" height = "89.917mm" ver = "02" gw = "235" gh = "238"/>
+</figure>
+</s1>
+<s1>
+<ptxt>
+Поэтапно и равномерно ослабьте болт № 1 (1) и № 2 крышки головки цилиндров (2) в цифровом порядке (от «1» до «14»).
+</ptxt>
+<figure>
+<graphic graphicname = "IFAE0A140177.swf" width = "88.000mm" height = "56.504mm" ver = "01" gw = "223" gh = "144"/>
+</figure>
+</s1>
+<s1>
+<ptxt>
+Снимите крышку головки блока цилиндров и прокладку крышки головки блока цилиндров.
+</ptxt>
+</s1>
+</servinfosub>
+<servinfosub id = "AJPHSB0P1436021002">
+<title>
+Установка
+</title>
+<s1>
+<ptxt>
+Очистите сопрягаемые поверхности крышки головки блока цилиндров, головки блока цилиндров и крышки цепи привода ГРМ и нанесите герметик в места, показанные на схеме.
+</ptxt>
+<materials>
+<materialitem name = "Три Бонда 1207F" id = "M1D309" uid = "41">
+<m-part>
+“A”
+</m-part>
+<m-desc>
+герметик
+</m-desc>
+<m-number>
+99000–31250
+</m-number>
+<m-name>
+Три Бонда 1207F
+</m-name>
+<ptxt>
+</ptxt>
+</materialitem>
+</materials>
+<spec>
+<title>
+Ширина нанесения герметика на крышку цепи ГРМ и головку блока цилиндров
+</title>
+<ptxt>
+“a”：4.0 mm
+</ptxt>
+</spec>
+<figure>
+<graphic graphicname = "IHSB0P143044.swf" width = "88.000mm" height = "58.912mm" ver = "01" gw = "218" gh = "150"/>
+</figure>
+</s1>
+<s1>
+<ptxt>
+Установите новую прокладку крышки головки блока цилиндров на крышку головки блока цилиндров.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Прикрепите крышку головки блока цилиндров к головке блока цилиндров.
+</ptxt>
+<attention3>
+<ptxt>
+Присоедините крышку головки блока цилиндров к головке блока цилиндров, убедившись, что прокладка надежно прикреплена к крышке головки блока цилиндров.
+</ptxt>
+</attention3>
+</s1>
+<s1>
+<ptxt>
+Затяните болт № 1 (1) и № 2 крышки головки блока цилиндров следующим образом.
+</ptxt>
+<s2>
+<ptxt>
+Временно затяните два болта № 1 крышки головки блока цилиндров в положениях, показанных на рисунке, чтобы установить крышку на место.
+</ptxt>
+<figure>
+<graphic graphicname = "IFAE0A140179.swf" width = "88.000mm" height = "48.399mm" ver = "01" gw = "198" gh = "121"/>
+</figure>
+</s2>
+<s2>
+<ptxt>
+Затяните болты крышки головки блока цилиндров в порядке номеров («от 1» до «14»), поэтапно и равномерно, моментом 5,0 Н·м.
+</ptxt>
+</s2>
+<s2>
+<ptxt>
+Затяните болт крышки головки цилиндров № 1 моментом 7,5 Н·м и болт крышки головки блока цилиндров № 2 моментом 10 Н·м, используя тот же метод, что и в пункте b).
+</ptxt>
+</s2>
+<torque>
+<torqueitem id = "T1D360">
+<t-part>
+Болт №1 крышки головки блока цилиндров*
+</t-part>
+<t-part1>
+a
+</t-part1>
+<t-note>
+5.0 N&#183;m &#8594; 7.5 N&#183;m
+</t-note>
+</torqueitem>
+<torqueitem id = "T1D361">
+<t-part>
+Болт №2 крышки головки блока цилиндров*
+</t-part>
+<t-part1>
+b
+</t-part1>
+<t-note>
+5.0 N&#183;m &#8594; 10 N&#183;m
+</t-note>
+</torqueitem>
+</torque>
+<figure>
+<graphic graphicname = "IFAE0A140180.swf" width = "88.000mm" height = "56.504mm" ver = "02" gw = "232" gh = "144"/>
+</figure>
+</s1>
+<s1>
+<ptxt>
+Присоедините разъем ABV-VSV (6), шланг управления ABV № 3 (7) и зажим жгута проводов двигателя (8) к ABV-VSV.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Установите следующие детали на крышку головки блока цилиндров.
+</ptxt>
+<list1 type = "unordered">
+<item>
+<ptxt>
+Зажим жгута проводов двигателя (1)
+</ptxt>
+</item>
+<item>
+<ptxt>
+Болт кронштейна жгута проводов двигателя (2)
+</ptxt>
+</item>
+<item>
+<ptxt>
+Кронштейн крышки двигателя №1 (3)
+</ptxt>
+</item>
+<item>
+<ptxt>
+Указатель уровня масла (4)
+</ptxt>
+</item>
+<item>
+<ptxt>
+Дыхательный шланг (5)
+</ptxt>
+</item>
+</list1>
+<figure>
+<graphic graphicname = "IHSB0P143043.swf" width = "88.000mm" height = "89.917mm" ver = "02" gw = "235" gh = "238"/>
+</figure>
+</s1>
+<s1>
+<ptxt>
+Установите катушку зажигания. 
+<intxreftitleoff1 refid = "AJPHSB0P1836003"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Установите крышку насоса высокого давления. 
+<intxreftitleoff1 refid = "AJPHSB0P1736001"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Установите узел воздухоочистителя и выпускной шланг воздухоочистителя № 1. 
+<intxreftitleoff1 refid = "AJPHSB0P1436004"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Подсоедините отрицательный провод к аккумулятору.
+</ptxt>
+</s1>
+</servinfosub>
+</servinfo>
+</servinfotype>
+</configtype>
+</servcat>
+</section></manual></suzuki>

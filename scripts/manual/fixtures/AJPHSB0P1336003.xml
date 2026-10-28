@@ -1,0 +1,497 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="..\config8\suzuki.xsl" ?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "..\config8\sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki><manual>
+<section sectnbr = "1C">
+<servcat sctnbr = "01" scnbr = "03">
+<configtype typenbr = "3">
+<servinfotype sitcode = "6">
+<servinfo servinfosgmlid = "AJPHSB0P1336003" svcinfotypenbr = "08" svcinfoqualnbr = "03" page = "2" supplyoff = "1" modify = "1">
+<title>
+Бортовая проверка электронной системы дроссельной заслонки
+</title>
+<attention2>
+<ptxt>
+При прикосновении к дроссельной заслонке рукой, если двигатель дроссельной заслонки вращается, ваши пальцы могут попасть между корпусом дроссельной заслонки и дроссельной заслонкой, что приведет к травме.
+</ptxt>
+<ptxt>
+Выключите зажигание, прежде чем прикасаться к дроссельной заслонке.
+</ptxt>
+</attention2>
+<attention3>
+<ptxt>
+Если корпус дроссельной заслонки заменяется, выполните электронное обучение дроссельной заслонки. 
+<intxreftitleoff1 refid = "AJPHSB0P1336004"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</attention3>
+<servinfosub id = "AJPHSB0P1336003001">
+<title>
+Визуальный осмотр дроссельной заслонки
+</title>
+<s1>
+<ptxt>
+Выключите зажигание.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите выпускную трубку интеркулера № 2 и выпускной шланг интеркулера № 3.
+<intxreftitleoff1 refid = "AJPHSB0P1436017"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Убедитесь, что между дроссельной заслонкой и диапазоном перемещения клапана корпуса дроссельной заслонки нет посторонних предметов.
+</ptxt>
+<ptxt>
+Если обнаружены посторонние предметы, снимите корпус дроссельной заслонки и очистите внутреннюю часть корпуса дроссельной заслонки. 
+<intxreftitleoff1 refid = "AJPHSB0P1436017"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+</servinfosub>
+<servinfosub id = "AJPHSB0P1336003002">
+<title>
+Проверка работы дроссельной заслонки
+</title>
+<s1>
+<ptxt>
+Выключите зажигание.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите выпускную трубку интеркулера № 2 и выпускной шланг интеркулера № 3.
+<intxreftitleoff1 refid = "AJPHSB0P1436017"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Проверьте работу дроссельной заслонки, выполнив следующие действия.
+</ptxt>
+<ptxt>
+Если результаты проверки отрицательные, замените корпус дроссельной заслонки. 
+<intxreftitleoff1 refid = "AJPHSB0P1436017"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+<s2>
+<ptxt>
+Убедитесь, что при нажатии пальцем на дроссельную заслонку (1) она плавно перемещается из полностью закрытого положения в полностью открытое положение.
+</ptxt>
+<figure>
+<graphic graphicname = "IHSB0P133002.jpg" width = "88.000mm" height = "56.903mm" ver = "01" gw = "199" gh = "145"/>
+</figure>
+</s2>
+<s2>
+<ptxt>
+Убедитесь, что дроссельная заслонка возвращается в исходное положение, когда вы отпускаете палец с дроссельной заслонки в полностью закрытом или полностью открытом положении.
+</ptxt>
+</s2>
+<spec>
+<title>
+Открытие дроссельной заслонки по умолчанию
+</title>
+<ptxt>
+«a»: 8,6° из полностью закрытого положения.
+</ptxt>
+<figure>
+<graphic graphicname = "I7V20A131002.swf" width = "88.000mm" height = "43.759mm" ver = "04" gw = "144" gh = "108"/>
+<callout>
+<table frame = "all" colsep = "1" rowsep = "1">
+<tgroup cols = "2" colsep = "1" rowsep = "1">
+<colspec colnum = "1" colname = "1" colwidth = "0.315in"/>
+<colspec colnum = "2" colname = "2" colwidth = "1.968in"/>
+<tbody>
+<row rowsep = "0">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+1.
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+Дроссельная заслонка полностью закрыта
+</ptxt>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</callout>
+</figure>
+</spec>
+</s1>
+</servinfosub>
+<servinfosub id = "AJPHSB0P1336003003">
+<title>
+Проверка работы электронной системы дроссельной заслонки
+</title>
+<s1>
+<ptxt>
+Выключите зажигание.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите выпускную трубку интеркулера № 2 и выпускной шланг интеркулера № 3.
+<intxreftitleoff1 refid = "AJPHSB0P1436017"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Убедитесь, что дроссельная заслонка находится в положении открытия по умолчанию.
+</ptxt>
+<spec>
+<title>
+Открытие дроссельной заслонки
+</title>
+<ptxt>
+«a»: 8,6° из полностью закрытого положения.
+</ptxt>
+<figure>
+<graphic graphicname = "I7V20A131002.swf" width = "88.000mm" height = "43.759mm" ver = "04" gw = "144" gh = "108"/>
+<callout>
+<table frame = "all" colsep = "1" rowsep = "1">
+<tgroup cols = "2" colsep = "1" rowsep = "1">
+<colspec colnum = "1" colname = "1" colwidth = "0.315in"/>
+<colspec colnum = "2" colname = "2" colwidth = "1.968in"/>
+<tbody>
+<row rowsep = "0">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+1.
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+Дроссельная заслонка полностью закрыта
+</ptxt>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</callout>
+</figure>
+</spec>
+</s1>
+<s1>
+<ptxt>
+Включите зажигание.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Проверьте работу дроссельной заслонки, выполнив следующие действия.
+</ptxt>
+<s2>
+<ptxt>
+Постепенно нажмите педаль акселератора и убедитесь, что дроссельная заслонка плавно перемещается в полностью открытое положение.
+</ptxt>
+</s2>
+<s2>
+<ptxt>
+После нажатия педали акселератора отпустите педаль акселератора и проверьте, вернулся ли дроссельный клапан в заданное положение.
+</ptxt>
+<spec>
+<title>
+Открытие дроссельной заслонки
+</title>
+<ptxt>
+«a»: 3–15° от полностью закрытого положения.
+</ptxt>
+<figure>
+<graphic graphicname = "I7V20A131002.swf" width = "88.000mm" height = "43.759mm" ver = "04" gw = "144" gh = "108"/>
+<callout>
+<table frame = "all" colsep = "1" rowsep = "1">
+<tgroup cols = "2" colsep = "1" rowsep = "1">
+<colspec colnum = "1" colname = "1" colwidth = "0.315in"/>
+<colspec colnum = "2" colname = "2" colwidth = "1.968in"/>
+<tbody>
+<row rowsep = "0">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+1.
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+Дроссельная заслонка полностью закрыта
+</ptxt>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</callout>
+</figure>
+</spec>
+</s2>
+</s1>
+<s1>
+<ptxt>
+Если результат проверки на этапе 5) отрицательный, проверьте следующие пункты.
+</ptxt>
+<ptxt>
+Если результаты проверки хорошие, замените корпус дроссельной заслонки. 
+<intxreftitleoff1 refid = "AJPHSB0P1436017"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+<list1 type = "unordered">
+<item>
+<ptxt>
+Состояние проводки и подключения
+</ptxt>
+</item>
+<item>
+<ptxt>
+Датчик акселератора: 
+<intxreftitleoff1 refid = "AJPHSB0P1336008"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</item>
+<item>
+<ptxt>
+Датчик дроссельной заслонки: 
+<intxreftitleoff1 refid = "AJPHSB0P1336003005"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</item>
+<item>
+<ptxt>
+Двигатель дроссельной заслонки: 
+<intxreftitleoff1 refid = "AJPHSB0P1336003004"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</item>
+<item>
+<ptxt>
+ECM： 
+<intxreftitleoff1 refid = "AJPHSB0P1144080"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</item>
+</list1>
+</s1>
+</servinfosub>
+<servinfosub id = "AJPHSB0P1336003004">
+<title>
+Проверка двигателя дроссельной заслонки
+</title>
+<s1>
+<ptxt>
+Выключите зажигание.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите выпускной патрубок интеркулера № 2. 
+<intxreftitleoff1 refid = "AJPHSB0P1436017"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите разъем корпуса дроссельной заслонки.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Измерьте сопротивление между клеммой «5» корпуса дроссельной заслонки и клеммой «6».
+</ptxt>
+<ptxt>
+Если результаты проверки отрицательные, замените корпус дроссельной заслонки. 
+<intxreftitleoff1 refid = "AJPHSB0P1436017"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+<spec>
+<title>
+Значение сопротивления двигателя дроссельной заслонки
+</title>
+<ptxt>
+0.3～100 Ω (20 &#176;C)
+</ptxt>
+</spec>
+<figure>
+<graphic graphicname = "IA1J0P130058.swf" width = "88.000mm" height = "27.180mm" ver = "01" gw = "110" gh = "61"/>
+</figure>
+</s1>
+</servinfosub>
+<servinfosub id = "AJPHSB0P1336003005">
+<title>
+Проверка датчика дроссельной заслонки
+</title>
+<s1>
+<ptxt>
+Выключите зажигание.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите выпускной патрубок интеркулера № 2. 
+<intxreftitleoff1 refid = "AJPHSB0P1436017"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите разъем корпуса дроссельной заслонки.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Проверьте выходное напряжение датчика дроссельной заслонки (главного и вспомогательного) следующим образом.
+</ptxt>
+<ptxt>
+Если результаты проверки отрицательные, замените корпус дроссельной заслонки. 
+<intxreftitleoff1 refid = "AJPHSB0P1436017"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+<s2>
+<ptxt>
+Подключите последовательно три новые батареи 1,5 В (1) и убедитесь, что общее напряжение составляет от 4,5 до 5,0 В.
+</ptxt>
+</s2>
+<s2>
+<ptxt>
+Подсоедините вольтметр (2) и аккумулятор к клемме корпуса дроссельной заслонки, как показано на рисунке.
+</ptxt>
+<figure>
+<graphic graphicname = "IBV10A131001.swf" width = "88.000mm" height = "91.321mm" ver = "01" gw = "152" gh = "242"/>
+<callout>
+<table frame = "all" colsep = "1" rowsep = "1">
+<tgroup cols = "4" colsep = "1" rowsep = "1">
+<colspec colnum = "1" colname = "1" colwidth = "0.315in"/>
+<colspec colnum = "2" colname = "2" colwidth = "1.378in"/>
+<colspec colnum = "3" colname = "3" colwidth = "0.315in"/>
+<colspec colnum = "4" colname = "4" colwidth = "1.378in"/>
+<tbody>
+<row rowsep = "0">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+[A]:
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+главный датчик дроссельной заслонки
+</ptxt>
+</entry>
+<entry colname = "3" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+[B]:
+</ptxt>
+</entry>
+<entry colname = "4" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+датчик дроссельной заслонки
+</ptxt>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</callout>
+</figure>
+</s2>
+<s2>
+<ptxt>
+Открывая и закрывая дроссельную заслонку пальцем, проверяйте, чтобы напряжение изменялось так, как показано на рисунке, в зависимости от степени открытия дроссельной заслонки.
+</ptxt>
+<figure>
+<graphic graphicname = "IDLA0A130003.swf" width = "88.000mm" height = "48.588mm" ver = "02" gw = "192" gh = "121"/>
+<callout>
+<table frame = "all" colsep = "1" rowsep = "1">
+<tgroup cols = "2" colsep = "1" rowsep = "1">
+<colspec colnum = "1" colname = "1" colwidth = "0.315in"/>
+<colspec colnum = "2" colname = "2" colwidth = "1.968in"/>
+<tbody>
+<row rowsep = "1">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+[a]:
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+Напряжение главного датчика дроссельной заслонки
+</ptxt>
+</entry>
+</row>
+<row rowsep = "1">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+[b]:
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+напряжение датчика вспомогательной дроссельной заслонки
+</ptxt>
+</entry>
+</row>
+<row rowsep = "1">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+[c]:
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+Выходное напряжение датчика дроссельной заслонки (В)
+</ptxt>
+</entry>
+</row>
+<row rowsep = "1">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+[d]:
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+Открытие дроссельной заслонки
+</ptxt>
+</entry>
+</row>
+<row rowsep = "1">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+[e]:
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+Открытие дроссельной заслонки по умолчанию
+</ptxt>
+</entry>
+</row>
+<row rowsep = "1">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+[f]:
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+Ход педали акселератора (86°)
+</ptxt>
+</entry>
+</row>
+<row rowsep = "0">
+<entry colname = "1" border-top = "1" border-bottom = "1" border-left = "1" border-right = "0" align = "right">
+<ptxt>
+[g]:
+</ptxt>
+</entry>
+<entry colname = "2" border-top = "1" border-bottom = "1" border-left = "0" border-right = "1" align = "left">
+<ptxt>
+Ход пальцами (98°)
+</ptxt>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</callout>
+</figure>
+</s2>
+</s1>
+</servinfosub>
+</servinfo>
+</servinfotype>
+</configtype>
+</servcat>
+</section></manual></suzuki>

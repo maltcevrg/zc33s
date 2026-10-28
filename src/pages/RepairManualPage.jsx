@@ -5,14 +5,17 @@ import ManualContent from '../features/manual/ManualContent.jsx';
 import ManualNavigation from '../features/manual/ManualNavigation';
 import ManualImageDialog from '../features/manual/ManualImageDialog';
 import { createDocumentLoader, manualHref, searchManual } from '../features/manual/model';
+import { fillLabel } from '../features/manual/manualContent';
 import '../features/manual/manual.scss';
 
+const SCHEMA_VERSION = 2;
 const asset = path => `${import.meta.env.BASE_URL}manual/${path}`;
 
 export default function RepairManualPage() {
   const { t, lang }=useLanguage();const labels=t('manual');
   const [params]=useSearchParams();const location=useLocation();
-  const [index,setIndex]=useState(null);const [search,setSearch]=useState([]);const [indexError,setIndexError]=useState(false);
+  const [index,setIndex]=useState(null);const [indexError,setIndexError]=useState(false);
+  const [search,setSearch]=useState(null);const [searchWanted,setSearchWanted]=useState(false);
   const [retry,setRetry]=useState(0);const [query,setQuery]=useState('');const [expanded,setExpanded]=useState(false);
   const [state,setState]=useState({id:null,document:null,error:false});const [image,setImage]=useState(null);
   const [copyState,setCopyState]=useState('');const [manualCopy,setManualCopy]=useState('');
@@ -23,17 +26,29 @@ export default function RepairManualPage() {
   const entry=index?.documents.find(d=>d.id===selectedId);
   const current=state.id===selectedId?state.document:null;
   const error=state.id===selectedId&&state.error;
-  const results=useMemo(()=>searchManual(search,query),[search,query]);
+  const results=useMemo(()=>search?searchManual(search,query):[],[search,query]);
+  const count=index?.documents.length??'';
 
   useEffect(()=>{
     setIndexError(false);
-    Promise.all([indexLoader.load(asset('index.json')),searchLoader.load(asset('search.json'))]).then(([catalog,entries])=>{
-      if(!catalog||!entries)return;
-      if(catalog.schemaVersion!==1||!Array.isArray(catalog.documents)||!Array.isArray(entries))throw new Error('Unsupported manual format');
-      setIndex(catalog);setSearch(entries);
+    indexLoader.load(asset('index.json')).then(catalog=>{
+      if(!catalog)return;
+      if(catalog.schemaVersion!==SCHEMA_VERSION||!Array.isArray(catalog.documents)||!Array.isArray(catalog.sections))throw new Error('Unsupported manual format');
+      setIndex(catalog);
     }).catch(()=>setIndexError(true));
-    return ()=>{indexLoader.cancel();searchLoader.cancel();};
-  },[indexLoader,searchLoader,retry]);
+    return ()=>indexLoader.cancel();
+  },[indexLoader,retry]);
+
+  // The full-text index is the largest file; it is fetched only once someone searches.
+  useEffect(()=>{
+    if(!searchWanted||search)return;
+    searchLoader.load(asset('search.json')).then(entries=>{
+      if(!entries)return;
+      if(!Array.isArray(entries))throw new Error('Unsupported search format');
+      setSearch(entries);
+    }).catch(()=>setIndexError(true));
+    return ()=>searchLoader.cancel();
+  },[searchLoader,searchWanted,search,retry]);
 
   useEffect(()=>{
     setCopyState('');setManualCopy('');setImage(null);
@@ -41,7 +56,7 @@ export default function RepairManualPage() {
     setState({id:selectedId,document:null,error:false});
     documentLoader.load(asset(entry.path)).then(doc=>{
       if(!doc)return;
-      if(doc.schemaVersion!==1||doc.id!==selectedId||!Array.isArray(doc.body))throw new Error('Invalid manual document');
+      if(doc.schemaVersion!==SCHEMA_VERSION||doc.id!==selectedId||!Array.isArray(doc.body))throw new Error('Invalid manual document');
       setState({id:selectedId,document:doc,error:false});
     }).catch(()=>setState({id:selectedId,document:null,error:true}));
     return ()=>documentLoader.cancel();
@@ -70,18 +85,19 @@ export default function RepairManualPage() {
   }
   const position=index?.documents.findIndex(d=>d.id===selectedId)??-1;
   const target=index?.targets[selectedId];
+  const section=current&&index.sections.find(s=>s.id===current.sectionId);
   const loading=!!entry&&!current&&!error;
   return <section className="manual-page">
     <Link className="manual-page__back" to="/knowledge">{labels.back}</Link>
-    <header className="manual-page__header"><div><h1>{labels.title}</h1><p>{labels.car}</p></div><p className="manual-page__scope">{labels.scope}</p></header>
+    <header className="manual-page__header"><div><h1>{labels.title}</h1><p>{labels.car}</p></div>{index&&<p className="manual-page__scope">{fillLabel(labels.scope,{count})}</p>}</header>
     {indexError?<div className="manual-state" role="alert"><p>{labels.error}</p><button type="button" onClick={()=>setRetry(n=>n+1)}>{labels.retry}</button></div>:!index?<p className="manual-state" role="status">{labels.loading}</p>:<div className="manual-workspace">
-      <ManualNavigation documents={index.documents} results={results} query={query} onQueryChange={value=>{setQuery(value);if(value.trim())setExpanded(true);}} selectedId={selectedId} expanded={expanded} onExpandedChange={setExpanded} labels={labels}/>
+      <ManualNavigation sections={index.sections} documents={index.documents} results={results} searchReady={!!search} query={query} onQueryChange={value=>{setQuery(value);if(value.trim()){setSearchWanted(true);setExpanded(true);}}} selectedId={selectedId} expanded={expanded} onExpandedChange={setExpanded} labels={labels}/>
       <div className="manual-reader" aria-busy={loading}>
         {loading?<p className="manual-state" role="status">{labels.loadingDocument}</p>:error?<div className="manual-state" role="alert"><p>{labels.error}</p><button type="button" onClick={()=>setRetry(n=>n+1)}>{labels.retry}</button></div>:current?<article>
           <header className="manual-document-header">
-            <p className="manual-breadcrumb">{labels.groupNames[current.groupId]} <span aria-hidden="true">/</span> K14C</p>
+            <p className="manual-breadcrumb" lang="ru"><span className="manual-capitalize">{section?.title}</span> <span aria-hidden="true">/</span> {current.groupTitle}{section?.variant&&<> <span aria-hidden="true">/</span> {section.variant}</>}</p>
             <h2 className="manual-document-title" tabIndex={-1} ref={titleRef} lang="ru">{current.title}</h2>
-            <p className="manual-source-note">{labels.sourceNote}</p>
+            <p className="manual-source-note">{labels.sourceNote} {fillLabel(labels.sectionNote,{section:section?.id})}{section?.variant&&<>, {fillLabel(labels.engineNote,{engine:section.variant})}</>}.</p>
             <div className="manual-toolbar"><button type="button" onClick={copyLink}>{copyState==='copied'?labels.copied:labels.copy}</button><button type="button" onClick={()=>window.print()}>{labels.print}</button><span className="manual-source-id">{current.id}</span></div>
             <span role="status" className="manual-copy-status">{copyState==='copied'?labels.copied:''}</span>
             {copyState==='manual'&&<label className="manual-copy-fallback">{labels.manualCopy}<input readOnly value={manualCopy} onFocus={e=>e.target.select()}/></label>}
@@ -91,7 +107,7 @@ export default function RepairManualPage() {
             {position>0&&<Link to={manualHref(index.documents[position-1].id)}><span>{labels.previous}</span><strong lang="ru">{index.documents[position-1].title}</strong></Link>}
             {position<index.documents.length-1&&<Link to={manualHref(index.documents[position+1].id)}><span>{labels.next}</span><strong lang="ru">{index.documents[position+1].title}</strong></Link>}
           </nav>
-        </article>:<div className="manual-state"><h2 lang="ru">{target?.title||labels.unknown}</h2><p>{target?labels.unavailable:labels.unknownNote}</p>{target&&<p>{labels.unavailableNote}</p>}<Link to={manualHref()}>{labels.return}</Link></div>}
+        </article>:<div className="manual-state"><h2 lang="ru">{target?.title||labels.unknown}</h2><p>{target?labels.unavailable:labels.unknownNote}</p>{target&&<p>{fillLabel(labels.unavailableNote,{count})}</p>}<Link to={manualHref()}>{labels.return}</Link></div>}
       </div>
     </div>}
     <ManualImageDialog image={image} onClose={()=>setImage(null)} labels={labels}/>

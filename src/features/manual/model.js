@@ -22,7 +22,7 @@ export function searchManual(entries,query) {
     if(!tokens.every(t=>text.includes(t)))return null;
     const score=tokens.filter(t=>title.includes(t)).length*10+(normalizeSearch(entry.id)===normalizeSearch(query)?100:0);
     return {...entry,snippet:snippetFor(entry.text,tokens),score,index};
-  }).filter(Boolean).sort((a,b)=>b.score-a.score||a.index-b.index).map(({id,title,groupTitle,snippet})=>({id,title,groupTitle,snippet}));
+  }).filter(Boolean).sort((a,b)=>b.score-a.score||a.index-b.index).map(({id,title,sectionId,groupTitle,snippet})=>({id,title,sectionId,groupTitle,snippet}));
 }
 
 export function manualHref(id,anchor) {

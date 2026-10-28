@@ -30,3 +30,26 @@ test('React reader renders every pilot image, table, diagnostic result and torqu
     assert(!html.includes('<object'));assert(!html.includes('<script'));
   }finally{await server.close();}
 });
+
+test('React reader renders every published document with all source images, actions and causes',async()=>{
+  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},logLevel:'silent'});
+  try{
+    const { default:ManualContent }=await server.ssrLoadModule('/src/features/manual/ManualContent.jsx');
+    const index=JSON.parse(readFileSync('public/manual/index.json'));
+    const report=JSON.parse(readFileSync('public/manual/report.json'));
+    const count=(html,pattern)=>(html.match(pattern)||[]).length;
+    let symbols=0;
+    for(const entry of index.documents){
+      const document=JSON.parse(readFileSync(`public/manual/${entry.path}`));
+      const html=renderToStaticMarkup(React.createElement(StaticRouter,{basename:'/zc33s',location:'/zc33s/manual/'},React.createElement(ManualContent,{document,targets:index.targets,onOpenImage:()=>{}})));
+      const expected=report.documentSourceCounts[entry.id];
+      assert.equal(count(html,/data-source-tag="graphic"/g),expected.graphic||0,`${entry.id} graphic`);
+      assert.equal(count(html,/data-source-tag="action"/g),expected.action||0,`${entry.id} action`);
+      assert.equal(count(html,/data-source-tag="ps"/g),expected.ps||0,`${entry.id} ps`);
+      assert.equal(count(html,/data-source-tag="condition"/g),expected.condition||0,`${entry.id} condition`);
+      assert(!/<(object|script|embed)/.test(html),entry.id);
+      symbols+=count(html,/class="manual-symbol"/g);
+    }
+    assert(symbols>0);
+  }finally{await server.close();}
+});
