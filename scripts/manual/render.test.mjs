@@ -10,6 +10,8 @@ import { PILOT_IDS } from './pilot.mjs';
 test('React reader renders every pilot image, table, diagnostic result and torque anchor',async()=>{
   const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},logLevel:'silent'});
   try{
+    const page = await server.ssrLoadModule('/src/pages/RepairManualPage.jsx');
+    assert.equal(typeof page.default, 'function');
     const { default:ManualContent }=await server.ssrLoadModule('/src/features/manual/ManualContent.jsx');
     const index=JSON.parse(readFileSync('public/manual/index.json'));
     let html='';

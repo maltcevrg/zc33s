@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../i18n/I18nContext';
-import ManualContent from '../features/manual/ManualContent';
+import ManualContent from '../features/manual/ManualContent.jsx';
 import ManualNavigation from '../features/manual/ManualNavigation';
 import ManualImageDialog from '../features/manual/ManualImageDialog';
 import { createDocumentLoader, manualHref, searchManual } from '../features/manual/model';

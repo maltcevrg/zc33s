@@ -1,4 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { useLanguage } from './i18n/I18nContext';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import TuningPage from './pages/TuningPage';
@@ -15,7 +17,10 @@ import LegalPage from './pages/LegalPage';
 import NotFoundPage from './pages/NotFoundPage';
 import CatalogApp from './CatalogApp';
 
+const RepairManualPage = lazy(() => import('./pages/RepairManualPage'));
+
 function App() {
+  const { t } = useLanguage();
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -24,6 +29,7 @@ function App() {
         <Route path="custom" element={<CustomPage />} />
         <Route path="knowledge" element={<KnowledgeHubPage />} />
         <Route path="knowledge/:slug" element={<KnowledgeArticlePage />} />
+        <Route path="manual" element={<Suspense fallback={<p className="page">{t('manual.loading')}</p>}><RepairManualPage /></Suspense>} />
         <Route path="faq" element={<FaqRedirect />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="service" element={<ServicePage />} />

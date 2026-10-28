@@ -233,6 +233,7 @@ const spaRoutes = [
   'privacy',
   'legal',
   'knowledge',
+  'manual',
   'knowledge/zc33s-faq',
   'knowledge/ecu-flashing',
   'knowledge/tuning-stages',

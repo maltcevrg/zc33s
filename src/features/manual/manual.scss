@@ -123,7 +123,7 @@
 @media (prefers-reduced-motion: reduce) { .manual-page *, .manual-image-dialog * { scroll-behavior: auto; } }
 @media print {
   body:has(.manual-page) { background: #fff; color: #000; }
-  body:has(.manual-page) #root > header, body:has(.manual-page) #root > footer, body:has(.manual-page) .background { display: none !important; }
+  body:has(.manual-page) #root > header, body:has(.manual-page) #root > footer, body:has(.manual-page) .site-bg { display: none !important; }
   body:has(.manual-page) main { padding-top: 0; }
   .manual-page { max-width: none; padding: 0; color: #000; }
   .manual-sidebar, .manual-toolbar, .manual-copy-fallback, .manual-pagination, .manual-page__back, .manual-image-dialog, .manual-illustration__caption { display: none !important; }

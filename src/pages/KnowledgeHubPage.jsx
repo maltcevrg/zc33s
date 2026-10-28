@@ -40,6 +40,14 @@ function KnowledgeHubPage() {
       </div>
 
       {/* Структура категорий базы знаний (пункт 18 ТЗ) */}
+      <article className="knowledge-card" style={{ marginBottom: '2rem' }}>
+        <div className="knowledge-card__top"><span className="knowledge-card__category">K14C · 1H</span></div>
+        <h2 className="knowledge-card__title"><Link to="/manual/">{t('manual.cardTitle')}</Link></h2>
+        <p className="knowledge-card__summary">{t('manual.cardDescription')}</p>
+        <p className="knowledge-card__summary">{t('manual.scope')}</p>
+        <Link to="/manual/" className="knowledge-card__btn">{t('manual.cardLink')}</Link>
+      </article>
+
       <div className="knowledge-categories-overview">
         <h2 className="knowledge-categories-overview__title">{content?.categoriesTitle}</h2>
         <div className="knowledge-categories-grid">
