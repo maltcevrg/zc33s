@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="..\config8\suzuki.xsl" ?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "..\config8\sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki><manual>
+<section sectnbr = "1H">
+<servcat sctnbr = "01" scnbr = "08">
+<configtype typenbr = "3">
+<servinfotype sitcode = "3">
+<servinfo servinfosgmlid = "AJPHSB0P1833001" svcinfotypenbr = "04" svcinfoqualnbr = "01" supplyoff = "1" modify = "0">
+<title>
+Схема конфигурации системы зажигания
+</title>
+<attention3>
+<ptxt>
+Для следующих компонентов: 
+<intxref refid = "AJPHSB0P1143001">Схема конфигурации системы управления двигателем: K14C</intxref>
+ См.
+</ptxt>
+<list1 type = "unordered">
+<item>
+<ptxt>
+Катушка зажигания №1, катушка зажигания №2, катушка зажигания №3, катушка зажигания №4, датчик угла поворота коленвала, датчик угла распредвала, датчик детонации, ECM и DLC.
+</ptxt>
+</item>
+</list1>
+</attention3>
+</servinfo>
+</servinfotype>
+</configtype>
+</servcat>
+</section></manual></suzuki>

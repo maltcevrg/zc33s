@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="..\config8\suzuki.xsl" ?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "..\config8\sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki><manual>
+<section sectnbr = "1H">
+<servcat sctnbr = "01" scnbr = "08">
+<configtype typenbr = "3">
+<servinfotype sitcode = "6">
+<servinfo servinfosgmlid = "AJPHSB0P1836004" svcinfotypenbr = "08" svcinfoqualnbr = "03" page = "2" supplyoff = "1" modify = "0">
+<title>
+Проверка катушки зажигания
+</title>
+<ptxt>
+<intxrefpoff refid = "AJPHSB0P1836003">Снятие/установка катушки зажигания: K14C</intxrefpoff>
+</ptxt>
+<ptxt>
+Проверьте следующие позиции на предмет снятой катушки IG и, если есть какие-либо дефекты, соответствующие этим позициям, замените ее новой катушкой IG.
+</ptxt>
+<list1 type = "unordered">
+<item>
+<ptxt>
+повреждать
+</ptxt>
+</item>
+<item>
+<ptxt>
+ухудшение
+</ptxt>
+</item>
+<item>
+<ptxt>
+Коррозия клемм
+</ptxt>
+</item>
+</list1>
+</servinfo>
+</servinfotype>
+</configtype>
+</servcat>
+</section></manual></suzuki>

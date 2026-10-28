@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="..\config8\suzuki.xsl" ?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "..\config8\sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki><manual>
+<section sectnbr = "1H">
+<servcat sctnbr = "01" scnbr = "08">
+<configtype typenbr = "3">
+<servinfotype sitcode = "6">
+<servinfo servinfosgmlid = "AJPHSB0P1836001" svcinfotypenbr = "08" svcinfoqualnbr = "01" page = "2" supplyoff = "1" modify = "0">
+<title>
+Снятие/установка свечей зажигания
+</title>
+<servinfosub id = "AJPHSB0P1836001001">
+<title>
+Удаление
+</title>
+<s1>
+<ptxt>
+Снимите катушку IG. 
+<intxreftitleoff1 refid = "AJPHSB0P1836003"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите свечу зажигания с головки блока цилиндров.
+</ptxt>
+</s1>
+</servinfosub>
+<servinfosub id = "AJPHSB0P1836001002">
+<title>
+Установка
+</title>
+<ptxt>
+<intxrefpoff refid = "AJPHSB0P1836002">Проверка свечей зажигания: K14C</intxrefpoff>
+</ptxt>
+<ptxt>
+Установка выполняется в порядке, обратном снятию, но обратите внимание на следующие моменты.
+</ptxt>
+<list1 type = "unordered">
+<item>
+<ptxt>
+Затяните свечу зажигания указанным моментом.
+</ptxt>
+<torque>
+<torqueitem id = "T1H303">
+<t-part>
+свеча зажигания
+</t-part>
+<t-value1>
+18
+</t-value1>
+</torqueitem>
+</torque>
+</item>
+</list1>
+</servinfosub>
+</servinfo>
+</servinfotype>
+</configtype>
+</servcat>
+</section></manual></suzuki>

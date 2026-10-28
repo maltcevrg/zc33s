@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="..\config8\suzuki.xsl" ?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "..\config8\sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki><manual>
+<section sectnbr = "1H">
+<servcat sctnbr = "01" scnbr = "08">
+<configtype typenbr = "3">
+<servinfotype sitcode = "6">
+<servinfo servinfosgmlid = "AJPHSB0P1836003" svcinfotypenbr = "08" svcinfoqualnbr = "01" page = "2" supplyoff = "1" modify = "0">
+<title>
+Снятие/установка катушки зажигания
+</title>
+<servinfosub id = "AJPHSB0P1836003001">
+<title>
+Удаление
+</title>
+<s1>
+<ptxt>
+Отсоедините отрицательный провод от аккумулятора.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите блок воздухоочистителя. 
+<intxreftitleoff1 refid = "AJPHSB0P1436004"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите разъем катушки IG.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Выверните болт катушки зажигания (1) и снимите катушку зажигания (2).
+</ptxt>
+<figure>
+<graphic graphicname = "IHSB0P183003.jpg" width = "88.000mm" height = "56.715mm" ver = "01" gw = "199" gh = "144"/>
+</figure>
+</s1>
+</servinfosub>
+<servinfosub id = "AJPHSB0P1836003002">
+<title>
+Установка
+</title>
+<ptxt>
+<intxrefpoff refid = "AJPHSB0P1836004">Проверка катушки зажигания: K14C</intxrefpoff>
+</ptxt>
+<ptxt>
+Установка производится в порядке, обратном снятию.
+</ptxt>
+</servinfosub>
+</servinfo>
+</servinfotype>
+</configtype>
+</servcat>
+</section></manual></suzuki>

@@ -1,0 +1,88 @@
+<!-- <!ENTITY phis     "&#966;">
+    Changed to correct display in IE  --> 
+<!ENTITY phis     "&#248;">
+<!ENTITY deg      "&#176;">
+<!ENTITY micro    "&#181;">
+<!ENTITY star     "<symbol name='star' type='chara'/>">
+<!ENTITY infin    "&#8734;">
+<!ENTITY reg      "&#174;">
+<!ENTITY ohm      "&#937;">
+<!ENTITY cir      "&#8226;">
+<!ENTITY plusmn   "&#177;">
+<!ENTITY harr     "&#8596;">
+<!ENTITY larr     "&#8592;">
+<!ENTITY rarr     "&#8594;">
+<!ENTITY uarr     "&#8593;">
+<!ENTITY darr     "&#8595;">
+<!ENTITY mdash    "&#8212;">
+<!ENTITY ndash    "&#8211;">
+<!ENTITY middot   "&#183;">
+<!ENTITY bull     "&#8226;">
+<!ENTITY squ      "&#x25A1;">
+<!ENTITY squf     "<symbol name='squf' type='chara'/>">
+<!ENTITY utrif    "<symbol name='utrif' type='chara'/>">
+<!ENTITY dtrif    "<symbol name='dtrif' type='chara'/>">
+<!ENTITY utri     "<symbol name='utri' type='chara'/>">
+<!ENTITY dtri     "<symbol name='dtri' type='chara'/>">
+<!ENTITY alpha    "&#945;">
+<!ENTITY beta     "&#946;">
+<!ENTITY gamma    "&#947;">
+<!ENTITY divide   "&#247;">
+<!ENTITY thetas   "&#952;">
+<!ENTITY num      "&#x0023;">
+<!-- 
+<!ENTITY gt       "&#62;">
+<!ENTITY lt       "&#38;#60;">
+<!ENTITY amp      "&#38;#38;">
+-->
+
+<!ENTITY rtrif    "<symbol name='rtrif' type='chara'/>">
+<!ENTITY ldquo    "&#8220;">
+<!ENTITY rdquo    "&#8221;">
+<!ENTITY lsquo    "&#8216;">
+<!ENTITY rsquo    "&#8217;">
+<!ENTITY lsqb     "&#x005B;">
+<!ENTITY rsqb     "&#x005D;">
+<!ENTITY sol      "&#x002F;">
+<!ENTITY SOL      "&#x002F;">
+<!ENTITY plus     "&#x002B;">
+<!ENTITY percnt   "&#x0025;">
+<!ENTITY ast      "&#x002A;">
+<!ENTITY ge       "&#8805;">
+<!ENTITY le       "&#8804;">
+<!ENTITY quot     "&#34;">
+<!ENTITY equals   "&#x003D;">
+<!ENTITY lcub     "&#x007B;">
+<!ENTITY rcub     "&#x007D;">
+<!ENTITY times    "&#215;">
+<!ENTITY Phi      "&#934;">
+<!ENTITY nbsp     "&#160;">
+<!ENTITY Omega    "&#937;">
+<!ENTITY hellip   "&#8230;">
+<!ENTITY oslash   "&#248;">
+<!ENTITY minus    "&#8722;">
+<!ENTITY pound    "&#163;">
+<!ENTITY sup2     "&#178;">
+<!ENTITY chi      "&#967;">
+<!ENTITY lambda   "&#955;">
+<!ENTITY epsiv    "&#x03B5;">
+<!ENTITY tau      "&#964;">
+<!ENTITY rho      "&#961;">
+<!ENTITY psi      "&#968;">
+<!ENTITY verbar   "&#x007C;">
+<!ENTITY yen      "&#165;">
+<!ENTITY szlig    "&#223;">
+
+<!ENTITY lowbar		"&#x005F;">
+<!ENTITY dollar		"&#x0024;">
+<!ENTITY commat		"&#x0040;">
+<!ENTITY shy		"&#x00AD;">
+<!ENTITY hyphen		"&#x002D;">
+<!ENTITY rdquor		"&#x201C;">
+<!ENTITY ntilde		"&#x00F1;">
+<!ENTITY semi		"&#x003B;">
+<!ENTITY excl		"&#x0021;">
+<!ENTITY sup1		"&#x00B9;">
+<!ENTITY sup3		"&#x00B3;">
+<!ENTITY bsol		"&#x005C;">
+<!ENTITY tcaron		"&#x0165;">

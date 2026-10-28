@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="..\config8\suzuki.xsl" ?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "..\config8\sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki><manual>
+<section sectnbr = "1H">
+<servcat sctnbr = "01" scnbr = "08">
+<configtype typenbr = "3">
+<servinfotype sitcode = "6">
+<servinfo servinfosgmlid = "AJPHSB0P1836002" svcinfotypenbr = "08" svcinfoqualnbr = "03" page = "2" supplyoff = "1" modify = "0">
+<title>
+Проверка свечей зажигания
+</title>
+<ptxt>
+<intxrefpoff refid = "AJPHSB0P1836001">Снятие/установка свечи зажигания: K14C</intxrefpoff>
+</ptxt>
+<attention4>
+<ptxt>
+Иридиевые свечи зажигания легко повредить, а центральный электрод может быть поврежден, если не соблюдать следующие пункты.
+</ptxt>
+<list1 type = "unordered">
+<item>
+<ptxt>
+Не чистите электроды.
+</ptxt>
+</item>
+<item>
+<ptxt>
+Не регулируйте зазор свечи.
+</ptxt>
+</item>
+</list1>
+</attention4>
+<s1>
+<ptxt>
+Проверьте следующие пункты, касающиеся снятой свечи зажигания, и при обнаружении каких-либо дефектов замените свечу зажигания.
+</ptxt>
+<list1 type = "unordered">
+<item>
+<ptxt>
+Грязный или поврежденный электрод
+</ptxt>
+</item>
+<item>
+<ptxt>
+Повреждение изолятора
+</ptxt>
+</item>
+<item>
+<ptxt>
+Углеродная адгезия
+</ptxt>
+</item>
+</list1>
+</s1>
+<s1>
+<ptxt>
+Проверьте зазор свечи «а» с помощью специального инструмента (щупа проводного типа).
+</ptxt>
+<ptxt>
+Если зазор свечи зажигания выходит за пределы стандартного значения, замените свечу зажигания.
+</ptxt>
+<servicetool>
+<servicetoolitem id = "L1H307">
+<s-part>
+(A)
+</s-part>
+<s-number num = "09930-77410">
+09930–77410
+</s-number>
+</servicetoolitem>
+</servicetool>
+<spec-sdm>
+<sdm-title>
+заглушка разрыва
+</sdm-title>
+<sdm-part>
+“a”
+</sdm-part>
+<sdm1>
+<sdm-condition>
+Справочное значение
+</sdm-condition>
+<sdm-value>
+0.7～0.8 mm
+</sdm-value>
+</sdm1>
+</spec-sdm>
+<spec-sdm>
+<sdm-title>
+использованная свеча зажигания
+</sdm-title>
+<sdm1>
+<sdm-condition>
+NGK
+</sdm-condition>
+<sdm-value>
+ILZKR7D8 (Иридий)
+</sdm-value>
+</sdm1>
+</spec-sdm>
+<figure>
+<graphic graphicname = "IHW00Q180002J.swf" width = "88.000mm" height = "46.725mm" ver = "01" gw = "122" gh = "115"/>
+</figure>
+<figure>
+<graphic graphicname = "I8T401182005.swf" width = "88.000mm" height = "63.673mm" ver = "01" gw = "98" gh = "164"/>
+</figure>
+</s1>
+</servinfo>
+</servinfotype>
+</configtype>
+</servcat>
+</section></manual></suzuki>

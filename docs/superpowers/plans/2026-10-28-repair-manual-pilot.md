@@ -88,7 +88,7 @@ const document = {
 // search.json: [{id,title,groupTitle,text}].
 ```
 
-## Задача 1: Проверяемое чтение источника и XML
+## Task 1: Проверяемое чтение источника и XML
 
 **Files:** создать `scripts/manual/archive.mjs`, `xml.mjs`, `pilot.mjs`, соответствующие `.test.mjs` и исходные fixtures; изменить package.json/package-lock.json.
 
@@ -125,7 +125,7 @@ test('XML preserves mixed text and rejects unknown entities', () => {
 - [ ] Сохранить fixtures 11 XML, индексы структуры/названий, сущности и нужные выдержки XSL. Добавить тесты комментариев в сущностях, `&deg;`, смешанного содержимого, локальных `symbol` и запрета внешнего URL. Проверить fixtures по хешам.
 - [ ] Повторить тесты; сохранить отдельный коммит только файлов задачи: `feat: add strict repair manual source reader`.
 
-## Задача 2: Перенос содержания, ссылок и таблиц
+## Task 2: Перенос содержания, ссылок и таблиц
 
 **Files:** создать `scripts/manual/convert.mjs`, `convert.test.mjs`, `src/features/manual/table.js`.
 
@@ -169,7 +169,7 @@ assert(spark.references.every(r => r.title.length > 0));
 - [ ] Сопоставить количество график/таблиц/вопросов/ответов исходника с деревом всех 11 документов: 12/5/9/18. Сохранить порядок и текст всех 18 `action`; неизвестный значимый тег должен приводить к исключению.
 - [ ] Выполнить все тесты задач 1–2; сохранить коммит `feat: preserve repair manual content and cross references`.
 
-## Задача 3: Повторяемый импорт и проверяемые статические данные
+## Task 3: Повторяемый импорт и проверяемые статические данные
 
 **Files:** создать `scripts/manual/import.mjs`, `check.mjs`, `import.test.mjs`, `public/manual/**`, `docs/repair-manual.md`; добавить npm scripts.
 
@@ -187,7 +187,7 @@ assert(spark.references.every(r => r.title.length > 0));
 - [ ] Выполнить реальный импорт с явно переданным пользовательским путём. Выполнить `npm run manual:check` и `npm run manual:test`. Все используемые картинки и назначения ссылок должны быть разрешены; назначения за пределами пробы допускаются только как явные ограничения.
 - [ ] В `docs/repair-manual.md` записать команды, форматы, источник, ограничения 11 материалов и механизм повторного импорта. Сохранить коммит `feat: generate verified repair manual pilot assets`.
 
-## Задача 4: Поиск, адреса документов и надёжная загрузка
+## Task 4: Поиск, адреса документов и надёжная загрузка
 
 **Files:** создать `src/features/manual/model.js`, `model.test.mjs`.
 
@@ -217,7 +217,7 @@ assert.equal(searchManual(entries, 'свеча 18')[0].id, 'AJPHSB0P1836001');
 - [ ] Добавить тест с двумя управляемыми Promise: начать A, затем B, разрешить B, затем A; результат B доступен, A возвращает null. Добавить отмену при размонтировании и повторную загрузку после ошибки. Не допускать глобального состояния одного загрузчика для нескольких страниц.
 - [ ] Выполнить `npm run manual:test`; сохранить коммит `feat: add manual search and document loading model`.
 
-## Задача 5: Просмотрщик, навигация, схемы и печать
+## Task 5: Просмотрщик, навигация, схемы и печать
 
 **Files:** создать `RepairManualPage.jsx`, `ManualContent.jsx`, `ManualNavigation.jsx`, `ManualImageDialog.jsx`, `manualContent.js`, `manual.scss`; использовать `table.js` и `model.js`.
 
@@ -237,7 +237,7 @@ assert.equal(searchManual(entries, 'свеча 18')[0].id, 'AJPHSB0P1836001');
 - [ ] Подключить RU/EN словарь оболочки через общий `translations`; документ остаётся `lang="ru"`. Не скрывать реальные предупреждения и подписи для улучшения внешнего вида. У всех кнопок type, видимый фокус и доступное имя; reduced motion учитывается.
 - [ ] Выполнить `npm run build`, затем браузерную проверку основной процедуры, диагностики и таблицы из критериев задачи 6. Сохранить коммит `feat: add responsive repair manual reader` после фактических доступных проверок; ограничения браузера записать честно.
 
-## Задача 6: Вход из базы знаний и приёмка пробы
+## Task 6: Вход из базы знаний и приёмка пробы
 
 **Files:** изменить `src/App.jsx`, `src/pages/KnowledgeHubPage.jsx`, `src/i18n/translations.js`, `src/i18n/content/seo.js`, `vite.config.js`, `docs/repair-manual.md`.
 
