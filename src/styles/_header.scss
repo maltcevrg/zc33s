@@ -56,8 +56,9 @@ $header-height: 76px !default;
     &__burger--active span:nth-child(2) { opacity: 0; }
     &__burger--active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
     &__nav-close { position: absolute; top: 18px; right: 18px; display: grid; place-items: center; width: 44px; height: 44px; min-width: 44px; min-height: 44px; color: var(--color-on-accent); background: var(--color-accent); border: 0; border-radius: 50%; cursor: pointer; }
-    &__nav { position: fixed; top: 0; right: 0; z-index: 200; display: flex; flex-direction: column; align-items: stretch; gap: 0; width: min(420px, 90vw); height: 100dvh; padding: 92px 28px 30px; overflow-y: auto; background: var(--color-surface); border-left: 1px solid var(--color-border); transform: translateX(105%); transition: transform .35s cubic-bezier(.22,1,.36,1); }
-    &__nav--open { transform: translateX(0); }
+    // Панель (200) и оверлей (150) находятся в body, выше шапки (100).
+    &__nav { color: var(--color-text); position: fixed; top: 0; right: 0; z-index: 200; display: flex; flex-direction: column; align-items: stretch; gap: 0; width: min(420px, 90vw); height: 100dvh; padding: 92px 28px 30px; overflow-y: auto; background: var(--color-surface); border-left: 1px solid var(--color-border); visibility: hidden; transform: translateX(105%); transition: transform .35s cubic-bezier(.22,1,.36,1), visibility 0s .35s; }
+    &__nav--open { visibility: visible; transform: translateX(0); transition-delay: 0s; }
     &__link { padding: 17px 0; font-size: 1.2rem; border-bottom: 1px solid var(--color-border); }
     &__overlay { position: fixed; inset: 0; z-index: 150; display: block; background: rgba(var(--rgb-scrim), .38); }
   }

@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
+import PageLoading from './PageLoading';
 import Footer from './Footer';
 import Background from './Background';
 import ErrorBoundary from './ErrorBoundary';
@@ -13,10 +14,10 @@ function Layout() {
 
   // Сбрасываем скролл и обновляем SEO-метаданные при смене маршрута или языка
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (!location.hash) window.scrollTo({ top: 0, behavior: 'instant' });
     const seo = getSeoForPath(location.pathname, lang);
     updateDocumentSeo(seo);
-  }, [location.pathname, lang]);
+  }, [location.pathname, location.hash, location.key, lang]);
 
   return (
     <>
@@ -24,7 +25,9 @@ function Layout() {
       <Header />
       <main>
         <ErrorBoundary resetKey={`${location.pathname}:${lang}`}>
-          <Outlet />
+          <Suspense fallback={<PageLoading />}>
+            <Outlet />
+          </Suspense>
         </ErrorBoundary>
       </main>
       <Footer />
