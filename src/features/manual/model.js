@@ -1,5 +1,15 @@
 export const normalizeSearch = text => String(text).toLowerCase().replaceAll('ё','е').replace(/\s+/g,' ').trim();
-const searchTokens = query => normalizeSearch(query).split(' ').filter(Boolean);
+
+// Light Russian stemming: a query word also finds its other forms ("свечи" → "свеча", "свечей").
+// Codes, numbers and words with punctuation stay exact; a stem keeps at least four letters.
+const ENDINGS=['иями','ями','ами','ого','его','ому','ему','ыми','ими','ией','ия','ие','ий','ой','ей','ый','ая','яя','ое','ее','ые','ых','их','ую','юю','ом','ем','ам','ям','ах','ях','ов','ев','ть','а','я','о','е','ы','и','у','ю','ь','й'].sort((a,b)=>b.length-a.length);
+export function stemWord(word) {
+  if(!/^[а-я]{5,}$/.test(word))return word;
+  const ending=ENDINGS.find(e=>word.endsWith(e)&&word.length-e.length>=4);
+  return ending?word.slice(0,-ending.length):word;
+}
+const queryWords = query => normalizeSearch(query).split(' ').filter(Boolean);
+const searchTokens = query => queryWords(query).map(stemWord);
 
 function snippetFor(text,tokens) {
   // Map normalized indices back to the original text, including collapsed spaces.
@@ -26,9 +36,10 @@ function prepare(entries) {
 export function findManual(entries,query) {
   const tokens=searchTokens(query);
   if(!tokens.length)return [];
-  const exact=normalizeSearch(query);
+  const exact=normalizeSearch(query);const words=queryWords(query);
+  // Title hits weigh most; the exact typed form of a word ranks above its other forms.
   return prepare(entries).filter(p=>tokens.every(t=>p.text.includes(t)))
-    .map(p=>({...p,score:tokens.filter(t=>p.title.includes(t)).length*10+(p.id===exact?100:0)}))
+    .map(p=>({...p,score:tokens.filter(t=>p.title.includes(t)).length*10+words.filter(w=>p.title.includes(w)).length*5+(p.id===exact?100:0)}))
     .sort((a,b)=>b.score-a.score||a.index-b.index).map(p=>p.entry);
 }
 
@@ -38,12 +49,18 @@ export function searchManual(entries,query,limit=Infinity) {
   return findManual(entries,query).slice(0,limit).map(entry=>withSnippet(entry,query));
 }
 
+const isWordChar = ch => /[\p{L}\p{N}]/u.test(ch);
+
 // Splits text into plain and matched parts for highlighting; ё and е match each other as in search.
+// A match runs to the end of its word, so a stem highlights the whole word form.
 export function markMatches(text,query) {
   const tokens=searchTokens(query);const lower=text.toLowerCase().replaceAll('ё','е');
   if(!tokens.length||lower.length!==text.length)return [{text,match:false}];
   const marked=new Array(text.length).fill(false);
-  for(const token of tokens)for(let at=lower.indexOf(token);at>=0;at=lower.indexOf(token,at+1))marked.fill(true,at,at+token.length);
+  for(const token of tokens)for(let at=lower.indexOf(token);at>=0;at=lower.indexOf(token,at+1)){
+    let end=at+token.length;while(end<text.length&&isWordChar(text[end]))end++;
+    marked.fill(true,at,end);
+  }
   const parts=[];
   for(let i=0;i<text.length;i++){
     const last=parts[parts.length-1];
@@ -68,6 +85,20 @@ export function documentOutline(body) {
   };
   walk(body,0);
   return outline;
+}
+
+// Start page of the manual: reference documents, per-section DTC and torque lists, sections by chapter.
+const REFERENCE_IDS=['AJPHSB0P0205001','AJPHSB0P0201002','AJPHSB0P0101003'];
+export function manualOverview({chapters,sections,documents}) {
+  const byId=new Map(documents.map(d=>[d.id,d]));const sectionById=new Map(sections.map(s=>[s.id,s]));
+  const titled=title=>documents.filter(d=>d.title===title).map(d=>({...d,section:sectionById.get(d.sectionId)}));
+  const counts=new Map();
+  for(const d of documents){const entry=counts.get(d.sectionId);if(entry)entry.count++;else counts.set(d.sectionId,{count:1,firstId:d.id});}
+  return {
+    reference:REFERENCE_IDS.map(id=>byId.get(id)).filter(Boolean),
+    dtc:titled('Список кодов неисправностей'),torque:titled('Список моментов затяжки'),
+    chapters:chapters.map(chapter=>({...chapter,sections:sections.filter(s=>s.chapter===chapter.number&&counts.has(s.id)).map(s=>({...s,...counts.get(s.id)}))})),
+  };
 }
 
 export function manualHref(id,anchor) {

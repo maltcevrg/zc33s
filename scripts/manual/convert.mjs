@@ -22,6 +22,11 @@ export function walkNodes(nodes, visit) {
 export function plainText(nodes) {
   return nodes.map(n=>typeof n==='string'?n:plainText(n.children)+(n.tag==='ptxt'||n.tag==='title'?'\n':'')).join('');
 }
+// Search text also carries the block labels the reader adds, so "момент затяжки свечи" finds the spark plug procedure.
+const SEARCH_LABELS = Object.freeze({ torque:semanticLabels.torque, servicetool:semanticLabels.servicetool });
+export function searchText(nodes) {
+  return nodes.map(n=>typeof n==='string'?n:(SEARCH_LABELS[n.tag]?SEARCH_LABELS[n.tag]+' ':'')+searchText(n.children)+(n.tag==='ptxt'||n.tag==='title'?'\n':'')).join('');
+}
 export function countSourceElements(dom) {
   const info=dom.getElementsByTagName('servinfo')[0];
   return Object.fromEntries(COUNTED_TAGS.map(tag=>[tag,info.getElementsByTagName(tag).length]).filter(([,n])=>n));
@@ -122,5 +127,5 @@ export function convertDocument(xml,{entities,titles,availableIds,imagePaths,sym
       node.children.push(label);node.attrs.targetTitle=label;
     }
   }
-  return {schemaVersion:1,id,title,groupId,body,anchors,images,references,sourceCounts:countSourceElements(dom),searchText:plainText(body).replace(/\s+/g,' ').trim(),sourceSha256:createHash('sha256').update(xml).digest('hex')};
+  return {schemaVersion:1,id,title,groupId,body,anchors,images,references,sourceCounts:countSourceElements(dom),searchText:searchText(body).replace(/\s+/g,' ').trim(),sourceSha256:createHash('sha256').update(xml).digest('hex')};
 }

@@ -18,6 +18,9 @@ test('real pilot preserves counts, diagnostic actions, references and units', ()
   const spark = docs.find(d => d.id === 'AJPHSB0P1836001');
   assert(spark.anchors.includes('T1H303'));
   assert(spark.searchText.includes('18 Нм'));
+  // The reader labels each torque block; search must find those words too.
+  let torqueBlocks=0;walkNodes(spark.body,n=>{if(n.tag==='torque')torqueBlocks++;});
+  assert(torqueBlocks>0);assert.equal((spark.searchText.match(/Момент затяжки/g)||[]).length,torqueBlocks);
   assert(spark.references.every(r => r.title));
   const torque = docs.find(d => d.id === 'AJPHSB0P1837001');
   assert(torque.searchText.includes('N·m'));

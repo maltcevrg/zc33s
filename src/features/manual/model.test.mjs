@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeSearch, searchManual, findManual, markMatches, documentOutline, manualHref, createDocumentLoader, readStoredIds, writeStoredIds, pushRecent, toggleId } from './model.js';
+import { normalizeSearch, stemWord, searchManual, findManual, markMatches, manualOverview, documentOutline, manualHref, createDocumentLoader, readStoredIds, writeStoredIds, pushRecent, toggleId } from './model.js';
 const entries=[
   {id:'AJPHSB0P1836001',title:'Снятие/установка свечей зажигания',groupTitle:'Обслуживание',text:'Свеча зажигания 18 Нм'},
   {id:'AJPHSB0P1834002',title:'Проверка искры',groupTitle:'Диагностика',text:'Осмотрите   разъём катушки IG.'},
@@ -18,8 +18,29 @@ test('search normalizes Russian and finds titles, body, IDs and empty states',()
 });
 test('matches are marked with ё folded and overlapping tokens merged',()=>{
   assert.deepEqual(markMatches('Осмотрите разъём',' РАЗЪЕМ '),[{text:'Осмотрите ',match:false},{text:'разъём',match:true}]);
-  assert.deepEqual(markMatches('свеча свечей','свеч свеча'),[{text:'свеча',match:true},{text:' ',match:false},{text:'свеч',match:true},{text:'ей',match:false}]);
+  assert.deepEqual(markMatches('свеча свечей','свеч свеча'),[{text:'свеча',match:true},{text:' ',match:false},{text:'свечей',match:true}]);
+  assert.deepEqual(markMatches('Снять свечу (M12)','снятие m1'),[{text:'Снять',match:true},{text:' свечу (',match:false},{text:'M12',match:true},{text:')',match:false}]);
   assert.deepEqual(markMatches('текст',''),[{text:'текст',match:false}]);
+});
+test('search finds other forms of Russian words but keeps codes and short words exact',()=>{
+  assert.equal(stemWord('свечи'),'свеч');assert.equal(stemWord('снятие'),'снят');assert.equal(stemWord('затяжки'),'затяжк');
+  assert.equal(stemWord('объем'),'объем');assert.equal(stemWord('вал'),'вал');assert.equal(stemWord('p0301'),'p0301');assert.equal(stemWord('снятие/установка'),'снятие/установка');
+  assert.deepEqual(findManual(entries,'свечи зажигания').map(e=>e.id),[entries[0].id]);
+  assert.deepEqual(findManual(entries,'снятие свечи').map(e=>e.id),[entries[0].id]);
+  assert.deepEqual(findManual(entries,'катушка').map(e=>e.id),[entries[1].id]);
+  const exact={...entries[1],id:'EXACT',title:'Свечи'};
+  assert.equal(findManual([entries[0],exact],'свечи')[0].id,'EXACT');
+});
+test('overview gathers reference lists and sections by chapter in manual order',()=>{
+  const index={chapters:[{number:'0',title:'Общие'},{number:'1',title:'Двигатель'}],
+    sections:[{id:'02',number:'0B',chapter:'0',title:'ТО'},{id:'11',number:'1A',chapter:'1',title:'управление'},{id:'13',number:'1C',chapter:'1',title:'механика'}],
+    documents:[{id:'AJPHSB0P0205001',sectionId:'02',title:'Перечень методов проверки и обслуживания'},{id:'X1',sectionId:'11',title:'Обзор'},{id:'X2',sectionId:'11',title:'Список кодов неисправностей'},
+      {id:'X3',sectionId:'11',title:'Список моментов затяжки'},{id:'X4',sectionId:'13',title:'Список моментов затяжки'}]};
+  const overview=manualOverview(index);
+  assert.deepEqual(overview.reference.map(d=>d.id),['AJPHSB0P0205001']);
+  assert.deepEqual(overview.dtc.map(d=>[d.id,d.section.number]),[['X2','1A']]);
+  assert.deepEqual(overview.torque.map(d=>[d.id,d.section.number]),[['X3','1A'],['X4','1C']]);
+  assert.deepEqual(overview.chapters.map(c=>c.sections.map(s=>[s.number,s.count,s.firstId])),[[['0B',1,'AJPHSB0P0205001']],[['1A',3,'X1'],['1C',1,'X4']]]);
 });
 test('document outline lists titled sections and their topics only',()=>{
   const title=text=>({tag:'title',attrs:{},children:['\n',text,'\n']});

@@ -82,3 +82,26 @@ test('navigation groups sections by chapter and labels variant branches',async()
     assert(found.includes('Показано 1 из 45'));assert(found.includes('Показать ещё 30'));
   }finally{await server.close();}
 });
+
+test('overview links every section, reference list and continue-reading entry of the published manual',async()=>{
+  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},logLevel:'silent'});
+  try{
+    const { default:ManualOverview }=await server.ssrLoadModule('/src/features/manual/ManualOverview.jsx');
+    const { manualOverview }=await server.ssrLoadModule('/src/features/manual/model.js');
+    const { manualContent }=await server.ssrLoadModule('/src/features/manual/manualContent.js');
+    const index=JSON.parse(readFileSync('public/manual/index.json'));
+    const overview=manualOverview(index);
+    const render=recent=>renderToStaticMarkup(React.createElement(StaticRouter,{basename:'/zc33s',location:'/zc33s/manual/'},React.createElement(ManualOverview,{overview,recent,labels:manualContent.ru})));
+    const html=render([]);
+    assert.equal(overview.reference.length,3);assert(overview.dtc.length>=9);assert(overview.torque.length>=30);
+    assert.equal(overview.chapters.reduce((n,c)=>n+c.sections.length,0),index.sections.length);
+    assert.equal(overview.chapters.reduce((n,c)=>n+c.sections.reduce((m,s)=>m+s.count,0),0),index.documents.length);
+    assert.equal((html.match(/class="manual-overview__chapter"/g)||[]).length,index.chapters.length);
+    assert.equal((html.match(/href="\/zc33s\/manual\/\?doc=/g)||[]).length,index.sections.length+overview.reference.length+overview.dtc.length+overview.torque.length);
+    // Sections with two branches name the branch, so both SRS torque lists stay distinguishable.
+    const branched=overview.torque.filter(d=>d.section.variants.length>1);
+    for(const d of branched)assert(html.includes(` · ${d.variant}</span>`),d.variant);
+    assert(!html.includes('manual-overview__continue'));
+    assert(render([index.documents[5]]).includes(index.documents[5].title));
+  }finally{await server.close();}
+});

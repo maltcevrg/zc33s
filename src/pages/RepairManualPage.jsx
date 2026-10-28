@@ -4,7 +4,8 @@ import { useLanguage } from '../i18n/I18nContext';
 import ManualContent from '../features/manual/ManualContent.jsx';
 import ManualNavigation from '../features/manual/ManualNavigation';
 import ManualImageDialog from '../features/manual/ManualImageDialog';
-import { createDocumentLoader, documentOutline, findManual, manualHref, pushRecent, readStoredIds, toggleId, withSnippet, writeStoredIds } from '../features/manual/model';
+import ManualOverview from '../features/manual/ManualOverview';
+import { createDocumentLoader, documentOutline, findManual, manualHref, manualOverview, pushRecent, readStoredIds, toggleId, withSnippet, writeStoredIds } from '../features/manual/model';
 import { fillLabel } from '../features/manual/manualContent';
 import '../features/manual/manual.scss';
 
@@ -26,7 +27,9 @@ export default function RepairManualPage() {
   const documentLoader=useMemo(()=>createDocumentLoader(),[]);
   const indexLoader=useMemo(()=>createDocumentLoader(),[]);const searchLoader=useMemo(()=>createDocumentLoader(),[]);
   const firstOpen=useRef(true);const titleRef=useRef(null);
-  const selectedId=params.get('doc')||index?.documents[0]?.id;
+  // Without a document in the address the manual opens on its overview.
+  const selectedId=params.get('doc');
+  const overview=useMemo(()=>index&&manualOverview(index),[index]);
   const entry=index?.documents.find(d=>d.id===selectedId);
   const current=state.id===selectedId?state.document:null;
   const error=state.id===selectedId&&state.error;
@@ -105,7 +108,11 @@ export default function RepairManualPage() {
 
   useEffect(()=>{
     if(current)document.title=`${current.title} | ${labels.title} | SST`;
-  },[current,labels.title,lang]);
+    else if(!selectedId)document.title=`${labels.title} | SST`;
+  },[current,selectedId,labels.title,lang]);
+
+  // A document opened from the overview scrolls to its title like any later one.
+  useEffect(()=>{if(index&&!selectedId)firstOpen.current=false;},[index,selectedId]);
 
   async function copyLink(){
     try{
@@ -127,7 +134,7 @@ export default function RepairManualPage() {
       <div className="manual-reader" aria-busy={loading}>
         {loading?<p className="manual-state" role="status">{labels.loadingDocument}</p>:error?<div className="manual-state" role="alert"><p>{labels.error}</p><button type="button" onClick={()=>setRetry(n=>n+1)}>{labels.retry}</button></div>:current?<article>
           <header className="manual-document-header">
-            <p className="manual-breadcrumb" lang="ru"><span className="manual-capitalize">{section?.title}</span> <span aria-hidden="true">/</span> {current.groupTitle}{current.variant&&<> <span aria-hidden="true">/</span> {current.variant}</>}</p>
+            <p className="manual-breadcrumb" lang="ru"><Link to={manualHref()} lang={lang}>{labels.overviewShort}</Link> <span aria-hidden="true">/</span> <span className="manual-capitalize">{section?.title}</span> <span aria-hidden="true">/</span> {current.groupTitle}{current.variant&&<> <span aria-hidden="true">/</span> {current.variant}</>}</p>
             <h2 className="manual-document-title" tabIndex={-1} ref={titleRef} lang="ru">{current.title}</h2>
             <p className="manual-source-note">{labels.sourceNote} {fillLabel(labels.sectionNote,{section:section?.number})}{current.variant&&<>, {fillLabel(labels.variantNote,{variant:current.variant})}</>}.</p>
             <div className="manual-toolbar"><button type="button" aria-pressed={bookmarked} className="manual-bookmark" onClick={()=>setBookmarkIds(ids=>toggleId(ids,current.id))}><span aria-hidden="true">{bookmarked?'★':'☆'}</span> {bookmarked?labels.bookmarked:labels.bookmark}</button><button type="button" onClick={copyLink}>{copyState==='copied'?labels.copied:labels.copy}</button><button type="button" onClick={()=>window.print()}>{labels.print}</button><span className="manual-source-id">{current.id}</span></div>
@@ -143,7 +150,7 @@ export default function RepairManualPage() {
             {position>0&&<Link to={manualHref(index.documents[position-1].id)}><span>{labels.previous}</span><strong lang="ru">{index.documents[position-1].title}</strong></Link>}
             {position<index.documents.length-1&&<Link to={manualHref(index.documents[position+1].id)}><span>{labels.next}</span><strong lang="ru">{index.documents[position+1].title}</strong></Link>}
           </nav>
-        </article>:<div className="manual-state"><h2 lang="ru">{target?.title||labels.unknown}</h2><p>{target?labels.unavailable:labels.unknownNote}</p>{target&&<p>{fillLabel(labels.unavailableNote,{count})}</p>}<Link to={manualHref()}>{labels.return}</Link></div>}
+        </article>:!selectedId?<ManualOverview overview={overview} recent={listed(recentIds)} labels={labels}/>:<div className="manual-state"><h2 lang="ru">{target?.title||labels.unknown}</h2><p>{target?labels.unavailable:labels.unknownNote}</p>{target&&<p>{fillLabel(labels.unavailableNote,{count})}</p>}<Link to={manualHref()}>{labels.return}</Link></div>}
       </div>
     </div>}
     {showTop&&current&&<button type="button" className="manual-to-top" onClick={toTop}><span aria-hidden="true">↑</span> {labels.toTop}</button>}
