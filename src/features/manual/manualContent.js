@@ -1,6 +1,8 @@
 // {count} is replaced with the number of published documents.
 export const manualContent = {
   ru: {
+    showMore:'Показать ещё {count}', shownOf:'Показано {shown} из {total}', onThisPage:'В этом документе', toTop:'Наверх',
+    bookmarks:'Закладки', recent:'Недавно открытые', clearRecent:'Очистить', bookmark:'В закладки', bookmarked:'В закладках', savedLocally:'Закладки и история хранятся только в этом браузере.', searchShortcut:'Клавиша «/» — перейти к поиску', dragHint:'Перетаскивайте увеличенную схему мышью; клавиши + и − меняют масштаб.',
     title:'Руководство по ремонту', back:'База знаний', car:'Suzuki Swift Sport ZC33S',
     scope:'K14C · 2WD · 6MT и 6AT · {count} материалов', sourceNote:'Текст руководства на русском языке.', sectionNote:'Раздел {section}', variantNote:'исполнение «{variant}»',
     contents:'Оглавление', search:'Поиск по руководству', placeholder:'Название, текст или номер документа', clear:'Очистить поиск',
@@ -15,6 +17,8 @@ export const manualContent = {
     cardTitle:'Руководство по ремонту Suzuki Swift', cardDescription:'Двигатель K14C, подвеска, тормоза и ESP, 6MT и 6AT, рулевое управление, кондиционер, подушки безопасности, кузов, электрооборудование и системы помощи водителю. Схемы, диагностика и моменты затяжки.', cardLink:'Открыть руководство',
   },
   en: {
+    showMore:'Show {count} more', shownOf:'Showing {shown} of {total}', onThisPage:'In this document', toTop:'Back to top',
+    bookmarks:'Bookmarks', recent:'Recently opened', clearRecent:'Clear', bookmark:'Bookmark', bookmarked:'Bookmarked', savedLocally:'Bookmarks and history are stored in this browser only.', searchShortcut:'Press “/” to jump to search', dragHint:'Drag the enlarged diagram with the mouse; the + and − keys change the zoom.',
     title:'Repair manual', back:'Knowledge base', car:'Suzuki Swift Sport ZC33S',
     scope:'K14C · 2WD · 6MT and 6AT · {count} documents', sourceNote:'The original manual text is in Russian.', sectionNote:'Section {section}', variantNote:'variant “{variant}”',
     contents:'Contents', search:'Search the manual', placeholder:'Title, text or document ID', clear:'Clear search',

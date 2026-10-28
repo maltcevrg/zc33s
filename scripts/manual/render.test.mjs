@@ -65,12 +65,20 @@ test('navigation groups sections by chapter and labels variant branches',async()
     const index=JSON.parse(readFileSync('public/manual/index.json'));
     const multi=index.sections.find(s=>s.variants.length>1);
     const selected=index.documents.find(d=>d.sectionId===multi.id);
-    const html=renderToStaticMarkup(React.createElement(StaticRouter,{basename:'/zc33s',location:'/zc33s/manual/'},React.createElement(ManualNavigation,{
-      chapters:index.chapters,sections:index.sections,documents:index.documents,results:[],searchReady:false,query:'',onQueryChange:()=>{},
-      selectedId:selected.id,expanded:false,onExpandedChange:()=>{},labels:manualContent.ru})));
+    const render=props=>renderToStaticMarkup(React.createElement(StaticRouter,{basename:'/zc33s',location:'/zc33s/manual/'},React.createElement(ManualNavigation,{
+      chapters:index.chapters,sections:index.sections,documents:index.documents,results:[],total:0,searchReady:false,query:'',onQueryChange:()=>{},onShowMore:()=>{},
+      selectedId:selected.id,expanded:false,onExpandedChange:()=>{},recent:[],bookmarks:[],onClearRecent:()=>{},labels:manualContent.ru,...props})));
+    const html=render();
     assert.equal((html.match(/class="manual-nav-chapter"/g)||[]).length,index.chapters.length);
     assert.equal((html.match(/class="manual-nav-section"/g)||[]).length,index.sections.length);
     assert.equal((html.match(/aria-current="page"/g)||[]).length,1);
+    assert(!html.includes('manual-reading'));
     for(const variant of multi.variants)assert(html.includes(` · ${variant}</p>`),variant);
+    const lists=render({recent:[selected,index.documents[0]],bookmarks:[index.documents[1]]});
+    assert.equal((lists.match(/class="manual-reading-list"/g)||[]).length,2);
+    assert(lists.includes(manualContent.ru.savedLocally));
+    const found=render({query:'свеча',searchReady:true,total:45,results:[{id:selected.id,title:'Свеча зажигания',sectionId:multi.id,groupTitle:'Группа',snippet:'Проверьте свечу и свечи'}]});
+    assert(found.includes('<mark>Свеча</mark> зажигания'));assert(found.includes(`${multi.number} · ${multi.title}`));
+    assert(found.includes('Показано 1 из 45'));assert(found.includes('Показать ещё 30'));
   }finally{await server.close();}
 });
