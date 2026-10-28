@@ -2,6 +2,7 @@
 // Ключи используются через t('header.logoAria') и т.п. в компонентах.
 
 import { aboutContent } from './content/about.js';
+import { manualContent } from '../features/manual/manualContent.js';
 import { warrantyContent } from './content/warranty.js';
 import { consultationsContent } from './content/consultations.js';
 import { seoContent } from './content/seo.js';
@@ -55,6 +56,7 @@ const enKnowledgeArticles = [
 
 export const translations = {
   ru: {
+    manual: manualContent.ru,
     header: {
       logoAria: 'Swift Sport Tuning — Главная',
       openMenu: 'Открыть меню',
@@ -354,6 +356,7 @@ export const translations = {
     },
   },
   en: {
+    manual: manualContent.en,
     header: {
       logoAria: 'Swift Sport Tuning — Home',
       openMenu: 'Open menu',
