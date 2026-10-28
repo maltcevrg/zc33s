@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "manualId": "AJPHSB0P",
+  "pilotLabel": "Пробный раздел: зажигание, K14C · 11 материалов",
+  "documents": [
+    {
+      "id": "AJPHSB0P1832001",
+      "title": "Схема системы зажигания",
+      "groupId": "2",
+      "groupTitle": "Схема",
+      "path": "documents/AJPHSB0P1832001.json"
+    },
+    {
+      "id": "AJPHSB0P1833001",
+      "title": "Схема конфигурации системы зажигания",
+      "groupId": "3",
+      "groupTitle": "Схема расположения компонентов",
+      "path": "documents/AJPHSB0P1833001.json"
+    },
+    {
+      "id": "AJPHSB0P1834001",
+      "title": "Проверка системы зажигания",
+      "groupId": "4",
+      "groupTitle": "Диагностика",
+      "path": "documents/AJPHSB0P1834001.json"
+    },
+    {
+      "id": "AJPHSB0P1834002",
+      "title": "Проверка искры",
+      "groupId": "4",
+      "groupTitle": "Диагностика",
+      "path": "documents/AJPHSB0P1834002.json"
+    },
+    {
+      "id": "AJPHSB0P1836001",
+      "title": "Снятие/установка свечей зажигания",
+      "groupId": "6",
+      "groupTitle": "Обслуживание",
+      "path": "documents/AJPHSB0P1836001.json"
+    },
+    {
+      "id": "AJPHSB0P1836002",
+      "title": "Проверка свечей зажигания",
+      "groupId": "6",
+      "groupTitle": "Обслуживание",
+      "path": "documents/AJPHSB0P1836002.json"
+    },
+    {
+      "id": "AJPHSB0P1836003",
+      "title": "Снятие/установка катушки зажигания",
+      "groupId": "6",
+      "groupTitle": "Обслуживание",
+      "path": "documents/AJPHSB0P1836003.json"
+    },
+    {
+      "id": "AJPHSB0P1836004",
+      "title": "Проверка катушки зажигания",
+      "groupId": "6",
+      "groupTitle": "Обслуживание",
+      "path": "documents/AJPHSB0P1836004.json"
+    },
+    {
+      "id": "AJPHSB0P1836005",
+      "title": "Проверка угла опережения зажигания",
+      "groupId": "6",
+      "groupTitle": "Обслуживание",
+      "path": "documents/AJPHSB0P1836005.json"
+    },
+    {
+      "id": "AJPHSB0P1837001",
+      "title": "Список моментов затяжки",
+      "groupId": "7",
+      "groupTitle": "Технические данные",
+      "path": "documents/AJPHSB0P1837001.json"
+    },
+    {
+      "id": "AJPHSB0P1838001",
+      "title": "Специальные инструменты",
+      "groupId": "8",
+      "groupTitle": "Указанные материалы/специальные инструменты",
+      "path": "documents/AJPHSB0P1838001.json"
+    }
+  ],
+  "targets": {
+    "AJPHSB0P1832001": {
+      "title": "Схема системы зажигания",
+      "available": true
+    },
+    "AJPHSB0P1140003": {
+      "title": "Примечания по идентификации цилиндра",
+      "available": false
+    },
+    "AJPHSB0P1833001": {
+      "title": "Схема конфигурации системы зажигания",
+      "available": true
+    },
+    "AJPHSB0P1143001": {
+      "title": "Схема конфигурации системы управления двигателем",
+      "available": false
+    },
+    "AJPHSB0P1834001": {
+      "title": "Проверка системы зажигания",
+      "available": true
+    },
+    "AJPHSB0P1144001": {
+      "title": "Проверка системы управления двигателем",
+      "available": false
+    },
+    "AJPHSB0P1834002": {
+      "title": "Проверка искры",
+      "available": true
+    },
+    "AJPHSB0P1836005": {
+      "title": "Проверка угла опережения зажигания",
+      "available": true
+    },
+    "AJPHSB0P1836001": {
+      "title": "Снятие/установка свечей зажигания",
+      "available": true
+    },
+    "AJPHSB0P1836003": {
+      "title": "Снятие/установка катушки зажигания",
+      "available": true
+    },
+    "AJPHSB0P1336019": {
+      "title": "Проверка блока датчика угла поворота коленвала",
+      "available": false
+    },
+    "AJPHSB0P1336016": {
+      "title": "Датчик угла поворота кулака, проверка на автомобиле",
+      "available": false
+    },
+    "AJPHSB0P1336001": {
+      "title": "Снятие/установка ECM",
+      "available": false
+    },
+    "AJPHSB0P1736003": {
+      "title": "сброс давления топлива",
+      "available": false
+    },
+    "AJPHSB0P1836002": {
+      "title": "Проверка свечей зажигания",
+      "available": true
+    },
+    "AJPHSB0P1436004": {
+      "title": "Снятие/установка воздухоочистителя в сборе",
+      "available": false
+    },
+    "AJPHSB0P1836004": {
+      "title": "Проверка катушки зажигания",
+      "available": true
+    },
+    "AJPHSB0P1146001": {
+      "title": "Проверка скорости холостого хода",
+      "available": false
+    },
+    "AJPHSB0P1436057": {
+      "title": "Проверка сенсорной пластины",
+      "available": false
+    },
+    "AJPHSB0P1144080": {
+      "title": "Проверка цепи ECM",
+      "available": false
+    },
+    "AJPHSB0P1436035": {
+      "title": "Проверка распределительного вала",
+      "available": false
+    },
+    "AJPHSB0P1436053": {
+      "title": "Проверка коленвала",
+      "available": false
+    },
+    "AJPHSB0P1336003": {
+      "title": "Бортовая проверка электронной системы дроссельной заслонки",
+      "available": false
+    },
+    "AJPHSB0P1336006": {
+      "title": "Проверка узла педали акселератора (датчика акселератора) на автомобиле",
+      "available": false
+    },
+    "AJPHSB0P1837001": {
+      "title": "Список моментов затяжки",
+      "available": true
+    },
+    "AJPHSB0P0101008": {
+      "title": "болты, гайки",
+      "available": false
+    },
+    "AJPHSB0P1838001": {
+      "title": "Специальные инструменты",
+      "available": true
+    }
+  },
+  "semanticLabels": {
+    "attention1": "ПРЕДУПРЕЖДЕНИЕ:",
+    "attention3": "ПРИМЕЧАНИЕ:",
+    "attention4": "УВЕДОМЛЕНИЕ:",
+    "torque": "Момент затяжки",
+    "torqueUnit": "Нм"
+  }
+}

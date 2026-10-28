@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "id": "AJPHSB0P1836003",
+  "title": "Снятие/установка катушки зажигания",
+  "section": "1H",
+  "engine": "K14C",
+  "groupId": "6",
+  "groupTitle": "Обслуживание",
+  "body": [
+    "\n",
+    "\n",
+    {
+      "tag": "servinfosub",
+      "attrs": {
+        "id": "AJPHSB0P1836003001"
+      },
+      "children": [
+        "\n",
+        {
+          "tag": "title",
+          "attrs": {},
+          "children": [
+            "\nУдаление\n"
+          ]
+        },
+        "\n",
+        {
+          "tag": "s1",
+          "attrs": {},
+          "children": [
+            "\n",
+            {
+              "tag": "ptxt",
+              "attrs": {},
+              "children": [
+                "\nОтсоедините отрицательный провод от аккумулятора.\n"
+              ]
+            },
+            "\n"
+          ]
+        },
+        "\n",
+        {
+          "tag": "s1",
+          "attrs": {},
+          "children": [
+            "\n",
+            {
+              "tag": "ptxt",
+              "attrs": {},
+              "children": [
+                "\nСнимите блок воздухоочистителя. \n",
+                {
+                  "tag": "intxreftitleoff1",
+                  "attrs": {
+                    "refid": "AJPHSB0P1436004",
+                    "targetTitle": "Снятие/установка воздухоочистителя в сборе",
+                    "available": false
+                  },
+                  "children": [
+                    "Снятие/установка воздухоочистителя в сборе"
+                  ]
+                },
+                "\n"
+              ]
+            },
+            "\n"
+          ]
+        },
+        "\n",
+        {
+          "tag": "s1",
+          "attrs": {},
+          "children": [
+            "\n",
+            {
+              "tag": "ptxt",
+              "attrs": {},
+              "children": [
+                "\nСнимите разъем катушки IG.\n"
+              ]
+            },
+            "\n"
+          ]
+        },
+        "\n",
+        {
+          "tag": "s1",
+          "attrs": {},
+          "children": [
+            "\n",
+            {
+              "tag": "ptxt",
+              "attrs": {},
+              "children": [
+                "\nВыверните болт катушки зажигания (1) и снимите катушку зажигания (2).\n"
+              ]
+            },
+            "\n",
+            {
+              "tag": "figure",
+              "attrs": {},
+              "children": [
+                "\n",
+                {
+                  "tag": "graphic",
+                  "attrs": {
+                    "graphicname": "IHSB0P183003.jpg",
+                    "width": "88.000mm",
+                    "height": "56.715mm",
+                    "path": "images/IHSB0P183003.jpg",
+                    "pixelWidth": 716,
+                    "pixelHeight": 518
+                  },
+                  "children": []
+                },
+                "\n"
+              ]
+            },
+            "\n"
+          ]
+        },
+        "\n"
+      ]
+    },
+    "\n",
+    {
+      "tag": "servinfosub",
+      "attrs": {
+        "id": "AJPHSB0P1836003002"
+      },
+      "children": [
+        "\n",
+        {
+          "tag": "title",
+          "attrs": {},
+          "children": [
+            "\nУстановка\n"
+          ]
+        },
+        "\n",
+        {
+          "tag": "ptxt",
+          "attrs": {},
+          "children": [
+            "\n",
+            {
+              "tag": "intxrefpoff",
+              "attrs": {
+                "refid": "AJPHSB0P1836004",
+                "targetTitle": "Проверка катушки зажигания",
+                "available": true
+              },
+              "children": [
+                "Проверка катушки зажигания: K14C"
+              ]
+            },
+            "\n"
+          ]
+        },
+        "\n",
+        {
+          "tag": "ptxt",
+          "attrs": {},
+          "children": [
+            "\nУстановка производится в порядке, обратном снятию.\n"
+          ]
+        },
+        "\n"
+      ]
+    },
+    "\n"
+  ],
+  "anchors": [
+    "AJPHSB0P1836003001",
+    "AJPHSB0P1836003002"
+  ],
+  "images": [
+    {
+      "sourceName": "IHSB0P183003.jpg",
+      "path": "images/IHSB0P183003.jpg",
+      "width": 716,
+      "height": 518,
+      "sha256": "a45047c302097cf210cfd0c28b927d7ed8ecdc34eaf15c1b9f62238799405cc0"
+    }
+  ],
+  "references": [
+    {
+      "targetId": "AJPHSB0P1436004",
+      "anchor": "",
+      "title": "Снятие/установка воздухоочистителя в сборе",
+      "available": false
+    },
+    {
+      "targetId": "AJPHSB0P1836004",
+      "anchor": "",
+      "title": "Проверка катушки зажигания",
+      "available": true
+    }
+  ],
+  "searchText": "Удаление Отсоедините отрицательный провод от аккумулятора. Снимите блок воздухоочистителя. Снятие/установка воздухоочистителя в сборе Снимите разъем катушки IG. Выверните болт катушки зажигания (1) и снимите катушку зажигания (2). Установка Проверка катушки зажигания: K14C Установка производится в порядке, обратном снятию.",
+  "sourceSha256": "1989e3c9b384cd0db311037d0960044e442bdc28613c95b965560ce24aaa7915"
+}

@@ -8,7 +8,10 @@
     "dev": "vite",
     "build": "vite build",
     "check:anchors": "node scripts/check-article-anchors.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "manual:import": "node scripts/manual/import.mjs",
+    "manual:check": "node scripts/manual/check.mjs",
+    "manual:test": "node --test"
   },
   "dependencies": {
     "dompurify": "^3.4.14",

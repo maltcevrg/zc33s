@@ -1,1 +1,2 @@
 scripts/manual/fixtures/* -text
+public/manual/** -text
