@@ -1,6 +1,7 @@
 import { spawnSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve, sep } from 'node:path';
 
 export function normalizeArchivePath(name) {
   const path = name.replaceAll('\\', '/');
@@ -38,12 +39,28 @@ export function openArchive(archivePath, { unrarPath, listingEncoding = process.
   const listed = decodeListing(run(['lb', resolve(archivePath)]), listingEncoding).trim().split(/\r?\n/).filter(Boolean);
   const normalized = validateArchiveEntries(listed);
   const originalNames = new Map(normalized.map((name, i) => [name, listed[i]]));
+  // One UnRAR process per entry is slow for thousands of files: extract once into a private temp directory.
+  let extracted = null;
+  const extractedRoot = () => {
+    if (!extracted) {
+      extracted = mkdtempSync(join(tmpdir(), 'manual-archive-'));
+      run(['x', '-inul', '-y', resolve(archivePath), extracted + sep], 1024 * 1024);
+    }
+    return extracted;
+  };
   return {
     list: () => [...normalized],
     read(path) {
       const name = normalizeArchivePath(path);
       if (!originalNames.has(name)) throw new Error(`Archive entry missing: ${name}`);
-      return run(['p', '-inul', resolve(archivePath), originalNames.get(name)]);
+      const root = extractedRoot();
+      const file = resolve(root, originalNames.get(name));
+      if (!file.startsWith(root + sep)) throw new Error(`Unsafe archive path: ${name}`);
+      return readFileSync(file);
+    },
+    close() {
+      if (extracted) rmSync(extracted, { recursive: true, force: true });
+      extracted = null;
     },
   };
 }

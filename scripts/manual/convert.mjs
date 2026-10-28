@@ -7,7 +7,9 @@ const TAGS = new Set(`title ptxt emph sub sup servinfosub topic subtopic paragro
   diag testgroup question result action test1 condition ps intxref intxrefpoff intxreftitleoff1 intxreftitleoff
   torque torqueitem t-part t-part1 t-value1 t-note servicetool servicetoolitem s-part s-number
   materials materialitem m-part m-desc m-number m-name scantool scantool-title
-  spec-sdm sdm-title sdm-part sdm-model sdm1 sdm2 sdm-condition sdm-value button symbol`.split(/\s+/));
+  spec-sdm sdm-title sdm-part sdm-model sdm1 sdm2 sdm-condition sdm-value button symbol deflist term def`.split(/\s+/));
+// Revision marks of the authoring system: suzuki.xsl has no template for them and prints nothing.
+const EMPTY_MARKERS = new Set(['p-change','c-change']);
 const ATTRS = new Set('id etype type refid graphicname width height cols colnum colname colwidth morerows namest nameend align valign num code name'.split(' '));
 // Source counts compared after conversion; these elements carry the content a reader must not lose.
 export const COUNTED_TAGS = Object.freeze(['graphic','table','testgroup','result','action','condition','ps','torqueitem','servicetoolitem','materialitem','attention1','attention2','attention3','attention4','intxref','intxrefpoff','intxreftitleoff','intxreftitleoff1']);
@@ -54,6 +56,10 @@ export function convertDocument(xml,{entities,titles,availableIds,imagePaths,sym
     if(original.nodeType===8) return null;
     if(original.nodeType!==1) throw new Error(`Unsupported XML node: ${original.nodeName}`);
     const tag=original.nodeName;
+    if(EMPTY_MARKERS.has(tag)) {
+      if(original.childNodes.length) throw new Error(`Unexpected content in ${tag} in ${id}`);
+      return null;
+    }
     if(tag==='img') {
       if(!original.parentNode.nodeName.startsWith('intxref')) throw new Error(`Unexpected source img in ${id}`);
       return null;
@@ -67,6 +73,11 @@ export function convertDocument(xml,{entities,titles,availableIds,imagePaths,sym
     if(tag==='sub'||tag==='sup') children=[plainText(children).replace(/\s+/g,' ').trim()];
     if(tag==='scantool-title'&&children.some(n=>typeof n!=='string'&&n.tag!=='emph')) throw new Error(`Unexpected scantool-title content in ${id}`);
     if(tag==='t-value1') children.push(' '+semanticLabels.torqueUnit);
+    // suzuki.xsl pairs each term with the def that follows it; any other layout would be lost by the XSL.
+    if(tag==='deflist'){
+      const elements=children.filter(n=>typeof n!=='string');
+      if(children.some(n=>typeof n==='string'&&n.trim())||elements.length%2||elements.some((n,i)=>n.tag!==(i%2?'def':'term')))throw new Error(`Unexpected deflist structure in ${id}`);
+    }
     if(tag==='graphic') {
       const path=imagePaths.get(attrs.graphicname);
       if(!path) throw new Error(`Missing image: ${attrs.graphicname} in ${id}`);

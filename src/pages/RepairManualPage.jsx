@@ -8,7 +8,7 @@ import { createDocumentLoader, manualHref, searchManual } from '../features/manu
 import { fillLabel } from '../features/manual/manualContent';
 import '../features/manual/manual.scss';
 
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 const asset = path => `${import.meta.env.BASE_URL}manual/${path}`;
 
 export default function RepairManualPage() {
@@ -33,7 +33,7 @@ export default function RepairManualPage() {
     setIndexError(false);
     indexLoader.load(asset('index.json')).then(catalog=>{
       if(!catalog)return;
-      if(catalog.schemaVersion!==SCHEMA_VERSION||!Array.isArray(catalog.documents)||!Array.isArray(catalog.sections))throw new Error('Unsupported manual format');
+      if(catalog.schemaVersion!==SCHEMA_VERSION||!Array.isArray(catalog.documents)||!Array.isArray(catalog.sections)||!Array.isArray(catalog.chapters))throw new Error('Unsupported manual format');
       setIndex(catalog);
     }).catch(()=>setIndexError(true));
     return ()=>indexLoader.cancel();
@@ -91,13 +91,13 @@ export default function RepairManualPage() {
     <Link className="manual-page__back" to="/knowledge">{labels.back}</Link>
     <header className="manual-page__header"><div><h1>{labels.title}</h1><p>{labels.car}</p></div>{index&&<p className="manual-page__scope">{fillLabel(labels.scope,{count})}</p>}</header>
     {indexError?<div className="manual-state" role="alert"><p>{labels.error}</p><button type="button" onClick={()=>setRetry(n=>n+1)}>{labels.retry}</button></div>:!index?<p className="manual-state" role="status">{labels.loading}</p>:<div className="manual-workspace">
-      <ManualNavigation sections={index.sections} documents={index.documents} results={results} searchReady={!!search} query={query} onQueryChange={value=>{setQuery(value);if(value.trim()){setSearchWanted(true);setExpanded(true);}}} selectedId={selectedId} expanded={expanded} onExpandedChange={setExpanded} labels={labels}/>
+      <ManualNavigation chapters={index.chapters} sections={index.sections} documents={index.documents} results={results} searchReady={!!search} query={query} onQueryChange={value=>{setQuery(value);if(value.trim()){setSearchWanted(true);setExpanded(true);}}} selectedId={selectedId} expanded={expanded} onExpandedChange={setExpanded} labels={labels}/>
       <div className="manual-reader" aria-busy={loading}>
         {loading?<p className="manual-state" role="status">{labels.loadingDocument}</p>:error?<div className="manual-state" role="alert"><p>{labels.error}</p><button type="button" onClick={()=>setRetry(n=>n+1)}>{labels.retry}</button></div>:current?<article>
           <header className="manual-document-header">
-            <p className="manual-breadcrumb" lang="ru"><span className="manual-capitalize">{section?.title}</span> <span aria-hidden="true">/</span> {current.groupTitle}{section?.variant&&<> <span aria-hidden="true">/</span> {section.variant}</>}</p>
+            <p className="manual-breadcrumb" lang="ru"><span className="manual-capitalize">{section?.title}</span> <span aria-hidden="true">/</span> {current.groupTitle}{current.variant&&<> <span aria-hidden="true">/</span> {current.variant}</>}</p>
             <h2 className="manual-document-title" tabIndex={-1} ref={titleRef} lang="ru">{current.title}</h2>
-            <p className="manual-source-note">{labels.sourceNote} {fillLabel(labels.sectionNote,{section:section?.id})}{section?.variant&&<>, {fillLabel(labels.engineNote,{engine:section.variant})}</>}.</p>
+            <p className="manual-source-note">{labels.sourceNote} {fillLabel(labels.sectionNote,{section:section?.number})}{current.variant&&<>, {fillLabel(labels.variantNote,{variant:current.variant})}</>}.</p>
             <div className="manual-toolbar"><button type="button" onClick={copyLink}>{copyState==='copied'?labels.copied:labels.copy}</button><button type="button" onClick={()=>window.print()}>{labels.print}</button><span className="manual-source-id">{current.id}</span></div>
             <span role="status" className="manual-copy-status">{copyState==='copied'?labels.copied:''}</span>
             {copyState==='manual'&&<label className="manual-copy-fallback">{labels.manualCopy}<input readOnly value={manualCopy} onFocus={e=>e.target.select()}/></label>}

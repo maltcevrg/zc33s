@@ -102,3 +102,14 @@ test('pictograms require their source image and torque notes keep XSL punctuatio
   const tags = new Set(); walkNodes(torque.body, n => tags.add(n.tag));
   for (const tag of ['materials', 'materialitem', 'm-part', 't-part1', 't-note']) assert(tags.has(tag), tag);
 });
+test('definition lists keep term/definition pairs and revision marks print nothing, as in suzuki.xsl', () => {
+  const withBody = body => read('AJPHSB0P1836001.xml').replace('<ptxt>', `${body} <ptxt>`);
+  const doc = convertDocument(withBody('<deflist><term id="D1">A/B</term><def><ptxt>воздушная подушка</ptxt></def></deflist><p-change/><c-change/>'), context);
+  const lists = []; const tags = new Set(); walkNodes(doc.body, n => { tags.add(n.tag); if (n.tag === 'deflist') lists.push(n); });
+  assert.deepEqual(lists[0].children.filter(n => typeof n !== 'string').map(n => n.tag), ['term', 'def']);
+  assert(doc.anchors.includes('D1') && doc.searchText.includes('воздушная подушка'));
+  assert(!tags.has('p-change') && !tags.has('c-change'));
+  assert.throws(() => convertDocument(withBody('<deflist><def><ptxt>x</ptxt></def></deflist>'), context), /deflist/);
+  assert.throws(() => convertDocument(withBody('<deflist><term>x</term></deflist>'), context), /deflist/);
+  assert.throws(() => convertDocument(withBody('<p-change>текст</p-change>'), context), /p-change/);
+});

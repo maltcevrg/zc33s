@@ -87,6 +87,14 @@ export default function ManualContent({document,targets,onOpenImage,labels=manua
         return <Cell key={column} colSpan={colSpan} rowSpan={rowSpan} scope={row.header?'col':undefined} style={['center','right','left'].includes(cell.attrs.align)?{textAlign:cell.attrs.align}:undefined}>{renderNodes(cell.children,level)}</Cell>;
       })}</tr>)}</tbody></table></div>;
     }
+    // suzuki.xsl: a two-column table, each term followed by its definition.
+    if(tag==='deflist'){
+      const items=children.filter(n=>typeof n!=='string');const rows=[];
+      for(let i=0;i<items.length;i+=2)rows.push([items[i],items[i+1]]);
+      return <div className="manual-table-scroll" role="region" aria-label={document.title} tabIndex={0}><table className="manual-deflist"><tbody>{rows.map(([term,def],i)=><tr key={term.attrs.id||i}>
+        <th scope="row" id={term.attrs.id}>{renderNodes(term.children,level)}</th><td>{renderNodes(def.children,level,def)}</td>
+      </tr>)}</tbody></table></div>;
+    }
     if(tag==='diag'&&attrs.type==='condition'){
       const rows=layoutConditionDiag(node);
       return <div className="manual-table-scroll" role="region" aria-label={document.title} tabIndex={0}><table id={attrs.id} className="manual-condition-table">

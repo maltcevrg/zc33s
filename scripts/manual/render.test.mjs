@@ -38,9 +38,11 @@ test('React reader renders every published document with all source images, acti
     const index=JSON.parse(readFileSync('public/manual/index.json'));
     const report=JSON.parse(readFileSync('public/manual/report.json'));
     const count=(html,pattern)=>(html.match(pattern)||[]).length;
-    let symbols=0;
+    let symbols=0;let terms=0;let termRows=0;
     for(const entry of index.documents){
       const document=JSON.parse(readFileSync(`public/manual/${entry.path}`));
+      const countTerms=nodes=>nodes.reduce((n,node)=>typeof node==='string'?n:n+(node.tag==='term')+countTerms(node.children),0);
+      terms+=countTerms(document.body);
       const html=renderToStaticMarkup(React.createElement(StaticRouter,{basename:'/zc33s',location:'/zc33s/manual/'},React.createElement(ManualContent,{document,targets:index.targets,onOpenImage:()=>{}})));
       const expected=report.documentSourceCounts[entry.id];
       assert.equal(count(html,/data-source-tag="graphic"/g),expected.graphic||0,`${entry.id} graphic`);
@@ -48,8 +50,27 @@ test('React reader renders every published document with all source images, acti
       assert.equal(count(html,/data-source-tag="ps"/g),expected.ps||0,`${entry.id} ps`);
       assert.equal(count(html,/data-source-tag="condition"/g),expected.condition||0,`${entry.id} condition`);
       assert(!/<(object|script|embed)/.test(html),entry.id);
-      symbols+=count(html,/class="manual-symbol"/g);
+      symbols+=count(html,/class="manual-symbol"/g);termRows+=count(html,/<th scope="row"/g);
     }
     assert(symbols>0);
+    assert(terms>0);assert.equal(termRows,terms);
+  }finally{await server.close();}
+});
+
+test('navigation groups sections by chapter and labels variant branches',async()=>{
+  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},logLevel:'silent'});
+  try{
+    const { default:ManualNavigation }=await server.ssrLoadModule('/src/features/manual/ManualNavigation.jsx');
+    const { manualContent }=await server.ssrLoadModule('/src/features/manual/manualContent.js');
+    const index=JSON.parse(readFileSync('public/manual/index.json'));
+    const multi=index.sections.find(s=>s.variants.length>1);
+    const selected=index.documents.find(d=>d.sectionId===multi.id);
+    const html=renderToStaticMarkup(React.createElement(StaticRouter,{basename:'/zc33s',location:'/zc33s/manual/'},React.createElement(ManualNavigation,{
+      chapters:index.chapters,sections:index.sections,documents:index.documents,results:[],searchReady:false,query:'',onQueryChange:()=>{},
+      selectedId:selected.id,expanded:false,onExpandedChange:()=>{},labels:manualContent.ru})));
+    assert.equal((html.match(/class="manual-nav-chapter"/g)||[]).length,index.chapters.length);
+    assert.equal((html.match(/class="manual-nav-section"/g)||[]).length,index.sections.length);
+    assert.equal((html.match(/aria-current="page"/g)||[]).length,1);
+    for(const variant of multi.variants)assert(html.includes(` · ${variant}</p>`),variant);
   }finally{await server.close();}
 });
