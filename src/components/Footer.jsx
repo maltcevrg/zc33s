@@ -39,6 +39,11 @@ function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/manual/" className="footer__link">
+                  {t('manual.title')}
+                </Link>
+              </li>
+              <li>
                 <Link to="/about" className="footer__link">
                   {t('nav.about')}
                 </Link>

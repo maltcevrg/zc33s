@@ -5,6 +5,7 @@ import { convertDocument, walkNodes, buildTitleCatalog, plainText } from './conv
 import { parseXmlStrict } from './xml.mjs';
 import { layoutCalsTable, layoutConditionDiag } from '../../src/features/manual/table.js';
 import { PILOT_IDS } from './pilot.mjs';
+import { fixWording } from './wording.mjs';
 const read = name => readFileSync(new URL(`./fixtures/${name}`, import.meta.url), 'utf8');
 const images = new Map([...PILOT_IDS.map(id => read(`${id}.xml`)).join('').matchAll(/graphicname\s*=\s*"([^"]+)"/g)].map(m => [m[1], `images/${m[1].replace(/\.swf$/, '.jpg')}`]));
 const context = { entities: read('sdatacharaents.txt'), titles: new Map(Object.entries(JSON.parse(read('titles.json')))), availableIds: new Set(PILOT_IDS), imagePaths: images };
@@ -26,7 +27,7 @@ test('real pilot preserves counts, diagnostic actions, references and units', ()
   assert(torque.searchText.includes('N·m'));
   assert(torque.references.some(r => r.targetId === spark.id && r.anchor === 'T1H303' && r.available));
   assert(torque.references.some(r => r.targetId === 'AJPHSB0P0101008' && !r.available && r.title));
-  const sourceActions = [...parseXmlStrict(read('AJPHSB0P1834001.xml'), {entitySource:context.entities}).getElementsByTagName('action')].map(n=>n.textContent.replace(/\s+/g,' ').trim());
+  const sourceActions = [...parseXmlStrict(read('AJPHSB0P1834001.xml'), {entitySource:context.entities}).getElementsByTagName('action')].map(n=>fixWording(n.textContent).replace(/\s+/g,' ').trim());
   const convertedActions=[];
   walkNodes(docs.find(d=>d.id==='AJPHSB0P1834001').body,n=>{if(n.tag==='action')convertedActions.push(plainText(n.children).replace(/\s+/g,' ').trim());});
   assert.equal(sourceActions.length,18);

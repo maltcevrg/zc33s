@@ -85,6 +85,8 @@
 }
 .manual-reader { min-width: 0; padding: clamp(20px,3vw,40px); background: var(--color-surface-raised); border: 1px solid var(--color-border); border-radius: 10px; }
 .manual-breadcrumb { font-size: 12px; color: var(--color-text-muted); display: flex; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 14px; }
+// Some source document titles start lower-case ("визуальный осмотр").
+.manual-document-title, .manual-nav-section li a, .manual-reading-list a, .manual-results strong, .manual-pagination strong, .manual-overview__continue strong { &::first-letter { text-transform: uppercase; } }
 .manual-document-title { font-size: clamp(22px,2.5vw,32px); line-height: 1.3; font-weight: 600; letter-spacing: -.025em; scroll-margin-top: 100px; }
 .manual-source-note { font-size: 12px; color: var(--color-text-muted); margin-top: 14px; }
 .manual-toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 22px; font-size: 12px; }
@@ -151,6 +153,8 @@
   p { margin: .65em 0; }
   h2 { font-size: 23px; font-weight: 600; line-height: 1.35; margin: 32px 0 16px; }
   h3 { font-size: 17px; font-weight: 600; line-height: 1.5; margin: 20px 0 10px; }
+  // Source headings and table headers are often lower-case ("принципиальная схема", "симптомы").
+  :is(h2, h3, h4, h5, th)::first-letter { text-transform: uppercase; }
   ul, ol { padding-left: 22px; margin: 16px 0; }
   li { padding-left: 4px; margin: 10px 0; }
   .manual-list--dash { list-style: none; > li { position: relative; } > li::before { content: '—'; position: absolute; left: -20px; } }
@@ -171,7 +175,7 @@
 .manual-spec { background: var(--color-hover-bg); }
 .manual-condition-table { td { vertical-align: top; } th:first-child { width: 30%; } }
 .manual-deflist { th, td { vertical-align: top; text-align: left; } th { width: 15%; white-space: nowrap; font-weight: 600; } td p { margin: 0; } }
-.manual-numeric { font-variant-numeric: tabular-nums; white-space: pre-wrap; }
+.manual-numeric { font-variant-numeric: tabular-nums; }
 .manual-scan-reference { font-size: 12px; color: var(--color-text-muted); }
 .manual-table-scroll {
   max-width: 100%; overflow: auto; margin: 20px 0; scrollbar-width: thin;
@@ -201,7 +205,8 @@
   &::backdrop { background: rgba(0,0,0,.78); }
   &__inner { display: flex; flex-direction: column; max-height: calc(100dvh - 34px); }
   &__toolbar { display: flex; gap: 20px; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--color-border); }
-  &__toolbar h2 { font-size: 13px; font-weight: 500; }
+  &__toolbar h2 { font-size: 13px; font-weight: 500; min-width: 0; overflow-wrap: anywhere; }
+  &__toolbar button { flex: none; white-space: nowrap; }
   &__controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 10px 20px; font-size: 12px; }
   &__controls a { margin-left: auto; text-underline-offset: 3px; }
   &__hint { flex: 1 1 220px; font-size: 11px; color: var(--color-text-muted); }
@@ -229,8 +234,11 @@
   .manual-overview__card { padding: 14px 16px; }
   .manual-to-top { bottom: 16px; }
   .manual-image-dialog__hint { display: none; }
-  .manual-image-dialog { width: calc(100% - 16px); &__toolbar { padding: 12px; } &__controls { padding: 10px 12px; } &__controls a { flex-basis: 100%; margin: 5px 0 0; } }
+  // On a phone the diagram gets the whole screen.
+  .manual-image-dialog { width: 100%; height: 100dvh; max-height: 100dvh; border: 0; border-radius: 0; &__inner { height: 100%; max-height: 100dvh; } &__toolbar { padding: 12px; } &__controls { padding: 10px 12px; } &__controls a { flex-basis: 100%; margin: 5px 0 0; } }
 }
+// The "/" shortcut needs a keyboard.
+@media (hover: none) { .manual-overview__shortcut { display: none; } }
 @media (prefers-reduced-motion: reduce) { .manual-page *, .manual-image-dialog * { scroll-behavior: auto; } }
 @media print {
   body:has(.manual-page) { background: #fff; color: #000; }

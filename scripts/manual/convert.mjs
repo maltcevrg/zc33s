@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { parseXmlStrict } from './xml.mjs';
+import { fixHeading, fixWording } from './wording.mjs';
 import { layoutCalsTable, layoutConditionDiag } from '../../src/features/manual/table.js';
 
 const TAGS = new Set(`title ptxt emph sub sup servinfosub topic subtopic paragroup attention1 attention2 attention3 attention4
@@ -53,11 +54,11 @@ export function convertDocument(xml,{entities,titles,availableIds,imagePaths,sym
   const id=info.getAttribute('servinfosgmlid');
   if(!availableIds.has(id)) throw new Error(`Unexpected document: ${id}`);
   const titleNode=Array.from(info.childNodes).find(n=>n.nodeName==='title');
-  const title=titleNode.textContent.trim();
+  const title=fixWording(titleNode.textContent.trim());
   const groupId=dom.getElementsByTagName('servinfotype')[0].getAttribute('sitcode');
   const anchors=[];const references=[];const images=[];const sameDocumentLabels=[];
   const convert = original => {
-    if(original.nodeType===3||original.nodeType===4) return original.data;
+    if(original.nodeType===3||original.nodeType===4) return fixWording(original.data);
     if(original.nodeType===8) return null;
     if(original.nodeType!==1) throw new Error(`Unsupported XML node: ${original.nodeName}`);
     const tag=original.nodeName;
@@ -78,6 +79,7 @@ export function convertDocument(xml,{entities,titles,availableIds,imagePaths,sym
     if(tag==='sub'||tag==='sup') children=[plainText(children).replace(/\s+/g,' ').trim()];
     if(tag==='scantool-title'&&children.some(n=>typeof n!=='string'&&n.tag!=='emph')) throw new Error(`Unexpected scantool-title content in ${id}`);
     if(tag==='t-value1') children.push(' '+semanticLabels.torqueUnit);
+    if(tag==='title'){const heading=fixHeading(plainText(children));if(heading)children=[heading];}
     // suzuki.xsl pairs each term with the def that follows it; any other layout would be lost by the XSL.
     if(tag==='deflist'){
       const elements=children.filter(n=>typeof n!=='string');
@@ -101,7 +103,7 @@ export function convertDocument(xml,{entities,titles,availableIds,imagePaths,sym
       // A bare subsection ID (document ID + 3 digits) points at a block, usually in the same document.
       if(!anchor&&!titles.has(targetId)&&/^AJPHSB0P\w{7}\d{3}$/.test(targetId)){anchor=targetId;targetId=targetId.slice(0,15);}
       if(extra!==undefined||!titles.has(targetId)) throw new Error(`Unresolved reference: ${attrs.refid} in ${id}`);
-      const reference={targetId,anchor,title:titles.get(targetId),available:availableIds.has(targetId)};
+      const reference={targetId,anchor,title:fixWording(titles.get(targetId)),available:availableIds.has(targetId)};
       references.push(reference);
       attrs.refid=anchor?`${targetId}#${anchor}`:targetId;
       attrs.targetTitle=reference.title;attrs.available=reference.available;

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { manualHref } from './model';
 
 // Section lists repeat a title per section, so a link is named by its section (and branch, where a section has two).
-const sectionLabel = d => `${d.section.number} · ${d.section.title}${d.section.variants.length>1&&d.variant?` · ${d.variant}`:''}`;
+const capitalize = text => text.charAt(0).toUpperCase()+text.slice(1);
+const sectionLabel = d => `${d.section.number} · ${capitalize(d.section.title)}${d.section.variants.length>1&&d.variant?` · ${d.variant}`:''}`;
 // Long lists start folded on phones, where they would push the chapters several screens down.
 const wideScreen = () => typeof window==='undefined'||!window.matchMedia||window.matchMedia('(min-width: 768px)').matches;
 
@@ -22,7 +23,7 @@ export default function ManualOverview({overview,recent,labels}) {
   return <div className="manual-overview">
     <header className="manual-overview__intro">
       <h2 className="manual-document-title">{labels.overviewTitle}</h2>
-      <p>{labels.overviewIntro}</p>
+      <p>{labels.overviewIntro}<span className="manual-overview__shortcut"> {labels.searchShortcut}.</span></p>
       {last&&<Link className="manual-overview__continue" to={manualHref(last.id)}><span>{labels.continueReading}</span><strong lang="ru">{last.title}</strong></Link>}
     </header>
     <section aria-labelledby="manual-overview-quick">

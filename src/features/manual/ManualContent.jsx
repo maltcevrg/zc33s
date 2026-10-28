@@ -9,6 +9,9 @@ const technical = {attention1:'ПРЕДУПРЕЖДЕНИЕ:',attention2:'ВНИ
 const textOf = nodes => nodes.map(n=>typeof n==='string'?n:textOf(n.children)).join('').trim();
 const nextElement = (nodes,i) => nodes.slice(i+1).find(n=>typeof n!=='string');
 const STEP_TAGS = new Set(['s1','s2','s3']);
+// Inline values keep the source line breaks around their text; trimmed, "свеча зажигания: 18 Нм" stays on one line.
+const INLINE_VALUES = new Set(['t-part','t-part1','t-value1','t-note','m-part','m-desc','m-number','m-name','s-part','s-number','sdm-title','sdm-part','sdm-model','sdm-condition','sdm-value']);
+const trimEdges = nodes => nodes.map((n,i)=>typeof n!=='string'?n:i===0&&i===nodes.length-1?n.trim():i===0?n.trimStart():i===nodes.length-1?n.trimEnd():n);
 // Pictogram names only where the meaning is printed on the pictogram itself; otherwise the source name.
 const symbolLabel = name => {
   const torque=name.match(/^MATORQUE-([A-Z])$/);
@@ -52,14 +55,14 @@ export default function ManualContent({document,targets,onOpenImage,labels=manua
         if(action)i=j;continue;
       }
       // suzuki.xsl: t-part ends with ": " unless a (t-part1) marker follows it.
-      if(node.tag==='t-part'){output.push(<span key={i}>{renderNodes(node.children,level)}{nextElement(nodes,i)?.tag==='t-part1'?' ':': '}</span>);continue;}
+      if(node.tag==='t-part'){output.push(<span key={i}>{renderNodes(trimEdges(node.children),level)}{nextElement(nodes,i)?.tag==='t-part1'?' ':': '}</span>);continue;}
       output.push(<Fragment key={node.attrs.id||i}>{renderNode(node,level,parent)}</Fragment>);
     }
     return output;
   };
   const renderNode=(node,level,parent)=>{
     const {tag,attrs,children}=node;
-    const rendered=()=>renderNodes(children,level,node);
+    const rendered=()=>renderNodes(INLINE_VALUES.has(tag)?trimEdges(children):children,level,node);
     if(tag==='title'){const H=`h${Math.min(level,5)}`;return <H id={attrs.id}>{rendered()}</H>;}
     if(tag==='ptxt'){
       if(parent?.tag==='sdm1'||parent?.tag==='sdm2')return <span> ({rendered()})</span>;

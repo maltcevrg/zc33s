@@ -10,8 +10,9 @@ import { parseXmlStrict } from './xml.mjs';
 import { MANUAL_SCOPE, NO_VARIANT, IMAGE_QUALITY, SECTION_TITLES, SOURCE_FIXES } from './pilot.mjs';
 import { buildTitleCatalog, convertDocument, walkNodes, semanticLabels } from './convert.mjs';
 import { checkManual, sha256 } from './check.mjs';
+import { fixWording } from './wording.mjs';
 
-export const IMPORTER_VERSION = 3;
+export const IMPORTER_VERSION = 4;
 export const SCHEMA_VERSION = 3;
 
 async function removeScratch(path,parent) {
@@ -79,7 +80,7 @@ export function selectSectionDocuments(sectionDom,variants=[]) {
     const choices=branches.filter(c=>c.getAttribute('t')===variant);
     if(choices.length!==1)throw new Error(`Expected one ${variant} variant in section ${root.getAttribute('t')}`);
     // Chapter overviews (F0-FA) list documents directly in the branch, without a group; groupTitle is then null.
-    const add=(doc,group)=>documents.push({id:doc.getAttribute('i'),title:doc.getAttribute('t'),groupId:group?.getAttribute('s')??'',groupTitle:group?.getAttribute('t')??null,variant:variant===NO_VARIANT?null:variant});
+    const add=(doc,group)=>documents.push({id:doc.getAttribute('i'),title:doc.getAttribute('t'),groupId:group?.getAttribute('s')??'',groupTitle:group?fixWording(group.getAttribute('t')):null,variant:variant===NO_VARIANT?null:variant});
     for(const child of Array.from(choices[0].childNodes).filter(n=>n.nodeType===1)){
       if(child.nodeName==='t')for(const doc of elementChildren(child,'s'))add(doc,child);
       else if(child.nodeName==='s')add(child,null);
@@ -202,7 +203,7 @@ export async function buildManual({archive,outputDir,scope=MANUAL_SCOPE}) {
     if(existing){
       if(existing.isSymbolicLink())throw new Error('Output must not be a symlink');
       const prior=JSON.parse(await readFile(join(output,'report.json'),'utf8'));
-      if(prior.manualId!=='AJPHSB0P'||![1,2,IMPORTER_VERSION].includes(prior.importerVersion))throw new Error('Refusing to replace unrelated output');
+      if(prior.manualId!=='AJPHSB0P'||![1,2,3,IMPORTER_VERSION].includes(prior.importerVersion))throw new Error('Refusing to replace unrelated output');
       await replaceOutput(stage,output,parent);
     }else await rename(stage,output);
     return report;

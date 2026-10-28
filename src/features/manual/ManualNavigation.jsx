@@ -46,6 +46,12 @@ export default function ManualNavigation({chapters,sections,documents,results,to
     const top=link.getBoundingClientRect().top-box.getBoundingClientRect().top;
     if(top<0||top>box.clientHeight-link.offsetHeight)box.scrollTop+=top-box.clientHeight/3;
   },[selectedId,open,query]);
+  // On phones the contents open inline above the document; show the current document instead of chapter 0.
+  useEffect(()=>{
+    const box=sidebar.current;
+    if(!expanded||query.trim()||!box?.querySelector('.manual-contents-toggle')?.offsetParent)return;
+    box.querySelector('.manual-nav-section a[aria-current="page"]')?.scrollIntoView({block:'center'});
+  },[expanded]);
   const toggle=(id,isOpen)=>setOpen(current=>{const next=new Set(current);if(isOpen)next.add(id);else next.delete(id);return next;});
   const onChoose=()=>onExpandedChange(false);
   return <aside className="manual-sidebar" ref={sidebar}>
