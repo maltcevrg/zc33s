@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="..\config8\suzuki.xsl" ?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "..\config8\sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki><manual>
+<section sectnbr = "1F">
+<servcat sctnbr = "01" scnbr = "06">
+<configtype typenbr = "3">
+<servinfotype sitcode = "4">
+<servinfo servinfosgmlid = "AJPHSB0P1634001" svcinfotypenbr = "06" svcinfoqualnbr = "04" supplyoff = "1" modify = "0">
+<title>
+Диагностика неисправностей по симптомам системы охлаждения
+</title>
+<diag type = "condition" id = "AJPHSB0P1634001001">
+<condition>
+<ptxt>
+Перегрев (привод вентилятора радиатора)
+</ptxt>
+</condition>
+<ps>
+<ptxt>
+Неисправный приводной ремень
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка приводного ремня водяного насоса/генератора 
+<intxreftitleoff1 refid = "AJPHSB0P1A46005"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Недостаток охлаждающей жидкости
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка количества охлаждающей жидкости 
+<intxreftitleoff1 refid = "AJPHSB0P1636002"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправный термостат
+</ptxt>
+</ps>
+<action>
+<ptxt>
+проверка термостата 
+<intxreftitleoff1 refid = "AJPHSB0P1636008"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправный водяной насос
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка водяного насоса 
+<intxreftitleoff1 refid = "AJPHSB0P1636016"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Грязные или засоренные ребра радиатора
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Бортовая проверка/очистка радиатора 
+<intxreftitleoff1 refid = "AJPHSB0P1636013"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Утечка воды из системы охлаждения
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка системы охлаждения 
+<intxreftitleoff1 refid = "AJPHSB0P1636003"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+забитый радиатор
+</ptxt>
+</ps>
+<action>
+<ptxt>
+замена радиатора 
+<intxreftitleoff1 refid = "AJPHSB0P1636014"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправная крышка радиатора
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка крышки радиатора 
+<intxreftitleoff1 refid = "AJPHSB0P1636003"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+тормозное сопротивление
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка тормозов 
+<intxreftitleoff1 refid = "AJPHSB0P4104001"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Проскальзывание сцепления (спецификация М/Т)
+</ptxt>
+</ps>
+<action>
+<ptxt>
+проверка сцепления 
+<intxreftitleoff1 refid = "AJPHSB0P5304001"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправный аккумулятор
+</ptxt>
+</ps>
+<action>
+<ptxt>
+проверка батареи 
+<intxreftitleoff1 refid = "AJPHSB0P1A44001"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Сбой зарядки генератора
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка суммы заряда генератора 
+<intxreftitleoff1 refid = "AJPHSB0P1A44003"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправен датчик температуры воды
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка датчика температуры воды 
+<intxreftitleoff1 refid = "AJPHSB0P1336013"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправен электродвигатель вентилятора радиатора
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка вентилятора радиатора 
+<intxreftitleoff1 refid = "AJPHSB0P1636009"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+ECM или неисправность цепи
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка цепи ECM 
+<intxreftitleoff1 refid = "AJPHSB0P1144080"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправно реле вентилятора радиатора
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка реле вентилятора радиатора 
+<intxreftitleoff1 refid = "AJPHSB0P1636010"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправная проводка или заземление
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Ремонт проводки и заземления
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Потребление электроэнергии из-за установки электрических компонентов
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Снятие электрических частей
+</ptxt>
+</action>
+<condition>
+<ptxt>
+Перегрев (вентилятор радиатора не работает)
+</ptxt>
+</condition>
+<ps>
+<ptxt>
+Неисправный предохранитель
+</ptxt>
+</ps>
+<action>
+<ptxt>
+замена предохранителя
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправно реле вентилятора радиатора
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка реле вентилятора радиатора 
+<intxreftitleoff1 refid = "AJPHSB0P1636010"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправен датчик температуры воды
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка датчика температуры воды 
+<intxreftitleoff1 refid = "AJPHSB0P1336013"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправен электродвигатель вентилятора радиатора
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка вентилятора радиатора 
+<intxreftitleoff1 refid = "AJPHSB0P1636009"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+ECM или неисправность цепи
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Проверка цепи ECM 
+<intxreftitleoff1 refid = "AJPHSB0P1144080"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</action>
+<ps>
+<ptxt>
+Неисправная проводка или заземление
+</ptxt>
+</ps>
+<action>
+<ptxt>
+Ремонт проводки и заземления
+</ptxt>
+</action>
+</diag>
+</servinfo>
+</servinfotype>
+</configtype>
+</servcat>
+</section></manual></suzuki>

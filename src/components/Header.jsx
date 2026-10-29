@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { lockScroll, unlockScroll } from '../utils/scrollLock';
 import { TELEGRAM_URL } from '../data/siteConfig';
@@ -36,6 +36,8 @@ function getNavLabel(to, t, fallback) {
 
 function Header() {
   const { t } = useLanguage();
+  // Руководство по ремонту — часть базы знаний, хотя живёт по адресу /manual.
+  const inManual = useLocation().pathname.startsWith('/manual');
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobileMenu, setIsMobileMenu] = useState(() => window.matchMedia(MOBILE_MENU_QUERY).matches);
   const [eggPhase, setEggPhase] = useState(null); // null | 'entering' | 'visible' | 'exiting'
@@ -191,7 +193,9 @@ function Header() {
           key={to}
           to={to}
           className={({ isActive }) =>
-            isActive ? 'header__link header__link--active' : 'header__link'
+            isActive || (to === '/knowledge' && inManual)
+              ? 'header__link header__link--active'
+              : 'header__link'
           }
           onClick={handleNavClick}
         >

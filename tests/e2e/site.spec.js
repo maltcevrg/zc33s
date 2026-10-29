@@ -106,20 +106,21 @@ for (const lang of ['ru', 'en']) {
 
 test('knowledge filters work with keyboard and expose selected state', async ({ page }) => {
   await page.goto('knowledge/');
-  await expect(page.locator('.knowledge-card')).toHaveCount(6);
+  await expect(page.locator('.knowledge-card--manual a[href$="/manual/"]')).toHaveCount(2);
+  await expect(page.locator('.knowledge-card:not(.knowledge-card--manual)')).toHaveCount(6);
   await expect(page.locator('.knowledge-card__time')).toHaveCount(0);
   const category = page.locator('.knowledge-cat-card').filter({ hasText: 'ECU' });
   await category.focus();
   await page.keyboard.press('Enter');
   await expect(category).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.knowledge-filter-btn').filter({ hasText: /^ECU$/ })).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('.knowledge-card')).toHaveCount(3);
+  await expect(page.locator('.knowledge-card:not(.knowledge-card--manual)')).toHaveCount(3);
   const all = page.locator('.knowledge-filter-btn').first();
   await all.focus();
   await page.keyboard.press('Space');
   await expect(all).toHaveAttribute('aria-pressed', 'true');
   await expect(category).toHaveAttribute('aria-pressed', 'false');
-  await expect(page.locator('.knowledge-card')).toHaveCount(6);
+  await expect(page.locator('.knowledge-card:not(.knowledge-card--manual)')).toHaveCount(6);
 });
 
 test('home loads one photo format and does not load article bodies', async ({ page }) => {

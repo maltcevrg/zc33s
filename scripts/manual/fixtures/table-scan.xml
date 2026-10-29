@@ -1,0 +1,236 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<?xml-stylesheet type = "text/xsl" href = "../config8/table-scan.xsl"?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "../config8/sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki>
+<section id = "1A" title = "двигатель">
+<servcat title = "управление двигателем">
+<configtype id = "1" title = "K10C">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P1114007"/>
+</scan-title>
+</configtype>
+<configtype id = "2" title = "K12C: Нет спецификации системы остановки холостого хода и спецификация мягкого гибрида.">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P1124007"/>
+</scan-title>
+</configtype>
+<configtype id = "3" title = "K12C: гибридная спецификация">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P1134007"/>
+</scan-title>
+</configtype>
+<configtype id = "4" title = "K14C">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P1144007"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "4F" title = "тормоз">
+<servcat title = "ESP">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P4604010"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "5A" title = "Трансмиссия/трансмиссия">
+<servcat title = "автоматическая коробка передач">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P5104016"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "5D" title = "Трансмиссия/трансмиссия">
+<servcat title = "автоматическое переключение передач">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P5404011"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "5E" title = "Трансмиссия/трансмиссия">
+<servcat title = "CVT">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P5504015"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "6C" title = "руль">
+<servcat title = "управление гидроусилителем руля">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P6304008"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "7B" title = "Обогреватель и кондиционер／вентиляция">
+<servcat title = "кондиционер">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P7204007"/>
+</scan-title>
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P7204008"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "9B" title = "кузов и электрика">
+<servcat title = "освещение">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P9204006"/>
+</scan-title>
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P9204006"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "9C" title = "кузов и электрика">
+<servcat title = "Информация о приборе/драйвере">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P9304007"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "9O" title = "кузов и электрика">
+<servcat title = "Аудиовизуальное оборудование и навигация">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0P9F04009"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "10A" title = "система управления">
+<servcat title = "система круиз-контроля">
+<configtype id = "1" title = "круиз-контроль">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PA114007"/>
+</scan-title>
+</configtype>
+<configtype id = "2" title = "адаптивный круиз-контроль">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PA124007"/>
+</scan-title>
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PA124007"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "10B" title = "система управления">
+<servcat title = "электрическое управление кузовом">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PA204008"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "10E" title = "система управления">
+<servcat title = "система запуска без ключа">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PA504008"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "10J" title = "система управления">
+<servcat title = "система помощи при вождении">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PAA04007"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "10K" title = "система управления">
+<servcat title = "Вспомогательный силовой модуль">
+<configtype id = "1" title = "мягкий гибрид">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PAB14008"/>
+</scan-title>
+</configtype>
+<configtype id = "2" title = "гибридный">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PAB24007"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "11A" title = "электрическая трансмиссия">
+<servcat title = "мягкий гибрид">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PB104007"/>
+</scan-title>
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PB104007"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+<section id = "11B" title = "электрическая трансмиссия">
+<servcat title = "гибридный">
+<configtype id = "0" title = "configtype none title">
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PB204008"/>
+</scan-title>
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PB204008"/>
+</scan-title>
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PB204008"/>
+</scan-title>
+<scan-title>
+ссылка:
+<intxreftitleoff refid = "AJPHSB0PB204008"/>
+</scan-title>
+</configtype>
+</servcat>
+</section>
+</suzuki>

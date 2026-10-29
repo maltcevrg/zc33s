@@ -18,6 +18,7 @@ const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const LegalPage = lazy(() => import('./pages/LegalPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const CatalogApp = lazy(() => import('./CatalogApp'));
+const RepairManualPage = lazy(() => import('./pages/RepairManualPage'));
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="custom" element={<CustomPage />} />
         <Route path="knowledge" element={<KnowledgeHubPage />} />
         <Route path="knowledge/:slug" element={<KnowledgeArticlePage />} />
+        <Route path="manual" element={<RepairManualPage />} />
         <Route path="faq" element={<FaqRedirect />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="service" element={<ServicePage />} />

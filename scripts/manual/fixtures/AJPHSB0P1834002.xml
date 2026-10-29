@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="..\config8\suzuki.xsl" ?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "..\config8\sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki><manual>
+<section sectnbr = "1H">
+<servcat sctnbr = "01" scnbr = "08">
+<configtype typenbr = "3">
+<servinfotype sitcode = "4">
+<servinfo servinfosgmlid = "AJPHSB0P1834002" svcinfotypenbr = "06" svcinfoqualnbr = "01" page = "2" supplyoff = "1" modify = "0">
+<title>
+Проверка искры
+</title>
+<attention1>
+<ptxt>
+Если вы выполняете проверку искры во время работы форсунки, существует риск возгорания испаренного бензина, выбрасываемого из свечного отверстия.
+</ptxt>
+<ptxt>
+При осмотре обязательно снимите реле топливного насоса.
+</ptxt>
+</attention1>
+<attention3>
+<ptxt>
+Цилиндр 
+<intxref refid = "AJPHSB0P1140003">Примечания по идентификации цилиндра: K14C</intxref>
+ Обратитесь и определите.
+</ptxt>
+</attention3>
+<s1>
+<ptxt>
+<intxref refid = "AJPHSB0P1736003">Снятие давления топлива: K14C</intxref>
+Обратитесь к шагам 1)–5), чтобы снять давление топлива и оставить реле топливного насоса отключенным.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Снимите свечу зажигания. 
+<intxreftitleoff1 refid = "AJPHSB0P1836001"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Проверьте свечу зажигания. 
+<intxreftitleoff1 refid = "AJPHSB0P1836002"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Подсоедините разъем катушки IG к катушке IG (1).
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Прикрепите свечу зажигания (2) к катушке зажигания и заземлите свечу зажигания.
+</ptxt>
+<figure>
+<graphic graphicname = "IHSB0P183002.swf" width = "88.000mm" height = "54.770mm" ver = "01" gw = "196" gh = "139"/>
+</figure>
+</s1>
+<s1>
+<ptxt>
+Проверните двигатель и проверьте наличие искры от свечей зажигания в цилиндрах №1-4.
+</ptxt>
+<ptxt>
+Если нет искры, 
+<intxref refid = "AJPHSB0P1834001">Проверка системы зажигания: K14C</intxref>
+ См. и проверьте соответствующие детали.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Установите свечу зажигания. 
+<intxreftitleoff1 refid = "AJPHSB0P1836001"><img src = "..\icon\intxreftitleoff.gif"/></intxreftitleoff1>
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Установите реле топливного насоса.
+</ptxt>
+</s1>
+<s1>
+<ptxt>
+Установите крышку коробки реле.
+</ptxt>
+</s1>
+</servinfo>
+</servinfotype>
+</configtype>
+</servcat>
+</section></manual></suzuki>

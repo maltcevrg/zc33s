@@ -1,0 +1,347 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<?xml-stylesheet type = "text/xsl" href = "../config8/navi-kousei.xsl"?>
+<!DOCTYPE suzuki [
+<!ENTITY % sdatacharaents SYSTEM "../config8/sdatacharaents.txt">
+%sdatacharaents;
+]>
+<suzuki>
+<manual manualname="Swift комплексное издание" manualid="AJPHSB0P" lang="ru"/>
+<a i="a">
+<s i="Foreword01" t="Введение">
+</s>
+<s i="Foreword02" t="Модель/номер автомобиля">
+</s>
+</a>
+<a i="00" f="AJPHSB0P00.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="0A" f="AJPHSB0P01.fm" t="none sct name">
+<b t="обзор">
+</b>
+</a>
+<a i="0B" f="AJPHSB0P02.fm" t="none sct name">
+<b t="Регулярный осмотр и техническое обслуживание">
+</b>
+</a>
+<a i="0" f="AJPHSB0PF0.fm" t="none sct name">
+<b t="обзор">
+</b>
+</a>
+<a i="1" f="AJPHSB0PF1.fm" t="none sct name">
+<b t="двигатель">
+</b>
+</a>
+<a i="2" f="AJPHSB0PF2.fm" t="none sct name">
+<b t="приостановка">
+</b>
+</a>
+<a i="3" f="AJPHSB0PF3.fm" t="none sct name">
+<b t="трансмиссия/ось">
+</b>
+</a>
+<a i="4" f="AJPHSB0PF4.fm" t="none sct name">
+<b t="тормоз">
+</b>
+</a>
+<a i="5" f="AJPHSB0PF5.fm" t="none sct name">
+<b t="Трансмиссия/трансмиссия">
+</b>
+</a>
+<a i="6" f="AJPHSB0PF6.fm" t="none sct name">
+<b t="руль">
+</b>
+</a>
+<a i="7" f="AJPHSB0PF7.fm" t="none sct name">
+<b t="Обогреватель и кондиционер／вентиляция">
+</b>
+</a>
+<a i="8" f="AJPHSB0PF8.fm" t="none sct name">
+<b t="ＳＲＳПодушки безопасности и ремни безопасности">
+</b>
+</a>
+<a i="9" f="AJPHSB0PF9.fm" t="none sct name">
+<b t="кузов и электрика">
+</b>
+</a>
+<a i="10" f="AJPHSB0PFA.fm" t="none sct name">
+<b t="система управления">
+</b>
+</a>
+<a i="11" f="AJPHSB0PFB.fm" t="none sct name">
+<b t="электрическая трансмиссия">
+</b>
+</a>
+<a i="1" f="AJPHSB0P10.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="1A" f="AJPHSB0P11.fm" t="none sct name">
+<b t="управление двигателем">
+</b>
+</a>
+<a i="1B" f="AJPHSB0P12.fm" t="none sct name">
+<b t="контроль выбросов">
+</b>
+</a>
+<a i="1C" f="AJPHSB0P13.fm" t="none sct name">
+<b t="электрический двигатель">
+</b>
+</a>
+<a i="1D" f="AJPHSB0P14.fm" t="none sct name">
+<b t="двигатель механический">
+</b>
+</a>
+<a i="1E" f="AJPHSB0P15.fm" t="none sct name">
+<b t="Смазка">
+</b>
+</a>
+<a i="1F" f="AJPHSB0P16.fm" t="none sct name">
+<b t="охлаждение">
+</b>
+</a>
+<a i="1G" f="AJPHSB0P17.fm" t="none sct name">
+<b t="топливо">
+</b>
+</a>
+<a i="1H" f="AJPHSB0P18.fm" t="none sct name">
+<b t="зажигание">
+</b>
+</a>
+<a i="1I" f="AJPHSB0P19.fm" t="none sct name">
+<b t="начиная">
+</b>
+</a>
+<a i="1J" f="AJPHSB0P1A.fm" t="none sct name">
+<b t="зарядка">
+</b>
+</a>
+<a i="1K" f="AJPHSB0P1B.fm" t="none sct name">
+<b t="выхлоп">
+</b>
+</a>
+<a i="2" f="AJPHSB0P20.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="2A" f="AJPHSB0P21.fm" t="none sct name">
+<b t="Комплексная диагностика подвески">
+</b>
+</a>
+<a i="2B" f="AJPHSB0P22.fm" t="none sct name">
+<b t="передняя подвеска">
+</b>
+</a>
+<a i="2C" f="AJPHSB0P23.fm" t="none sct name">
+<b t="задняя подвеска">
+</b>
+</a>
+<a i="2D" f="AJPHSB0P24.fm" t="none sct name">
+<b t="колеса и шины">
+</b>
+</a>
+<a i="3" f="AJPHSB0P30.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="3A" f="AJPHSB0P31.fm" t="none sct name">
+<b t="Приводной вал/ось">
+</b>
+</a>
+<a i="3B" f="AJPHSB0P32.fm" t="none sct name">
+<b t="дифференциал">
+</b>
+</a>
+<a i="3C" f="AJPHSB0P33.fm" t="none sct name">
+<b t="передача">
+</b>
+</a>
+<a i="3D" f="AJPHSB0P34.fm" t="none sct name">
+<b t="карданный вал">
+</b>
+</a>
+<a i="4" f="AJPHSB0P40.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="4A" f="AJPHSB0P41.fm" t="none sct name">
+<b t="тормоз">
+</b>
+</a>
+<a i="4B" f="AJPHSB0P42.fm" t="none sct name">
+<b t="передний тормоз">
+</b>
+</a>
+<a i="4C" f="AJPHSB0P43.fm" t="none sct name">
+<b t="задний тормоз">
+</b>
+</a>
+<a i="4D" f="AJPHSB0P44.fm" t="none sct name">
+<b t="стояночный тормоз">
+</b>
+</a>
+<a i="4F" f="AJPHSB0P46.fm" t="none sct name">
+<b t="ESP">
+</b>
+</a>
+<a i="5" f="AJPHSB0P50.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="5A" f="AJPHSB0P51.fm" t="none sct name">
+<b t="автоматическая коробка передач">
+</b>
+</a>
+<a i="5B" f="AJPHSB0P52.fm" t="none sct name">
+<b t="механическая коробка передач">
+</b>
+</a>
+<a i="5C" f="AJPHSB0P53.fm" t="none sct name">
+<b t="схватить">
+</b>
+</a>
+<a i="5D" f="AJPHSB0P54.fm" t="none sct name">
+<b t="автоматическое переключение передач">
+</b>
+</a>
+<a i="5E" f="AJPHSB0P55.fm" t="none sct name">
+<b t="CVT">
+</b>
+</a>
+<a i="6" f="AJPHSB0P60.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="6A" f="AJPHSB0P61.fm" t="none sct name">
+<b t="Комплексная диагностика рулевого управления">
+</b>
+</a>
+<a i="6B" f="AJPHSB0P62.fm" t="none sct name">
+<b t="руль">
+</b>
+</a>
+<a i="6C" f="AJPHSB0P63.fm" t="none sct name">
+<b t="управление гидроусилителем руля">
+</b>
+</a>
+<a i="7" f="AJPHSB0P70.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="7B" f="AJPHSB0P72.fm" t="none sct name">
+<b t="кондиционер">
+</b>
+</a>
+<a i="8" f="AJPHSB0P80.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="8A" f="AJPHSB0P81.fm" t="none sct name">
+<b t="ремень безопасности">
+</b>
+</a>
+<a i="8B" f="AJPHSB0P82.fm" t="none sct name">
+<b t="Управление подушками безопасности SRS и преднатяжителями ремней безопасности">
+</b>
+</a>
+<a i="9" f="AJPHSB0P90.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="9A" f="AJPHSB0P91.fm" t="none sct name">
+<b t="проводка">
+</b>
+</a>
+<a i="9B" f="AJPHSB0P92.fm" t="none sct name">
+<b t="освещение">
+</b>
+</a>
+<a i="9C" f="AJPHSB0P93.fm" t="none sct name">
+<b t="Информация о приборе/драйвере">
+</b>
+</a>
+<a i="9D" f="AJPHSB0P94.fm" t="none sct name">
+<b t="Стеклоочиститель и шайба">
+</b>
+</a>
+<a i="9E" f="AJPHSB0P95.fm" t="none sct name">
+<b t="стекло/окно/зеркало">
+</b>
+</a>
+<a i="9F" f="AJPHSB0P96.fm" t="none sct name">
+<b t="дверной замок">
+</b>
+</a>
+<a i="9G" f="AJPHSB0P97.fm" t="none sct name">
+<b t="лист">
+</b>
+</a>
+<a i="9H" f="AJPHSB0P98.fm" t="none sct name">
+<b t="Внешний вид кузова и интерьер кузова">
+</b>
+</a>
+<a i="9J" f="AJPHSB0P9A.fm" t="none sct name">
+<b t="капот/крыло/дверь">
+</b>
+</a>
+<a i="9K" f="AJPHSB0P9B.fm" t="none sct name">
+<b t="тело">
+</b>
+</a>
+<a i="9L" f="AJPHSB0P9C.fm" t="none sct name">
+<b t="краска/покрытие">
+</b>
+</a>
+<a i="9O" f="AJPHSB0P9F.fm" t="none sct name">
+<b t="Аудиовизуальное оборудование и навигация">
+</b>
+</a>
+<a i="10" f="AJPHSB0PA0.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="10A" f="AJPHSB0PA1.fm" t="none sct name">
+<b t="система круиз-контроля">
+</b>
+</a>
+<a i="10B" f="AJPHSB0PA2.fm" t="none sct name">
+<b t="электрическое управление кузовом">
+</b>
+</a>
+<a i="10C" f="AJPHSB0PA3.fm" t="none sct name">
+<b t="система управления иммобилайзером">
+</b>
+</a>
+<a i="10E" f="AJPHSB0PA5.fm" t="none sct name">
+<b t="система запуска без ключа">
+</b>
+</a>
+<a i="10H" f="AJPHSB0PA8.fm" t="none sct name">
+<b t="система связи">
+</b>
+</a>
+<a i="10I" f="AJPHSB0PA9.fm" t="none sct name">
+<b t="Система остановки холостого хода">
+</b>
+</a>
+<a i="10J" f="AJPHSB0PAA.fm" t="none sct name">
+<b t="система помощи при вождении">
+</b>
+</a>
+<a i="10K" f="AJPHSB0PAB.fm" t="none sct name">
+<b t="Вспомогательный силовой модуль">
+</b>
+</a>
+<a i="11" f="AJPHSB0PB0.fm" t="none sct name">
+<b t="Меры предосторожности во время работы">
+</b>
+</a>
+<a i="11A" f="AJPHSB0PB1.fm" t="none sct name">
+<b t="мягкий гибрид">
+</b>
+</a>
+<a i="11B" f="AJPHSB0PB2.fm" t="none sct name">
+<b t="гибридный">
+</b>
+</a>
+</suzuki>
