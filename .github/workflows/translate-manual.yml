@@ -1,0 +1,66 @@
+name: Prepare English repair manual
+
+on:
+  workflow_dispatch:
+  # Bootstrap this dataset on the working branch without deploying the site.
+  push:
+    branches: ['arena/f1da7e68-zc33s']
+    paths: ['.github/workflows/translate-manual.yml', 'scripts/manual/translate.py', 'scripts/manual/translation-overrides.json']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: manual-translation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: true
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install ctranslate2==4.6.0 sentencepiece==0.2.1
+      - run: python scripts/manual/translate.py prepare
+      - run: python scripts/manual/translate.py translate --shard ${{ matrix.shard }} --shards 8
+      - uses: actions/upload-artifact@v4
+        with:
+          name: manual-translation-${{ matrix.shard }}
+          path: .cache/manual-translation/translations-*.json
+          include-hidden-files: true
+          retention-days: 7
+
+  assemble:
+    # Never push generated content to main or any other branch.
+    if: github.ref == 'refs/heads/arena/f1da7e68-zc33s'
+    needs: translate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/f1da7e68-zc33s
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: manual-translation-*
+          path: .cache/manual-translation
+          merge-multiple: true
+      - run: python scripts/manual/translate.py prepare && python scripts/manual/translate.py assemble
+      - name: Save translated data on the working branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/manual/en
+          if ! git diff --cached --quiet; then
+            git commit -m "Prepare machine-translated English repair manual"
+            git pull --rebase origin arena/f1da7e68-zc33s
+            git push origin HEAD:arena/f1da7e68-zc33s
+          fi
