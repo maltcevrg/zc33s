@@ -1,0 +1,1 @@
+import{a as n,b as r,r as o}from"./index-BAOH0Yoa.js";const t={"01":"/knowledge/zc33s-faq","02":"/knowledge/ecu-flashing","03":"/knowledge/tuning-stages","04":"/knowledge/buying-zc33s"};function u(){const[s]=n(),e=r();return o.useEffect(()=>{const a=s.get("module");a&&t[a]?e(t[a],{replace:!0}):e("/knowledge",{replace:!0})},[s,e]),null}export{u as default};
