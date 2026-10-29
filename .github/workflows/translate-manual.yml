@@ -2,10 +2,6 @@ name: Prepare English repair manual
 
 on:
   workflow_dispatch:
-  # Bootstrap this dataset on the working branch without deploying the site.
-  push:
-    branches: ['arena/f1da7e68-zc33s']
-    paths: ['.github/workflows/translate-manual.yml', 'scripts/manual/translate.py', 'scripts/manual/translation-overrides.json']
 
 permissions:
   contents: read
@@ -38,29 +34,19 @@ jobs:
           retention-days: 7
 
   assemble:
-    # Never push generated content to main or any other branch.
-    if: github.ref == 'refs/heads/arena/f1da7e68-zc33s'
     needs: translate
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: arena/f1da7e68-zc33s
       - uses: actions/download-artifact@v4
         with:
           pattern: manual-translation-*
           path: .cache/manual-translation
           merge-multiple: true
       - run: python scripts/manual/translate.py prepare && python scripts/manual/translate.py assemble
-      - name: Save translated data on the working branch
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/manual/en
-          if ! git diff --cached --quiet; then
-            git commit -m "Prepare machine-translated English repair manual"
-            git pull --rebase origin arena/f1da7e68-zc33s
-            git push origin HEAD:arena/f1da7e68-zc33s
-          fi
+      - run: node scripts/manual/check-locales.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: english-manual
+          path: public/manual/en
+          retention-days: 7

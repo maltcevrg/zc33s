@@ -19,3 +19,8 @@ Thumbs.db
 # Browser test artifacts
 playwright-report/
 test-results/
+
+# Offline translation models and intermediate shards
+.cache/
+*.argosmodel
+__pycache__/

@@ -91,12 +91,12 @@ export function documentOutline(body) {
 const REFERENCE_IDS=['AJPHSB0P0205001','AJPHSB0P0201002','AJPHSB0P0101003'];
 export function manualOverview({chapters,sections,documents}) {
   const byId=new Map(documents.map(d=>[d.id,d]));const sectionById=new Map(sections.map(s=>[s.id,s]));
-  const titled=title=>documents.filter(d=>d.title===title).map(d=>({...d,section:sectionById.get(d.sectionId)}));
+  const titled=(title,kind)=>documents.filter(d=>d.referenceKind===kind||(!d.referenceKind&&d.title===title)).map(d=>({...d,section:sectionById.get(d.sectionId)}));
   const counts=new Map();
   for(const d of documents){const entry=counts.get(d.sectionId);if(entry)entry.count++;else counts.set(d.sectionId,{count:1,firstId:d.id});}
   return {
     reference:REFERENCE_IDS.map(id=>byId.get(id)).filter(Boolean),
-    dtc:titled('Список кодов неисправностей'),torque:titled('Список моментов затяжки'),
+    dtc:titled('Список кодов неисправностей','dtc'),torque:titled('Список моментов затяжки','torque'),
     chapters:chapters.map(chapter=>({...chapter,sections:sections.filter(s=>s.chapter===chapter.number&&counts.has(s.id)).map(s=>({...s,...counts.get(s.id)}))})),
   };
 }

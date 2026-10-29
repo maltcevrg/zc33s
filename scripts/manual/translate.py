@@ -59,11 +59,20 @@ def prepare(work):
     print(f'{len(segments)} distinct segments; {sum(map(len, segments))} characters', flush=True)
 
 
-def load_model(work):
-    archive = work / 'ru-en.argosmodel'
+def load_model(work, local_model=None):
+    archive = Path(local_model) if local_model else work / 'ru-en.argosmodel'
+    if local_model and not archive.is_file():
+        raise FileNotFoundError(f'Model package not found: {archive}')
     if not archive.exists():
-        urllib.request.urlretrieve(MODEL_URL, archive)
-    model_root = work / 'model'
+        # Download to a temporary file: a failed transfer must not become a cached model.
+        download = archive.with_suffix('.download')
+        try:
+            urllib.request.urlretrieve(MODEL_URL, download)
+            download.replace(archive)
+        finally:
+            download.unlink(missing_ok=True)
+    model_hash = hashlib.sha256(archive.read_bytes()).hexdigest()
+    model_root = work / 'models' / model_hash
     if not model_root.exists():
         with zipfile.ZipFile(archive) as package:
             for name in package.namelist():
@@ -76,13 +85,13 @@ def load_model(work):
     tokenizer_file = next(model_root.rglob('sentencepiece.model'))
     tokenizer = sentencepiece.SentencePieceProcessor(model_file=str(tokenizer_file))
     translator = ctranslate2.Translator(str(model), device='cpu', compute_type='int8', inter_threads=1, intra_threads=2)
-    return tokenizer, translator, hashlib.sha256(archive.read_bytes()).hexdigest()
+    return tokenizer, translator, model_hash
 
 
-def translate(work, shard, shards):
+def translate(work, shard, shards, local_model=None):
     segments = read(work / 'segments.json')
     overrides = read('scripts/manual/translation-overrides.json')
-    tokenizer, translator, model_hash = load_model(work)
+    tokenizer, translator, model_hash = load_model(work, local_model)
     output = {}
     jobs = []
     for index, text in enumerate(segments):
@@ -185,12 +194,25 @@ def assemble(work):
     write(out / 'index.json', translated_index)
     write(out / 'search.json', search)
     # Explicit provenance, and no claim of human/technical verification.
+    review = []
+    reviewed_overrides = read('scripts/manual/translation-overrides.json')
+    numbers = lambda text: sorted(re.findall(r'\d+(?:[.,]\d+)?', text.replace(',', '.')))
+    for source in sorted(required):
+        target = dictionary[source]
+        reasons = []
+        if CYRILLIC.search(target):
+            reasons.append('remaining-cyrillic')
+        if numbers(source) != numbers(target) and source not in reviewed_overrides:
+            reasons.append('check-numbers')
+        if reasons:
+            review.append({'source': source, 'translation': target, 'reasons': reasons})
+    write(out / 'translation-review.json', review)
     write(out / 'translation-report.json', {
         'engine': 'Argos Translate ru_en 1.9 / CTranslate2 int8',
         'modelUrl': MODEL_URL, 'modelSha256': next(iter(model_hashes)),
         'sourceIndexSha256': hashlib.sha256((ROOT / 'index.json').read_bytes()).hexdigest(),
         'documentCount': len(docs), 'segmentCount': len(required),
-        'humanReviewed': False,
+        'humanReviewed': False, 'segmentsRequiringReview': len(review),
     })
     print(f'Prepared {len(docs)} English documents and full-text search', flush=True)
 
@@ -204,13 +226,16 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('command', choices=['prepare', 'translate', 'assemble'])
     parser.add_argument('--work', type=Path, default=Path('.cache/manual-translation'))
+    parser.add_argument('--model', type=Path, help='Local ru_en 1.9 .argosmodel package; no model download required')
     parser.add_argument('--shard', type=int, default=0)
     parser.add_argument('--shards', type=int, default=8)
     args = parser.parse_args()
+    if args.shards < 1 or not 0 <= args.shard < args.shards:
+        parser.error('shard must be in the range [0, shards)')
     args.work.mkdir(parents=True, exist_ok=True)
     if args.command == 'prepare':
         prepare(args.work)
     elif args.command == 'translate':
-        translate(args.work, args.shard, args.shards)
+        translate(args.work, args.shard, args.shards, args.model)
     else:
         assemble(args.work)

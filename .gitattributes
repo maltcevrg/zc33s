@@ -1,2 +1,3 @@
-scripts/manual/fixtures/* -text
+# Archived fixtures preserve source whitespace for SHA-256 verification.
+scripts/manual/fixtures/* -text -whitespace
 public/manual/** -text

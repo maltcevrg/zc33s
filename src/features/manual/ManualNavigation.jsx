@@ -25,7 +25,7 @@ function ReadingList({title,documents,selectedId,onChoose,action}) {
   if(!documents.length)return null;
   return <section className="manual-reading-list">
     <div className="manual-reading-list__header"><h2>{title}</h2>{action}</div>
-    <ul>{documents.map(d=><li key={d.id}><Link to={manualHref(d.id)} onClick={onChoose} aria-current={selectedId===d.id?'page':undefined} lang="ru">{d.title}</Link></li>)}</ul>
+    <ul>{documents.map(d=><li key={d.id}><Link to={manualHref(d.id)} onClick={onChoose} aria-current={selectedId===d.id?'page':undefined}>{d.title}</Link></li>)}</ul>
   </section>;
 }
 
@@ -65,7 +65,7 @@ export default function ManualNavigation({chapters,sections,documents,results,to
       {query.trim()?(!searchReady?<p className="manual-search-count" role="status">{labels.searchLoading}</p>:<>
         <p className="manual-search-count" role="status">{labels.results}: {total}</p>
         {!total&&<p className="manual-empty-search">{labels.noResults}</p>}
-        <ul className="manual-results">{results.map(r=><li key={r.id}><Link to={manualHref(r.id)} onClick={onChoose} aria-current={selectedId===r.id?'page':undefined}><strong lang="ru"><Highlighted text={r.title} query={query}/></strong><small lang="ru">{sectionNames[r.sectionId]} · {r.groupTitle}</small><span lang="ru"><Highlighted text={r.snippet} query={query}/></span></Link></li>)}</ul>
+        <ul className="manual-results">{results.map(r=><li key={r.id}><Link to={manualHref(r.id)} onClick={onChoose} aria-current={selectedId===r.id?'page':undefined}><strong><Highlighted text={r.title} query={query}/></strong><small>{sectionNames[r.sectionId]} · {r.groupTitle}</small><span><Highlighted text={r.snippet} query={query}/></span></Link></li>)}</ul>
         {results.length<total&&<div className="manual-more"><p>{fillLabel(labels.shownOf,{shown:results.length,total})}</p><button type="button" onClick={onShowMore}>{fillLabel(labels.showMore,{count:Math.min(30,total-results.length)})}</button></div>}
       </>):<>
         {(bookmarks.length>0||recent.length>0)&&<div className="manual-reading">
@@ -74,12 +74,12 @@ export default function ManualNavigation({chapters,sections,documents,results,to
           <p className="manual-reading__note">{labels.savedLocally}</p>
         </div>}
         {tree.map(chapter=><section key={chapter.number} className="manual-nav-chapter" aria-labelledby={`manual-chapter-${chapter.number}`}>
-          <h2 className="manual-nav-chapter__title" id={`manual-chapter-${chapter.number}`}><span className="manual-nav-chapter__number">{chapter.number}</span><span lang="ru">{chapter.title}</span></h2>
+          <h2 className="manual-nav-chapter__title" id={`manual-chapter-${chapter.number}`}><span className="manual-nav-chapter__number">{chapter.number}</span><span>{chapter.title}</span></h2>
           {chapter.sections.map(section=><details key={section.id} open={open.has(section.id)} onToggle={e=>{if(e.currentTarget.open!==open.has(section.id))toggle(section.id,e.currentTarget.open);}} className="manual-nav-section">
-            <summary><span className="manual-nav-section__id">{section.number}</span><span className="manual-nav-section__title" lang="ru">{section.title}</span><span className="manual-nav-section__count">{section.groups.reduce((n,g)=>n+g.documents.length,0)}</span></summary>
+            <summary><span className="manual-nav-section__id">{section.number}</span><span className="manual-nav-section__title">{section.title}</span><span className="manual-nav-section__count">{section.groups.reduce((n,g)=>n+g.documents.length,0)}</span></summary>
             {section.groups.map(group=><div key={group.key} className="manual-nav-group">
-              <p className="manual-nav-group__title" lang="ru">{group.title}</p>
-              <ul>{group.documents.map(d=><li key={d.id}><Link to={manualHref(d.id)} onClick={onChoose} aria-current={selectedId===d.id?'page':undefined} lang="ru">{d.title}</Link></li>)}</ul>
+              <p className="manual-nav-group__title">{group.title}</p>
+              <ul>{group.documents.map(d=><li key={d.id}><Link to={manualHref(d.id)} onClick={onChoose} aria-current={selectedId===d.id?'page':undefined}>{d.title}</Link></li>)}</ul>
             </div>)}
           </details>)}
         </section>)}

@@ -106,3 +106,28 @@ test('overview links every section, reference list and continue-reading entry of
     assert(render([index.documents[5]]).includes(index.documents[5].title));
   }finally{await server.close();}
 });
+
+test('English reader localizes generated diagnostic, warning and image labels',async()=>{
+  const server=await createServer({configFile:false,base:'/zc33s/',esbuild:{jsx:'automatic'},server:{middlewareMode:true},ssr:{resolve:{externalConditions:['module-sync']}},logLevel:'silent'});
+  try{
+    const { default:ManualContent }=await server.ssrLoadModule('/src/features/manual/ManualContent.jsx');
+    const { manualContent }=await server.ssrLoadModule('/src/features/manual/manualContent.js');
+    const node=(tag,children=[],attrs={})=>({tag,children,attrs});
+    const document={title:'Inspection',body:[
+      node('attention1',[node('ptxt',['Disconnect the battery.'])]),
+      node('torque',[node('t-value1',['18 N·m'])]),
+      node('servicetool',[node('s-number',['09930-99320'])]),
+      node('result',[],{type:'yes'}),node('action',['Replace the part.']),
+      node('symbol',[],{path:'symbols/MATORQUE-A.png',name:'MATORQUE-A'}),
+    ]};
+    const html=renderToStaticMarkup(React.createElement(StaticRouter,{basename:'/zc33s',location:'/zc33s/manual/'},React.createElement(ManualContent,{document,targets:{},onOpenImage:()=>{},labels:manualContent.en})));
+    assert.match(html,/lang="en"/);
+    assert.match(html,/WARNING:/);
+    assert.match(html,/Tightening torque/);
+    assert.match(html,/Special tool/);
+    assert.match(html,/>Yes</);
+    assert.doesNotMatch(html,/[А-Яа-яЁё]/);
+    assert.match(html,/18 N·m/);
+    assert.match(html,/09930-99320/);
+  }finally{await server.close();}
+});

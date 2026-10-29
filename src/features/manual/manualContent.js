@@ -1,6 +1,9 @@
 // {count} is replaced with the number of published documents.
 export const manualContent = {
   ru: {
+    language:'ru',
+    translationUnavailable:'Английская версия руководства ещё не подготовлена.', viewSource:'Открыть русский оригинал',
+    technical:{attention1:'ПРЕДУПРЕЖДЕНИЕ:',attention2:'ВНИМАНИЕ:',attention3:'ПРИМЕЧАНИЕ:',attention4:'УВЕДОМЛЕНИЕ:',yes:'Да',no:'Нет',condition:'Условие',cause:'Возможная причина',action:'Действие',torque:'Момент затяжки',tool:'Специальный инструмент',product:'Средство',symbol:'Значок'},
     overviewTitle:'Обзор руководства', overviewShort:'Обзор', overviewIntro:'Выберите раздел ниже или в оглавлении. Поиск находит материал по названию узла, коду неисправности (например, P0301), тексту инструкции или номеру документа и учитывает формы слов: «свечи» найдёт и «свеча зажигания».', continueReading:'Продолжить чтение',
     quickAccess:'Быстрый доступ', referenceTitle:'Обслуживание и справка', dtcTitle:'Коды неисправностей (DTC)', dtcNote:'Списки кодов по системам.', torqueTitle:'Моменты затяжки', torqueNote:'Сводные таблицы по разделам.', chaptersTitle:'Главы и разделы',
     showMore:'Показать ещё {count}', shownOf:'Показано {shown} из {total}', onThisPage:'В этом документе', toTop:'Наверх',
@@ -19,12 +22,17 @@ export const manualContent = {
     cardTag:'ZC33S · 11 глав', cardTitle:'Руководство по ремонту Suzuki Swift Sport', cardDescription:'Двигатель K14C, подвеска, тормоза и ESP, 6MT и 6AT, рулевое управление, кондиционер, подушки безопасности, кузов, электрооборудование и системы помощи водителю. Схемы, диагностика и моменты затяжки.', cardLink:'Открыть руководство',
   },
   en: {
-    overviewTitle:'Manual overview', overviewShort:'Overview', overviewIntro:'Choose a section below or in the contents. Search finds documents by component name, trouble code (for example, P0301), text or document ID, and matches other forms of Russian words.', continueReading:'Continue reading',
+    language:'en',
+    translationUnavailable:'The English manual has not been generated yet. The Russian source is still available.', viewSource:'Read the Russian source',
+    technical:{attention1:'WARNING:',attention2:'CAUTION:',attention3:'NOTE:',attention4:'NOTICE:',yes:'Yes',no:'No',condition:'Condition',cause:'Possible cause',action:'Action',torque:'Tightening torque',tool:'Special tool',product:'Product',symbol:'Symbol'},
+    translationNote:'Machine translation from the Russian manual, not an official English edition. It has not been technically reviewed. Before performing repairs, verify specifications, safety instructions and procedures against the Russian source and the manufacturer’s documentation. Text embedded in the original diagrams is not translated.',
+
+    overviewTitle:'Manual overview', overviewShort:'Overview', overviewIntro:'Choose a section below or in the contents. Search finds documents by component name, trouble code (for example, P0301), text or document ID.', continueReading:'Continue reading',
     quickAccess:'Quick access', referenceTitle:'Maintenance and reference', dtcTitle:'Trouble codes (DTC)', dtcNote:'Code lists by system.', torqueTitle:'Tightening torques', torqueNote:'Summary tables by section.', chaptersTitle:'Chapters and sections',
     showMore:'Show {count} more', shownOf:'Showing {shown} of {total}', onThisPage:'In this document', toTop:'Back to top',
     bookmarks:'Bookmarks', recent:'Recently opened', clearRecent:'Clear', bookmark:'Bookmark', bookmarked:'Bookmarked', savedLocally:'Bookmarks and history are stored in this browser only.', searchShortcut:'Press “/” to jump to search', dragHint:'Drag the enlarged diagram with the mouse; the + and − keys change the zoom.',
     title:'Repair manual', back:'Knowledge base', car:'Suzuki Swift Sport ZC33S',
-    scope:'K14C · 2WD · 6MT and 6AT · {count} documents', sourceNote:'The original manual text is in Russian.', sectionNote:'Section {section}', variantNote:'variant “{variant}”',
+    scope:'K14C · 2WD · 6MT and 6AT · {count} documents', sourceNote:'Machine-translated repair manual.', sectionNote:'Section {section}', variantNote:'variant “{variant}”',
     contents:'Contents', search:'Search the manual', placeholder:'Part, code P0301 or text', clear:'Clear search',
     results:'Documents found', noResults:'No documents found. Try another word or clear the search.', searchLoading:'Loading search…',
     loading:'Loading manual…', loadingDocument:'Loading document…', error:'The material could not be loaded. Check your connection and try again.', retry:'Try again',

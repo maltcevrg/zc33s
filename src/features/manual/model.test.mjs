@@ -77,3 +77,16 @@ test('current errors reject and retry succeeds',async()=>{
   await assert.rejects(loader.load('page'),/503/);ok=true;
   assert.deepEqual(await loader.load('page'),{id:'retry'});
 });
+
+test('English overview groups do not depend on Russian titles', () => {
+  const overview = manualOverview({
+    chapters: [{number:'1',title:'Engine'}],
+    sections: [{id:'11',number:'1A',chapter:'1',title:'Engine control'}],
+    documents: [
+      {id:'dtc-en',sectionId:'11',title:'Trouble codes',referenceKind:'dtc'},
+      {id:'torque-en',sectionId:'11',title:'Tightening specifications',referenceKind:'torque'},
+    ],
+  });
+  assert.equal(overview.dtc[0].id,'dtc-en');
+  assert.equal(overview.torque[0].id,'torque-en');
+});
