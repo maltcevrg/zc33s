@@ -9,6 +9,8 @@ import json
 import re
 import urllib.request
 import zipfile
+import sys
+import traceback
 from pathlib import Path
 
 ROOT = Path('public/manual')
@@ -194,6 +196,11 @@ def assemble(work):
 
 
 if __name__ == '__main__':
+    def report_error(kind, error, tb):
+        message = f'{kind.__name__}: {error}'.replace('%', '%25').replace('\n', '%0A').replace('\r', '%0D')
+        print(f'::error title=Manual translation::{message}', flush=True)
+        traceback.print_exception(kind, error, tb)
+    sys.excepthook = report_error
     parser = argparse.ArgumentParser()
     parser.add_argument('command', choices=['prepare', 'translate', 'assemble'])
     parser.add_argument('--work', type=Path, default=Path('.cache/manual-translation'))
